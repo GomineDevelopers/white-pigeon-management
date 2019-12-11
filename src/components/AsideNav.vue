@@ -39,7 +39,7 @@
           <el-menu-item index="5-2">申请记录</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="/">
+      <el-menu-item index="/regionalManager">
         <img src="../assets/image/qyjl.png" v-if="$route.path === '/regionalManager'" />
         <img src="../assets/image/qyjl1.png" v-if="$route.path != '/regionalManager'" />
         <span slot="title">区域经理</span>
@@ -96,11 +96,11 @@
 <script>
 export default {
   name: "asideNav",
-  date() {
+  data() {
     return {};
   },
   created() {
-    // console.log(this.$route.path);
+    console.log(this.$route.path);
   },
   methods: {
     handleOpen() {
