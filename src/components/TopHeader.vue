@@ -1,6 +1,5 @@
 <template>
   <el-row class="top_header">
-    <el-row class="header_logo">LOGO</el-row>
     <el-row class="header_right">
       <span>
         <img src="https://img.yzcdn.cn/vant/cat.jpeg" />
@@ -12,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: "header",
+  name: "topHeader",
   date() {
     return {};
   }
@@ -24,13 +23,7 @@ export default {
   line-height: 60px;
   display: -webkit-flex;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.top_header .header_logo {
-  font-weight: bold;
-  font-size: 26px;
-  flex: 1;
+  justify-content: flex-end;
 }
 .header_right {
   height: 60px;

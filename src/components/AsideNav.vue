@@ -1,5 +1,6 @@
 <template>
-  <el-row>
+  <el-row class="left_aside">
+    <el-row class="header_logo">LOGO</el-row>
     <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
@@ -55,4 +56,21 @@ export default {
   }
 };
 </script>
-<style scoped></style>
+<style scoped>
+.left_aside {
+  background: #fff;
+  height: 100%;
+  z-index: 99;
+}
+.header_logo {
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  height: 60px;
+  line-height: 60px;
+}
+.el-menu-vertical-demo {
+  height: calc(100% - 60px);
+  box-shadow: 2px 0px 6px 0px rgba(0, 21, 41, 0.35);
+}
+</style>
