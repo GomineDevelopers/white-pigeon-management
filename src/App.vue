@@ -50,7 +50,7 @@ body {
 #app .el-header {
   background-color: #fff;
   line-height: 60px;
-  box-shadow: 0px 5px 21px 0px rgba(218, 218, 218, 1);
+  box-shadow: 0px 5px 8px 0px rgba(218, 218, 218, 1);
   z-index: 10;
 }
 .el-aside {
@@ -58,6 +58,7 @@ body {
   text-align: left;
   line-height: 200px;
   z-index: 99;
+  overflow: initial;
 }
 .el-main {
   background-color: #fff;

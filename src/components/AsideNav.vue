@@ -42,7 +42,7 @@
 </template>
 <script>
 export default {
-  name: "header",
+  name: "asideNav",
   date() {
     return {};
   },
@@ -71,6 +71,6 @@ export default {
 }
 .el-menu-vertical-demo {
   height: calc(100% - 60px);
-  box-shadow: 2px 0px 6px 0px rgba(0, 21, 41, 0.35);
+  box-shadow: 2px 5px 6px 0px rgba(218, 218, 218, 1);
 }
 </style>
