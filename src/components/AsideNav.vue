@@ -2,7 +2,7 @@
   <el-row class="left_aside">
     <el-row class="header_logo">LOGO</el-row>
     <el-menu
-      default-active="$route.path"
+      :default-active="$route.path"
       class="el-menu-vertical-demo"
       router
       active-text-color="#3399FF"
@@ -39,9 +39,9 @@
           <el-menu-item index="5-2">申请记录</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="6">
-        <!-- <img src="../assets/image/qyjl.png" /> -->
-        <img src="../assets/image/qyjl1.png" />
+      <el-menu-item index="/">
+        <img src="../assets/image/qyjl.png" v-if="$route.path === '/'" />
+        <img src="../assets/image/qyjl1.png" v-if="$route.path != '/'" />
         <span slot="title">区域经理</span>
       </el-menu-item>
       <el-menu-item index="7">
@@ -118,6 +118,7 @@ export default {
 }
 .left_aside .el-menu .el-menu-item.is-active {
   border-left: 3px solid #3399ff;
+  background: rgba(51, 153, 255, 0.06);
 }
 .left_aside .el-menu .el-icon-arrow-down {
   font-size: 16px;
