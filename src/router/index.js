@@ -6,8 +6,21 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "regionalManager",
-    component: () => import(/* webpackChunkName: "hospital" */ "../views/RegionalManager.vue")
+    name: "home",
+    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
+    children: [
+      {
+        path: "/regionalManager",
+        name: "regionalManager",
+        component: () => import(/* webpackChunkName: "home" */ "../views/RegionalManager.vue")
+      },
+      { path: "/", redirect: "/regionalManager" } //二级路由默认首页为数据总览页
+    ]
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import(/* webpackChunkName: "login" */ "../views/login/Login.vue")
   }
 ];
 

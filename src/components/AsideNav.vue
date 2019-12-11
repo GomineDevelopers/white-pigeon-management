@@ -40,8 +40,8 @@
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="/">
-        <img src="../assets/image/qyjl.png" v-if="$route.path === '/'" />
-        <img src="../assets/image/qyjl1.png" v-if="$route.path != '/'" />
+        <img src="../assets/image/qyjl.png" v-if="$route.path === '/regionalManager'" />
+        <img src="../assets/image/qyjl1.png" v-if="$route.path != '/regionalManager'" />
         <span slot="title">区域经理</span>
       </el-menu-item>
       <el-menu-item index="7">
@@ -99,6 +99,9 @@ export default {
   date() {
     return {};
   },
+  created() {
+    // console.log(this.$route.path);
+  },
   methods: {
     handleOpen() {
       //   console.log(key, keyPath);
@@ -123,12 +126,6 @@ export default {
 .left_aside .el-menu .el-icon-arrow-down {
   font-size: 16px;
 }
-/* .left_aside .el-menu-item,
-.left_aside .el-submenu__title {
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-} */
 </style>
 <style scoped>
 .left_aside {
