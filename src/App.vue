@@ -58,12 +58,13 @@ body {
   text-align: left;
   line-height: 200px;
   z-index: 99;
-  overflow: initial;
+  overflow: initial !important;
 }
 .el-main {
   background-color: #fff;
   text-align: center;
   line-height: 160px;
   z-index: 9;
+  padding: 20px;
 }
 </style>
