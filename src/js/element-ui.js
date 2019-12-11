@@ -1,7 +1,9 @@
 import Vue from "vue";
 import {
   Button,
+  Input,
   Select,
+  Option,
   Row,
   Col,
   Container,
@@ -11,11 +13,15 @@ import {
   Menu,
   submenu,
   MenuItem,
-  MenuItemGroup
+  MenuItemGroup,
+  Table,
+  TableColumn
 } from "element-ui";
 
 Vue.use(Button);
+Vue.use(Input);
 Vue.use(Select);
+Vue.use(Option);
 Vue.use(Row);
 Vue.use(Col);
 Vue.use(Container);
@@ -26,3 +32,5 @@ Vue.use(Menu);
 Vue.use(submenu);
 Vue.use(MenuItem);
 Vue.use(MenuItemGroup);
+Vue.use(Table);
+Vue.use(TableColumn);

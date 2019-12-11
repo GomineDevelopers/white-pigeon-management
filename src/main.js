@@ -4,6 +4,7 @@ import router from "./router";
 
 //自己的配置
 import "./js/element-ui";
+import "./css/public.css";
 
 Vue.config.productionTip = false;
 
