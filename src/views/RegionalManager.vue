@@ -44,31 +44,45 @@
         <el-button size="small" plain icon="el-icon-bottom">下载</el-button>
         <el-button size="small" plain icon="el-icon-delete">删除</el-button>
       </div>
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="tableData" v-loading="listLoading" style="width: 100%">
         <el-table-column type="selection" width="60"></el-table-column>
         <el-table-column prop="province_name" label="省" width="200"></el-table-column>
         <el-table-column prop="city_name" label="市" width="200"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="200"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="130"></el-table-column>
         <el-table-column prop="phone" label="手机号"></el-table-column>
-        <el-table-column prop="status" label="状态" width="150" :formatter="formatStatus"></el-table-column>
-        <el-table-column label="操作" >
-            <i class="el-icon-warning-outline"></i>
-            <i class="el-icon-delete"></i>
+        <el-table-column prop="status" label="状态" width="80" :formatter="formatStatus"></el-table-column>
+        <el-table-column label="操作">
+          <template scope="scope">
+            <i class="el-icon-warning-outline" @click="handleDetail(scope.$index, scope.row)"></i>
+            <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+          </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
       <div class="pagination">
         <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage4"
           :page-sizes="[10, 20, 30, 40]"
           :page-size="10"
           layout=" prev, pager, next, sizes, jumper"
-          :total="400">
-        </el-pagination>
+          :total="400"
+        ></el-pagination>
       </div>
     </div>
+    <!-- 详情弹窗 -->
+    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
+        <ul>
+            <li>省：{{singleData.province_name}}</li>
+            <li>市：{{singleData.city_name}}</li>
+            <li>姓名：{{singleData.name}}</li>
+            <li>手机号：{{singleData.phone}}</li>
+            <li>状态：{{formatStatus(singleData.status)}}</li>
+        </ul>
+        <div class="dialog_title" slot="title"><span class="line"></span>经理信息</div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="detailVisble = false">确 定</el-button>
+        <el-button @click="detailVisble = false">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -76,6 +90,9 @@ export default {
   name: "",
   data() {
     return {
+      listLoading: false,
+      detailVisble: true,
+      singleData: {},
       options: [
         {
           value: "选项1",
@@ -99,80 +116,107 @@ export default {
         }
       ],
       value: "",
-      tableData: [{
-        province_name: '浙江省',
-        city_name: '杭州市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      }, {
-        province_name: '浙江省',
-        city_name: '乌鲁木齐市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      },  {
-        province_name: '浙江省',
-        city_name: '乌鲁木齐市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      },  {
-        province_name: '浙江省',
-        city_name: '乌鲁木齐市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      },  {
-        province_name: '浙江省',
-        city_name: '乌鲁木齐市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      },  {
-        province_name: '浙江省',
-        city_name: '乌鲁木齐市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      },  {
-        province_name: '浙江省',
-        city_name: '乌鲁木齐市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      },  {
-        province_name: '浙江省',
-        city_name: '乌鲁木齐市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      },  {
-        province_name: '浙江省',
-        city_name: '乌鲁木齐市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      }, {
-        province_name: '浙江省',
-        city_name: '杭州市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      }, {
-        province_name: '浙江省',
-        city_name: '杭州市',
-        name: '冉宇',
-        phone: 15761673167,
-        status: '正常'
-      }]
+      tableData: [
+        {
+          province_name: "浙江省",
+          city_name: "杭州市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 1
+        },
+        {
+          province_name: "浙江省",
+          city_name: "乌鲁木齐市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 1
+        },
+        {
+          province_name: "浙江省",
+          city_name: "乌鲁木齐市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 2
+        },
+        {
+          province_name: "浙江省",
+          city_name: "乌鲁木齐市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 1
+        },
+        {
+          province_name: "浙江省",
+          city_name: "乌鲁木齐市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 2
+        },
+        {
+          province_name: "浙江省",
+          city_name: "乌鲁木齐市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 1
+        },
+        {
+          province_name: "浙江省",
+          city_name: "乌鲁木齐市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 2
+        },
+        {
+          province_name: "浙江省",
+          city_name: "乌鲁木齐市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 1
+        },
+        {
+          province_name: "浙江省",
+          city_name: "乌鲁木齐市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 1
+        },
+        {
+          province_name: "浙江省",
+          city_name: "杭州市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 1
+        },
+        {
+          province_name: "浙江省",
+          city_name: "杭州市",
+          name: "冉宇",
+          phone: 15761673167,
+          status: 1
+        }
+      ]
     };
+  },
+  mounted() {
+    //   console.log(this.MessageBox)
+    // this.MessageBox.alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
+    //   dangerouslyUseHTMLString: true
+    // });
   },
   methods: {
     //状态转换
-			// formatStatus: function (row, column) {
-			// 	return row.sex == 1 ? '正常' : '注销';
-			// },
+    formatStatus(row, column) {
+      return row.status == 1 ? "正常" : "注销";
+    },
+    handleDetail(index, row) {
+        this.detailVisble = true;
+        this.singleData = row;
+      console.log(index, row);
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+    },
+    show() {}
   }
 };
 </script>

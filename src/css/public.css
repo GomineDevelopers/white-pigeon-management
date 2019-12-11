@@ -56,17 +56,39 @@
 .main_list .el-pagination button{
     border: 1px solid #DCDFE6;
     border-radius: 4px;
-    margin: 0 4px;
-    font-weight: 400;
+    margin: 0 3px;
 }
-{
+.main_list .el-pager li:hover,
+.main_list .el-pagination button:hover{
     color: #fff;
     background: #409EFF;
 }
-.main_list .el-pager li:hover,
-.main_list .el-pagination button:hover,
 .main_list .el-pager li.active{
     color: #fff;
     border-color: #409EFF;
     background: #409EFF;
+}
+.dialog_wrap .el-dialog__header{
+    border-bottom: 1px solid #e5e5e5;
+}
+.dialog_title{
+    font-size: 18px;
+}
+.dialog_title .line{
+    display: inline-block;
+    width: 3px;
+    height: 20px;
+    margin-right: 6px;
+    vertical-align: -2px;
+    background: #3399FF;
+    border-radius: 10px;
+}
+.dialog_wrap .el-dialog__header .el-icon-close{
+    font-size: 24px;
+    color: #333;
+    right: 10px;
+    font-weight: 600;
+}
+.dialog_wrap .el-dialog__header .el-icon-close:hover{
+    color: #3399FF;
 }
