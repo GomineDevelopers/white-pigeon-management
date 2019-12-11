@@ -42,9 +42,9 @@
       <div class="toolbar">
         <el-button size="small" plain icon="el-icon-plus">新增经理</el-button>
         <el-button size="small" plain icon="el-icon-bottom">下载</el-button>
-        <el-button size="small" plain icon="el-icon-delete">删除</el-button>
+        <el-button size="small" plain icon="el-icon-delete" @click="deleteselected">删除</el-button>
       </div>
-      <el-table :data="tableData" v-loading="listLoading" style="width: 100%">
+      <el-table :data="tableData" v-loading="listLoading" @selection-change="selectionChange" style="width: 100%">
         <el-table-column type="selection" width="60"></el-table-column>
         <el-table-column prop="province_name" label="省" width="200"></el-table-column>
         <el-table-column prop="city_name" label="市" width="200"></el-table-column>
@@ -70,29 +70,31 @@
     </div>
     <!-- 详情弹窗 -->
     <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
-        <ul>
-            <li>省：{{singleData.province_name}}</li>
-            <li>市：{{singleData.city_name}}</li>
-            <li>姓名：{{singleData.name}}</li>
-            <li>手机号：{{singleData.phone}}</li>
-            <!-- <li>状态：{{formatStatus(singleData.status)}}</li> -->
+        <ul class="dialog_detail">
+            <li><label>省：</label>{{singleData.province_name}}</li>
+            <li><label>市：</label>{{singleData.city_name}}</li>
+            <li><label>姓名：</label>{{singleData.name}}</li>
+            <li><label>手机号：</label>{{singleData.phone}}</li>
+            <li><label>状态：</label>{{ singleData.status? formatStatus(singleData.status) : ''}}</li>
         </ul>
         <div class="dialog_title" slot="title"><span class="line"></span>经理信息</div>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="detailVisble = false">确 定</el-button>
-        <el-button @click="detailVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
+        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
+
 export default {
   name: "",
   data() {
     return {
       listLoading: false,
-      detailVisble: true,
-      singleData: {},
+      detailVisble: false, //详情弹窗
+      singleData: {}, //单条数据
+      selected: [], //选中数据
       options: [
         {
           value: "选项1",
@@ -118,105 +120,157 @@ export default {
       value: "",
       tableData: [
         {
-          province_name: "浙江省",
-          city_name: "杭州市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 1
+            id: 1,
+            province_name: "浙江省",
+            city_name: "杭州市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 1
         },
         {
-          province_name: "浙江省",
-          city_name: "乌鲁木齐市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 1
+            id: 12,
+            province_name: "浙江省",
+            city_name: "乌鲁木齐市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 1
         },
         {
-          province_name: "浙江省",
-          city_name: "乌鲁木齐市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 2
+            id: 15,
+            province_name: "浙江省",
+            city_name: "乌鲁木齐市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 2
         },
         {
-          province_name: "浙江省",
-          city_name: "乌鲁木齐市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 1
+            id: 5,
+            province_name: "浙江省",
+            city_name: "乌鲁木齐市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 1
         },
         {
-          province_name: "浙江省",
-          city_name: "乌鲁木齐市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 2
+            id: 18,
+            province_name: "浙江省",
+            city_name: "乌鲁木齐市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 2
         },
         {
-          province_name: "浙江省",
-          city_name: "乌鲁木齐市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 1
+            id: 165,
+            province_name: "浙江省",
+            city_name: "乌鲁木齐市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 1
         },
         {
-          province_name: "浙江省",
-          city_name: "乌鲁木齐市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 2
+            id: 189,
+            province_name: "浙江省",
+            city_name: "乌鲁木齐市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 2
         },
         {
-          province_name: "浙江省",
-          city_name: "乌鲁木齐市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 1
+            id: 156,
+            province_name: "浙江省",
+            city_name: "乌鲁木齐市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 1
         },
         {
-          province_name: "浙江省",
-          city_name: "乌鲁木齐市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 1
+            id: 651,
+            province_name: "浙江省",
+            city_name: "乌鲁木齐市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 1
         },
         {
-          province_name: "浙江省",
-          city_name: "杭州市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 1
+            id: 761,
+            province_name: "浙江省",
+            city_name: "杭州市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 1
         },
         {
-          province_name: "浙江省",
-          city_name: "杭州市",
-          name: "冉宇",
-          phone: 15761673167,
-          status: 1
+            id: 1756,
+            province_name: "浙江省",
+            city_name: "杭州市",
+            name: "冉宇",
+            phone: 15761673167,
+            status: 1
         }
       ]
     };
   },
   mounted() {
-    //   console.log(this.MessageBox)
-    // this.MessageBox.alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
-    //   dangerouslyUseHTMLString: true
-    // });
+      
   },
   methods: {
     //状态转换
     formatStatus(row, column) {
       return row.status == 1 ? "正常" : "注销";
     },
+    // 查看详情
     handleDetail(index, row) {
         this.detailVisble = true;
         this.singleData = row;
       console.log(index, row);
     },
+    // 删除
     handleDelete(index, row) {
-      console.log(index, row);
+        this.$messageBox.confirm('确认删除该条记录吗?', '提示', {
+                type: 'warning'
+            }).then(() => {
+                console.log(row.id)
+                let para = { id: row.id };
+            }).catch(() => {
+                console.log('取消')
+            });
+    //   console.log(index, row);
     },
-    show() {}
+    // 选择框选择
+    selectionChange(sels) {
+        this.selected = sels
+    },
+    // 删除选中选项
+    deleteselected() {
+        if(!this.selected.length) {
+            this.$message({
+                message: '未选中数据',
+                type: 'error'
+            });
+            return false;
+        }
+        this.$messageBox.confirm('确认删除所选记录吗?', '提示', {
+                type: 'warning'
+            }).then(() => {
+                console.log(this.selected)
+                
+            }).catch(() => {
+                console.log('取消')
+            });
+    }
   }
 };
 </script>
+<style scoped>
+.dialog_detail li{
+    line-height: 36px;
+    color: #333;
+    font-size: 14px;
+}
+.dialog_detail li label{
+    display: inline-block;
+    min-width: 62px;
+    margin-right: 10px;
+    text-align: right;
+}
+</style>

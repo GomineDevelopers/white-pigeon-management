@@ -18,7 +18,9 @@ import {
   TableColumn,
   Pagination,
   Loading,
-  Dialog
+  Dialog,
+  MessageBox,
+  Message 
 } from "element-ui";
 
 Vue.use(Button);
@@ -40,3 +42,5 @@ Vue.use(TableColumn);
 Vue.use(Pagination);
 Vue.use(Loading);
 Vue.use(Dialog);
+Vue.prototype.$messageBox = MessageBox;
+Vue.prototype.$message = Message;

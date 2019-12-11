@@ -1,3 +1,6 @@
+ul{
+    list-style: none;
+}
 .breadcrumb{
     color: #ADB3A8;
     font-size: 14px;
