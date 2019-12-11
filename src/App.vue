@@ -1,9 +1,13 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header>Header</el-header>
+      <el-header>
+        <Header></Header>
+      </el-header>
       <el-container>
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside width="200px">
+          <Aside></Aside>
+        </el-aside>
         <el-main>
           Main
           <router-view />
@@ -12,7 +16,20 @@
     </el-container>
   </div>
 </template>
-
+<script>
+import Header from "./components/Header";
+import Aside from "./components/Aside";
+export default {
+  name: "header",
+  components: {
+    Header,
+    Aside
+  },
+  date() {
+    return {};
+  }
+};
+</script>
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -30,24 +47,20 @@ body {
 #app .el-container {
   height: 100%;
 }
-.el-header,
-.el-footer {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
+#app .el-header {
+  background-color: #fff;
   line-height: 60px;
+  /* border-bottom: 1px solid #ccc; */
+  box-shadow: 0px 5px 21px 0px rgba(218, 218, 218, 1);
 }
-
 .el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fff;
+  text-align: left;
   line-height: 200px;
 }
-
 .el-main {
   background-color: #e9eef3;
-  color: #333;
   text-align: center;
   line-height: 160px;
 }
