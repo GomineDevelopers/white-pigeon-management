@@ -75,7 +75,7 @@
             <li>市：{{singleData.city_name}}</li>
             <li>姓名：{{singleData.name}}</li>
             <li>手机号：{{singleData.phone}}</li>
-            <li>状态：{{formatStatus(singleData.status)}}</li>
+            <!-- <li>状态：{{formatStatus(singleData.status)}}</li> -->
         </ul>
         <div class="dialog_title" slot="title"><span class="line"></span>经理信息</div>
       <div slot="footer" class="dialog-footer">
