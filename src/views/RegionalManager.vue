@@ -50,12 +50,24 @@
         <el-table-column prop="city_name" label="市" width="200"></el-table-column>
         <el-table-column prop="name" label="姓名" width="200"></el-table-column>
         <el-table-column prop="phone" label="手机号"></el-table-column>
-        <el-table-column prop="status" label="状态" width="150"></el-table-column>
+        <el-table-column prop="status" label="状态" width="150" :formatter="formatStatus"></el-table-column>
         <el-table-column label="操作" >
             <i class="el-icon-warning-outline"></i>
             <i class="el-icon-delete"></i>
         </el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <div class="pagination">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage4"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="10"
+          layout=" prev, pager, next, sizes, jumper"
+          :total="400">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -99,6 +111,48 @@ export default {
         name: '冉宇',
         phone: 15761673167,
         status: '正常'
+      },  {
+        province_name: '浙江省',
+        city_name: '乌鲁木齐市',
+        name: '冉宇',
+        phone: 15761673167,
+        status: '正常'
+      },  {
+        province_name: '浙江省',
+        city_name: '乌鲁木齐市',
+        name: '冉宇',
+        phone: 15761673167,
+        status: '正常'
+      },  {
+        province_name: '浙江省',
+        city_name: '乌鲁木齐市',
+        name: '冉宇',
+        phone: 15761673167,
+        status: '正常'
+      },  {
+        province_name: '浙江省',
+        city_name: '乌鲁木齐市',
+        name: '冉宇',
+        phone: 15761673167,
+        status: '正常'
+      },  {
+        province_name: '浙江省',
+        city_name: '乌鲁木齐市',
+        name: '冉宇',
+        phone: 15761673167,
+        status: '正常'
+      },  {
+        province_name: '浙江省',
+        city_name: '乌鲁木齐市',
+        name: '冉宇',
+        phone: 15761673167,
+        status: '正常'
+      },  {
+        province_name: '浙江省',
+        city_name: '乌鲁木齐市',
+        name: '冉宇',
+        phone: 15761673167,
+        status: '正常'
       }, {
         province_name: '浙江省',
         city_name: '杭州市',
@@ -114,6 +168,11 @@ export default {
       }]
     };
   },
-  methods: {}
+  methods: {
+    //状态转换
+			// formatStatus: function (row, column) {
+			// 	return row.sex == 1 ? '正常' : '注销';
+			// },
+  }
 };
 </script>

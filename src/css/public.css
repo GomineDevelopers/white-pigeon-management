@@ -48,3 +48,25 @@
 .main_list .has-gutter tr th{
     background:#FAFAFA;
 }
+.main_list .pagination{
+    margin-top: 30px;
+    text-align: center;
+}
+.main_list .el-pager li,
+.main_list .el-pagination button{
+    border: 1px solid #DCDFE6;
+    border-radius: 4px;
+    margin: 0 4px;
+    font-weight: 400;
+}
+{
+    color: #fff;
+    background: #409EFF;
+}
+.main_list .el-pager li:hover,
+.main_list .el-pagination button:hover,
+.main_list .el-pager li.active{
+    color: #fff;
+    border-color: #409EFF;
+    background: #409EFF;
+}

@@ -15,7 +15,8 @@ import {
   MenuItem,
   MenuItemGroup,
   Table,
-  TableColumn
+  TableColumn,
+  Pagination
 } from "element-ui";
 
 Vue.use(Button);
@@ -34,3 +35,4 @@ Vue.use(MenuItem);
 Vue.use(MenuItemGroup);
 Vue.use(Table);
 Vue.use(TableColumn);
+Vue.use(Pagination);
