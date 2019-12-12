@@ -3,17 +3,18 @@ ul{
 }
 .breadcrumb{
     color: #ADB3A8;
-    font-size: 14px;
+    font-size: 16px;
 }
 .main_header{
     font-size: 14px;
     padding: 20px 12px;
     background: #fff;
-    margin: 8px 0 16px;
+    margin: 15px 0 16px;
     box-shadow: 0px 0 8px 0px rgba(218, 218, 218, 1);
 }
 .main_header_item{
     margin-right: 36px;
+    margin-bottom: 10px;
     display: inline-block;
 }
 .main_header_item .el-input{
@@ -33,6 +34,9 @@ ul{
     margin-right: 4px;
     color: #333;
 }
+.main_list .toolbar .el-button:hover{
+    color: #3399FF;
+}
 .main_list .toolbar{
     margin-bottom: 20px;
 }
@@ -45,8 +49,8 @@ ul{
     padding: 3px 8px;
     cursor: pointer;
 }
-.main_list table i:hover{
-    color: #1873d2;
+.main_list table .el-icon-view{
+    color: #4CCEA5;
 }
 .main_list .has-gutter tr th{
     background:#FAFAFA;
@@ -57,19 +61,31 @@ ul{
 }
 .main_list .el-pager li,
 .main_list .el-pagination button{
+    background-color: #fff;
     border: 1px solid #DCDFE6;
-    border-radius: 4px;
-    margin: 0 3px;
 }
-.main_list .el-pager li:hover,
-.main_list .el-pagination button:hover{
-    color: #fff;
-    background: #409EFF;
+.el-pagination.is-background .btn-next, 
+.el-pagination.is-background .btn-prev,
+.main_list .el-pagination.is-background li{
+    background: #fff;
 }
-.main_list .el-pager li.active{
-    color: #fff;
-    border-color: #409EFF;
-    background: #409EFF;
+.el-pagination.is-background .btn-next:hover, 
+.el-pagination.is-background .btn-prev:hover,
+.main_list .el-pager li.active,
+.el-pagination.is-background .el-pager li:not(.disabled):hover{
+    color: #409EFF;
+    border: 1px solid #409EFF;
+}
+.main_list .el-pager li.active:hover{
+    color: #fff !important;
+}
+.dialog_wrap .el-dialog{
+    width: 30%;
+    min-width: 600px;
+}
+.dialog_wrap .el-form{
+    width: 70%;
+    min-width: 500px;
 }
 .dialog_wrap .el-dialog__header{
     border-bottom: 1px solid #e5e5e5;

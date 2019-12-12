@@ -141,6 +141,7 @@ export default {
   line-height: 60px;
 }
 .el-menu-vertical-demo {
+  overflow-y: auto;
   height: calc(100% - 60px);
   box-shadow: 2px 5px 6px 0px rgba(218, 218, 218, 1);
 }

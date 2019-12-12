@@ -20,7 +20,10 @@ import {
   Loading,
   Dialog,
   MessageBox,
-  Message 
+  Message,
+  Form,
+  FormItem,
+  Tooltip
 } from "element-ui";
 
 Vue.use(Button);
@@ -42,5 +45,8 @@ Vue.use(TableColumn);
 Vue.use(Pagination);
 Vue.use(Loading);
 Vue.use(Dialog);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Tooltip);
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$message = Message;
