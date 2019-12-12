@@ -52,8 +52,11 @@ ul{
 .main_list table .el-icon-view{
     color: #4CCEA5;
 }
-.main_list .has-gutter tr th{
+.main_list thead tr th{
     background:#FAFAFA;
+}
+.main_list .el-table .cell{
+    white-space: nowrap;
 }
 .main_list .pagination{
     margin-top: 30px;

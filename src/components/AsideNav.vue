@@ -35,7 +35,7 @@
           <span>区域管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="5-1">区域分配</el-menu-item>
+          <el-menu-item index="/regionAssigned">区域分配</el-menu-item>
           <el-menu-item index="5-2">申请记录</el-menu-item>
         </el-menu-item-group>
       </el-submenu>

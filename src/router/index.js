@@ -14,6 +14,11 @@ const routes = [
         name: "regionalManager",
         component: () => import(/* webpackChunkName: "home" */ "../views/RegionalManager.vue")
       },
+      {
+        path: "/regionAssigned",
+        name: "regionAssigned",
+        component: () => import(/* webpackChunkName: "home" */ "../views/regionalmanagement/RegionAssigned.vue")
+      },
       { path: "/", redirect: "/regionalManager" } //二级路由默认首页为数据总览页
     ]
   },
