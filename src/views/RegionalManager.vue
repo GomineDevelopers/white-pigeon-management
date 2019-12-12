@@ -130,8 +130,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" type="primary"  @click="addManager('ruleForm')">确 定</el-button>
-        <el-button size="small" type="info" plain @click="resetForm('ruleForm')">重置</el-button>
-        <el-button size="small" plain @click="addVisble = false">取 消</el-button>
+        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -401,10 +400,6 @@ export default {
           return false;
         }
       });
-    },
-    // 重置新增表单数据
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
     },
     // 提交数据
     submitManager(){
