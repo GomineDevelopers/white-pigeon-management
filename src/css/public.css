@@ -93,6 +93,9 @@ ul{
 .dialog_wrap .el-dialog__header{
     border-bottom: 1px solid #e5e5e5;
 }
+.width_full .el-select{
+    width: 100%;
+}
 .dialog_title{
     font-size: 18px;
 }
@@ -113,4 +116,15 @@ ul{
 }
 .dialog_wrap .el-dialog__header .el-icon-close:hover{
     color: #3399FF;
+}
+.dialog_detail li{
+    line-height: 36px;
+    color: #333;
+    font-size: 14px;
+}
+.dialog_detail li label{
+    display: inline-block;
+    width: 80px;
+    margin-right: 10px;
+    text-align: right;
 }

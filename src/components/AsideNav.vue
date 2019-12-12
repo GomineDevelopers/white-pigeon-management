@@ -8,9 +8,9 @@
       active-text-color="#3399FF"
       unique-opened
     >
-      <el-menu-item index="1">
-        <!-- <img src="../assets/image/yy.png" v-if="$route.path != '/1'" /> -->
-        <img src="../assets/image/yy1.png" />
+      <el-menu-item index="/hospitalManagement">
+        <img v-if="$route.path == '/hospitalManagement'" src="../assets/image/yy.png"  />
+        <img v-else src="../assets/image/yy1.png" />
         <span slot="title">医院管理</span>
       </el-menu-item>
       <el-menu-item index="2">
@@ -36,7 +36,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/regionAssigned">区域分配</el-menu-item>
-          <el-menu-item index="5-2">申请记录</el-menu-item>
+          <el-menu-item index="/applyRecord">申请记录</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="/regionalManager">

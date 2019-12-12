@@ -19,7 +19,17 @@ const routes = [
         name: "regionAssigned",
         component: () => import(/* webpackChunkName: "home" */ "../views/regionalmanagement/RegionAssigned.vue")
       },
-      { path: "/", redirect: "/regionalManager" } //二级路由默认首页为数据总览页
+      {
+        path: "/applyRecord",
+        name: "applyRecord",
+        component: () => import(/* webpackChunkName: "home" */ "../views/regionalmanagement/ApplyRecord.vue")
+      },
+      {
+        path: "/hospitalManagement",
+        name: "hospitalManagement",
+        component: () => import(/* webpackChunkName: "home" */ "../views/HospitalManagement.vue")
+      },
+      { path: "/", redirect: "/hospitalManagement" } //二级路由默认首页为数据总览页
     ]
   },
   {

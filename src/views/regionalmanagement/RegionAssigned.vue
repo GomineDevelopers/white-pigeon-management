@@ -102,7 +102,7 @@
       </div>
     </el-dialog>
     <!-- 新增 -->
-    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
+    <el-dialog class="dialog_wrap width_full" :visible.sync="addVisble" :append-to-body="true">
       <div class="dialog_title" slot="title"><span class="line"></span>区域信息</div>
       <el-form :model="addManagerData" :rules="rules" ref="ruleForm" label-width="100px">
         <el-form-item label="省：" prop="province_code">
@@ -412,23 +412,6 @@ export default {
     submitManager(){
       console.log(this.addManagerData)
     }
-
   }
 };
 </script>
-<style scoped>
-.dialog_detail li{
-    line-height: 36px;
-    color: #333;
-    font-size: 14px;
-}
-.dialog_detail li label{
-    display: inline-block;
-    width: 80px;
-    margin-right: 10px;
-    text-align: right;
-}
-.el-select{
-  width: 80%
-}
-</style>

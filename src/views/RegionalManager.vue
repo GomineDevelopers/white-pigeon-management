@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 面包屑 -->
-    <span class="breadcrumb">医院管理</span>
+    <span class="breadcrumb">区域经理</span>
     <!--工具条-->
     <el-row class="main_header">
       <el-col :span="20">
@@ -119,13 +119,13 @@
         </el-col>
         </el-row>
         <el-form-item label="姓名：" prop="name">
-          <el-input size="small" v-model="addManagerData.name"></el-input>
+          <el-input size="small" v-model="addManagerData.name" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item  label="手机号：" prop="email">
-          <el-input size="small" v-model.number="addManagerData.email"></el-input>
+          <el-input size="small" v-model.number="addManagerData.email" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="密码：" prop="password">
-          <el-input size="small" type="password" v-model="addManagerData.password"></el-input>
+          <el-input size="small" type="password" v-model="addManagerData.password" placeholder="请输入"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -409,16 +409,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.dialog_detail li{
-    line-height: 36px;
-    color: #333;
-    font-size: 14px;
-}
-.dialog_detail li label{
-    display: inline-block;
-    min-width: 62px;
-    margin-right: 10px;
-    text-align: right;
-}
-</style>
