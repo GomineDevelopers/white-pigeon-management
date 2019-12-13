@@ -334,13 +334,14 @@ export default {
         page: this.page,
         row: this.row
       };
-      this.$api.regionList(params)
-        .then( res => {
-          console.log(res)
+      this.$api
+        .regionList(params)
+        .then(res => {
+          console.log(res);
         })
-        .catch( err => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
       console.log(params);
       // this.listLoading = true;
     },
