@@ -1,6 +1,5 @@
 import axios from "axios";
 import QS from "qs";
-import { Toast } from "vant";
 import store from "@/store";
 import router from ".././router";
 // console.log(store.state);
@@ -52,10 +51,13 @@ axios.interceptors.response.use(
     if (error.response.status) {
       switch (error.response.status) {
         case 401:
-          Toast("账号信息过期，请重新登录");
+          Message({
+            message: "账号信息过期，请重新登录",
+            type: "warning"
+          });
           setTimeout(() => {
             router.replace({
-              path: "/loginpassword",
+              path: "/login",
               query: {
                 redirect: router.currentRoute.fullPath
               }
@@ -63,7 +65,10 @@ axios.interceptors.response.use(
           }, 2000);
           break;
         case 402:
-          Toast("token有误，请重新登录");
+          Message({
+            message: "token有误，请重新登录",
+            type: "warning"
+          });
           setTimeout(() => {
             router.replace({
               path: "/loginpassword",
@@ -74,14 +79,18 @@ axios.interceptors.response.use(
           }, 2000);
           break;
         case 403:
-          Toast("未登录，请登录");
+          Message({
+            message: "未登录，请登录",
+            type: "warning"
+          });
           // 清除token
-          localStorage.removeItem("token");
-          store.commit("setToken", null);
+          // localStorage.removeItem("token");
+          // store.commit("setToken", null);
+
           // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
           setTimeout(() => {
             router.replace({
-              path: "/loginpassword",
+              path: "/login",
               query: {
                 redirect: router.currentRoute.fullPath
               }
@@ -89,29 +98,29 @@ axios.interceptors.response.use(
           }, 2000);
           break;
         case 500:
-          Toast("服务器错误");
+          Message({
+            message: "服务器错误",
+            type: "warning"
+          });
           break;
         // 404请求不存在
         case 404:
-          Toast({
+          Message({
             message: "请求资源不存在",
-            duration: 1500,
-            forbidClick: true
+            type: "warning"
           });
           break;
         // 其他错误，直接抛出错误提示
         case 101:
-          Toast({
+          Message({
             message: "用户不存在",
-            duration: 1500,
-            forbidClick: true
+            type: "warning"
           });
           break;
         case 9000:
-          Toast({
+          Message({
             message: "网络错误，请重试",
-            duration: 1500,
-            forbidClick: true
+            type: "warning"
           });
           break;
         default:

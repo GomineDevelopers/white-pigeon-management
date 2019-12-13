@@ -5,7 +5,9 @@
         <div class="login_title">小白鸽后台管理</div>
         <div><el-input placeholder="用户名" v-model="userName" clearable> </el-input></div>
         <div><el-input placeholder="密码" v-model="password" show-password></el-input></div>
-        <el-button type="primary" class="submit_btn" round>登&nbsp;&nbsp;&nbsp;录</el-button>
+        <el-button type="primary" class="submit_btn" round @click="login"
+          >登&nbsp;&nbsp;&nbsp;录</el-button
+        >
       </div>
     </el-row>
   </el-row>
@@ -19,7 +21,9 @@ export default {
       password: ""
     };
   },
-  methods: {}
+  methods: {
+    login() {}
+  }
 };
 </script>
 <style scoped>
