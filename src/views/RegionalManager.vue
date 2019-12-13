@@ -324,7 +324,7 @@ export default {
         page: this.page,
         row: this.row
       };
-      this.regionList(params)
+      this.$api.regionList(params)
         .then( res => {
           console.log(res)
         })
