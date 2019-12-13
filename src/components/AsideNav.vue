@@ -60,7 +60,7 @@
           <el-menu-item index="8-2">签约档案</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="purposetopical">
+      <el-submenu index="">
         <template slot="title">
           <!-- <img src="../assets/image/bfhy.png" /> -->
           <img src="../assets/image/bfhy1.png" />
@@ -68,8 +68,8 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/purposetopical">目的主题</el-menu-item>
-          <el-menu-item index="/">拜访审核</el-menu-item>
-          <el-menu-item index="/">会议审核</el-menu-item>
+          <el-menu-item index="/visitapprove">拜访审核</el-menu-item>
+          <el-menu-item index="/mettingapprove">会议审核</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="10">
