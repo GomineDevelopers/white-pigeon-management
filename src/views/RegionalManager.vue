@@ -313,6 +313,9 @@ export default {
   },
   mounted() {
     console.log(cityArray);
+    this.$nextTick( () => {
+      this.getListData();
+    })
   },
   methods: {
     // 获取列表数据
@@ -321,6 +324,13 @@ export default {
         page: this.page,
         row: this.row
       };
+      this.regionList(params)
+        .then( res => {
+          console.log(res)
+        })
+        .catch( err => {
+          console.log(err)
+        })
       console.log(params);
       // this.listLoading = true;
     },
