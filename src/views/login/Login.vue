@@ -40,7 +40,7 @@ export default {
           console.log(res);
           if (res.code == 200) {
             this.$store.commit("setToken", res.token); //设置store中token
-            localStorage.setItem("token", res.token);
+            localStorage.setItem("adminToken", res.token);
             this.$message({
               message: "登录成功",
               type: "success"

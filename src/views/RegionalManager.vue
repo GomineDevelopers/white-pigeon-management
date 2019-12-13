@@ -11,7 +11,13 @@
         </div>
         <div class="main_header_item">
           <span>省：</span>
-          <el-cascader v-model="province" :options="provinceList"></el-cascader>
+          <el-cascader
+            size="large"
+            :options="provinceOptions"
+            v-model="provinceSelect"
+            @change="handleChange"
+          >
+          </el-cascader>
           <!-- <el-select size="small" v-model="province" placeholder="请选择">
             <el-option
               v-for="item in options"
@@ -154,7 +160,7 @@
   </div>
 </template>
 <script>
-import cityArray from "../js/city";
+import { provinceAndCityData } from "element-china-area-data";
 export default {
   name: "RegionalManager",
   data() {
@@ -178,7 +184,8 @@ export default {
       singleData: {}, //单条数据
       selected: [], //选中数据
       user: null, // 搜索姓名
-      provinceList: cityArray, //省市数据
+      provinceOptions: provinceAndCityData, //省市数据
+      provinceSelect: "", //存放省市选择值
       province: null, // 搜索省
       // city: null, // 搜索市
       addManagerData: {
@@ -312,12 +319,15 @@ export default {
     };
   },
   mounted() {
-    console.log(cityArray);
-    this.$nextTick( () => {
+    this.$nextTick(() => {
       this.getListData();
-    })
+    });
   },
   methods: {
+    //地区省市操作
+    handleChange(value) {
+      console.log(value);
+    },
     // 获取列表数据
     getListData() {
       let params = {

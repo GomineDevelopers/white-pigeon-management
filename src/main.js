@@ -14,7 +14,7 @@ Vue.config.productionTip = false;
 
 // 检查用户登录状态
 router.beforeEach((to, from, next) => {
-  let token = localStorage.getItem("token"); //从localStorage中取用户uid
+  let token = localStorage.getItem("adminToken"); //从localStorage中取用户token
   //以下几个路由无需token
   if (to.path == "/login") {
     next();
