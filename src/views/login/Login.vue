@@ -17,8 +17,8 @@ export default {
   name: "login",
   data() {
     return {
-      userName: "wfuhua",
-      password: "123456"
+      userName: "",
+      password: ""
     };
   },
   methods: {
@@ -45,6 +45,16 @@ export default {
               message: "登录成功",
               type: "success"
             });
+            setTimeout(() => {
+              if (this.$route.query.redirect) {
+                console.log("重定向地址", this.$route.query.redirect);
+                this.$router.replace({
+                  path: decodeURIComponent(this.$route.query.redirect)
+                });
+              } else {
+                this.$router.replace({ path: "/" });
+              }
+            }, 1000);
           } else if (res.code == 401) {
             this.$message.error("用户名或密码错误！");
           } else if (res.code == 500) {
