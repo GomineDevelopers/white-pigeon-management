@@ -23,7 +23,8 @@ import {
   Message,
   Form,
   FormItem,
-  Tooltip
+  Tooltip,
+  Cascader
 } from "element-ui";
 
 Vue.use(Button);
@@ -48,5 +49,6 @@ Vue.use(Dialog);
 Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(Tooltip);
+Vue.use(Cascader);
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$message = Message;

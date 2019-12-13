@@ -17,15 +17,15 @@ export default {
   name: "login",
   data() {
     return {
-      userName: "",
-      password: ""
+      userName: "wfuhua",
+      password: "123456"
     };
   },
   methods: {
     login() {
       if (!this.userName || !this.password) {
         this.$message({
-          message: "请填写用户名和密码",
+          message: "请填写用户名和密码！",
           type: "warning"
         });
         return false;
@@ -38,6 +38,23 @@ export default {
         .login(params)
         .then(res => {
           console.log(res);
+          if (res.code == 200) {
+            this.$store.commit("setToken", res.token); //设置store中token
+            localStorage.setItem("token", res.token);
+            this.$message({
+              message: "登录成功",
+              type: "success"
+            });
+          } else if (res.code == 401) {
+            this.$message.error("用户名或密码错误！");
+          } else if (res.code == 500) {
+            this.$message.error("创建不了凭证，请重试！");
+          } else {
+            this.$message({
+              message: res.message,
+              type: "warning"
+            });
+          }
         })
         .catch(error => {
           console.log(error);
