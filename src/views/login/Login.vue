@@ -22,7 +22,27 @@ export default {
     };
   },
   methods: {
-    login() {}
+    login() {
+      if (!this.userName || !this.password) {
+        this.$message({
+          message: "请填写用户名和密码",
+          type: "warning"
+        });
+        return false;
+      }
+      let params = {
+        email: this.userName,
+        password: this.password
+      };
+      this.$api
+        .login(params)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 };
 </script>
