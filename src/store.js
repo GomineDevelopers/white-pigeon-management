@@ -30,5 +30,9 @@ export default new Vuex.Store({
         commit('refreshToken', token)
       })
     }
+  },
+  getters: {
+
+    
   }
 });
