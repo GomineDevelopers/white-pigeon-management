@@ -57,7 +57,12 @@
         <el-table-column prop="city_name" label="市" width="160"></el-table-column>
         <el-table-column prop="name" label="姓名" width="130"></el-table-column>
         <el-table-column prop="phone" label="手机号" min-width="200"></el-table-column>
-        <el-table-column prop="status" label="状态" width="80" :formatter="formatStatus"></el-table-column>
+        <el-table-column prop="status" label="状态" width="80" >
+          <template scope="scope">
+              <span v-if="scope.row.status == 1">正常</span>
+              <span v-else class="logout">注销</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
@@ -409,3 +414,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.logout{
+  color: #F00;
+}
+</style>
