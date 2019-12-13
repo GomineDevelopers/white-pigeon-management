@@ -9,7 +9,7 @@
       unique-opened
     >
       <el-menu-item index="/hospitalManagement">
-        <img v-if="$route.path == '/hospitalManagement'" src="../assets/image/yy.png"  />
+        <img v-if="$route.path == '/hospitalManagement'" src="../assets/image/yy.png" />
         <img v-else src="../assets/image/yy1.png" />
         <span slot="title">医院管理</span>
       </el-menu-item>
@@ -60,11 +60,18 @@
           <el-menu-item index="8-2">签约档案</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="9">
-        <!-- <img src="../assets/image/bfhy.png" /> -->
-        <img src="../assets/image/bfhy1.png" />
-        <span slot="title">拜访会议</span>
-      </el-menu-item>
+      <el-submenu index="purposetopical">
+        <template slot="title">
+          <!-- <img src="../assets/image/bfhy.png" /> -->
+          <img src="../assets/image/bfhy1.png" />
+          <span>拜访会议</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/purposetopical">目的主题</el-menu-item>
+          <el-menu-item index="/">拜访审核</el-menu-item>
+          <el-menu-item index="/">会议审核</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <el-menu-item index="10">
         <!-- <img src="../assets/image/jj.png" /> -->
         <img src="../assets/image/jj1.png" />
