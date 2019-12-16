@@ -9,5 +9,12 @@ let api = {
   regionManagerList: params => post("/RegionManager/regionManagerList", params), //区域管理列表
   getInfoByProvince: params => post("/RegionManager/getInfoByProvince", params), //省市获取信息
   regionManagerSubmit: params => post("/RegionManager/regionManagerSubmit", params), //绑定医院产品
+  visitList: params => post("/visitManager/visitList", params), //拜访审核列表
+  visitOperate: params => post("/visitManager/visitOperate", params), //拜访审核
+  visitDel: params => post("/visitManager/visitDel", params), //拜访删除
+  productList: params => post("/productManager/productList", params), //产品
+  meetingList: params => post("/meetingManager/meetingList", params), //会议列表
+  meetingoOperate: params => post("/meetingManager/meetingoOperate", params), //会议审核
+  meetingDel: params => post("/meetingManager/meetingDel", params) //会议删除
 };
 export default api;

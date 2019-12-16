@@ -112,11 +112,7 @@
           <el-input size="small" v-model="managerData.name" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="手机号：" prop="email">
-          <el-input
-            size="small"
-            v-model.number="managerData.email"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model.number="managerData.email" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="密码：" prop="password">
           <el-input
@@ -201,14 +197,14 @@ export default {
     getListData() {
       this.listLoading = true;
       let params = null;
-      if (this.isSearch){
+      if (this.isSearch) {
         params = {
           regional_manager_name: this.managerName,
           province_code: this.searchOption[0],
           city_code: this.searchOption[1],
           page: this.page,
           row: this.row
-        }
+        };
       } else {
         params = {
           page: this.page,
@@ -228,12 +224,12 @@ export default {
           }
           this.listLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.listLoading = false;
           console.log(err)
         })
     },
-    
+
     // 搜索
     search() {
       if (this.managerName == null && !this.searchOption.length) {
@@ -326,6 +322,9 @@ export default {
         .catch( err => {
           console.log(err)
         })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     // 提交数据
@@ -376,6 +375,9 @@ export default {
           this.addVisble = false;
           console.log(err)
         })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

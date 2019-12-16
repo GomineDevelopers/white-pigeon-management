@@ -33,10 +33,10 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     // 如果 header 中存在 token，那么触发 refreshToken 方法，替换本地的 token
-    // if (response.headers.authorization) {
-    //   let newToken = response.headers.authorization;
-    //   store.dispatch("refreshToken", newToken.split(" ")[1]);
-    // }
+    if (response.headers.authorization) {
+      let newToken = response.headers.authorization;
+      store.dispatch("refreshToken", newToken.split(" ")[1]);
+    }
 
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
