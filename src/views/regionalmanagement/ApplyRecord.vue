@@ -32,8 +32,7 @@
         :data="tableData" 
         v-loading="listLoading" 
         element-loading-text="数据拼命加载中"
-        element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
+        element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%">
         <el-table-column prop="apply_name" label="申请代表" width="160"></el-table-column>
         <el-table-column prop="apply_time" label="申请时间" width="160"></el-table-column>

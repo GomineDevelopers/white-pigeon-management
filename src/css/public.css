@@ -48,6 +48,7 @@ ul{
     font-size: 16px;
     padding: 3px 8px;
     cursor: pointer;
+    outline: none;
 }
 .main_list table .el-icon-view{
     color: #4CCEA5;
@@ -93,6 +94,7 @@ ul{
 .dialog_wrap .el-dialog__header{
     border-bottom: 1px solid #e5e5e5;
 }
+.width_full,
 .width_full .el-select{
     width: 100%;
 }
@@ -128,3 +130,9 @@ ul{
     margin-right: 10px;
     text-align: right;
 }
+.el-cascader-panel .el-cascader-menu {
+    height: 360px;
+}
+.logout {
+    color: #f00;
+  }

@@ -21,6 +21,15 @@ export default {
       password: ""
     };
   },
+  mounted() {
+    var _this = this;
+    document.onkeydown = function(e) {
+      var key = window.event.keyCode;
+      if (key == 13) {
+        _this.login();
+      }
+    }
+  },
   methods: {
     login() {
       if (!this.userName || !this.password) {

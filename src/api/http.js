@@ -2,6 +2,7 @@ import axios from "axios";
 import QS from "qs";
 import store from "@/store";
 import router from ".././router";
+import {Message} from "element-ui";
 // console.log(store.state);
 
 // 环境的切换
