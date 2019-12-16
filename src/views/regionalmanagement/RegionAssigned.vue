@@ -43,23 +43,20 @@
         <el-table-column prop="id" label="医院编号" min-width="120"></el-table-column>
         <el-table-column prop="product_name" label="产品名" min-width="140" ></el-table-column>
         <el-table-column prop="user_name" label="区域经理" min-width="100" ></el-table-column>
-        <el-table-column prop="status" label="状态" width="80">
+        <!-- <el-table-column prop="status" label="状态" width="80">
           <template scope="scope">
             <span v-if="scope.row.status == 1">正常</span>
             <span v-else class="logout">注销</span>
           </template>
-        </el-table-column>
-        <el-table-column label="操作" width="120" fixed="right">
+        </el-table-column> -->
+        <el-table-column label="操作" width="60" fixed="right">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
-            </el-tooltip>
-            <el-tooltip v-if="scope.row.status == 1" class="item" effect="dark" content="删除" placement="top">
+            <!-- <el-tooltip v-if="scope.row.status == 1" class="item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
-            </el-tooltip>
+            </el-tooltip> -->
             
           </template>
         </el-table-column>
@@ -99,9 +96,10 @@
       </div>
     </el-dialog>
     <!-- 新增 -->
-    <el-dialog class="dialog_wrap width_full" :visible.sync="addVisble" :append-to-body="true">
+    <el-dialog  class="dialog_wrap width_full" :visible.sync="addVisble" :append-to-body="true"
+      >
       <div class="dialog_title" slot="title"><span class="line"></span>区域信息</div>
-      <el-form :model="regionData" :rules="rules" ref="ruleForm" label-width="100px">
+      <el-form :model="regionData" :rules="rules" ref="ruleForm" label-width="100px" v-loading="addLoading" element-loading-text="数据拼命加载中...">
         <el-form-item label="省/市：" prop="option">
           <el-cascader
             class="width_full"
@@ -113,14 +111,13 @@
           </el-cascader>
         </el-form-item>
         <el-form-item size="small" label="医院名称：" prop="hospitalId">
-          <el-select v-model="regionData.hospitalId" placeholder="请选择医院名称">
-            <el-option v-for="(item, index) in hosptalList" :label="item.hospital_name" :value="item.hospital_id" :key="index"></el-option>
+          <el-select v-model="regionData.hospitalId" placeholder="请选择医院名称"  @change="chaggeHospital">
+            <el-option v-for="(item, index) in hosptalList" :label="item.hospital_name" :value="item.id" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item size="small" label="产品名：" prop="productId">
           <el-select v-model="regionData.productId" placeholder="请选择产品名">
-            <el-option label="美味宁" value="mwn"></el-option>
-            <el-option label="臣康安" value="cka"></el-option>
+            <el-option v-for="(item, index) in productList" :label="item.product_name" :value="item.product_id" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item size="small" label="区域经理：" prop="managerId">
@@ -129,8 +126,6 @@
           </el-select>
         </el-form-item>
       </el-form>
-      <div>{{hosptalList}}</div>
-      <!-- <div v-for="(item, index) in hosptalList" :key="index">{{hosptalList}}</div> -->
       <div slot="footer" class="dialog-footer">
         <el-button size="small" type="primary"  @click="addManager('ruleForm')">确 定</el-button>
         <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
@@ -145,7 +140,8 @@ export default {
   data() {
     return {
       listLoading: false, //加载数据中
-      addVisble: true, //新增
+      addLoading: false, // 新增加载数据中
+      addVisble: false, //新增
       detailVisble: false, //详情弹窗
       singleData: {}, //单条数据
       managerName: null, // 搜索姓名
@@ -167,10 +163,10 @@ export default {
       total: 0,
       list: [],
       rules: {
-        option: [{ required: true, message: "请选择省市" }],
-        hospitalId: [{ required: true, message: '请选择医院名称'}],
-        productId: [{ required: true, message: '请选择产品名' }],
-        managerId: [{ required: true, message: '请选择区域经理'}]
+        option: [{ required: true, message: "请选择省市", trigger: 'change'}],
+        hospitalId: [{ required: true, message: '请选择医院名称', trigger: 'change'}],
+        productId: [{ required: true, message: '请选择产品名', trigger: 'change'}],
+        managerId: [{ required: true, message: '请选择区域经理', trigger: 'change'}]
       }
     };
   },
@@ -187,6 +183,7 @@ export default {
     // 新增/编辑经理省市选择
     handleManagerChange(arr) {
       this.regionData.option = arr;
+      this.resetAddData();
       let params = {
         province_code: arr[0],
         city_code: arr[1],
@@ -249,6 +246,7 @@ export default {
     resetSearch() {
       this.managerName = null;
       this.searchOption = [];
+      this.isSearch = false;
       this.page = 1;
       this.getListData();
     },
@@ -256,12 +254,6 @@ export default {
     // 下载
     downLoad() {
       console.log('下载')
-    },
-
-    // 编辑
-    handleEdit(index,row) {
-      this.addVisble = true;
-      console.log(row)
     },
 
     // 查看详情
@@ -295,22 +287,35 @@ export default {
       this.getListData();
     },
 
+    // 切换医院选择
+    chaggeHospital(val) {
+      this.productList = [];
+      this.regionData.productId = null;
+      this.hosptalList.forEach( item => {
+        if(item.id == val) {
+          this.productList = item.product_info;
+        }
+      })
+    },  
+
     // 通过省市获取医院信息
     getInfoByProvince(params){
+      this.addLoading = true;
       this.$api.getInfoByProvince(params)
         .then( res => {
           if (res.code == 200) {
             this.hosptalList = res.hospital_product;
             this.regionList = res.region_list;
-          }
-          console.log(res)
+          };
+          this.addLoading = false;
         })
         .catch( err => {
+          this.addLoading = false;
           console.log(err)
         })
     },
 
-    // 新增经理
+    // 新增区域
     addManager(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -323,14 +328,23 @@ export default {
 
     // 提交数据
     submitManager(){
-      let params = {
-          province_code: this.regionData.option[0],
-          city_code: this.regionData.option[1],
-          hospital_id: this.regionData.hospitalId,
-          product_id: this.regionData.productId,
-          region_manager_id: this.regionData.managerId
-        };
-      console.log(this.regionData)
+       this.$messageBox
+        .confirm("提交数据后将无法更改，请确认无误后再提交！", "提示", {
+          type: "warning"
+        })
+        .then(() => {
+          let params = {
+            province_code: this.regionData.option[0],
+            city_code: this.regionData.option[1],
+            hospital_id: this.regionData.hospitalId,
+            product_id: this.regionData.productId,
+            region_manager_id: this.regionData.managerId
+          };
+          this.submitRegion(params);
+        })
+        .catch(() => {
+          console.log("取消");
+        });
     },
     submitRegion(params) {
       this.$api.regionManagerSubmit(params)
@@ -341,11 +355,9 @@ export default {
               type: "success"
             });
             this.regionData.option = [];
-            this.regionData.hospital_id = null;
-            this.regionData.product_id = null;
-            this.regionData.region_manager_id = null;
-            this.page = 1;
+            this.resetAddData();
             this.isSearch = false;
+            this.page = 1;
             this.getListData();
           } else {
             this.$message({
@@ -359,7 +371,19 @@ export default {
           this.addVisble = false;
           console.log(err)
         })
+    },
+
+    // 重置添加数据
+    resetAddData() {
+      this.hosptalList = [];
+      this.productList = [];
+      this.regionList = [];
+      this.regionData.hospitalId = null;
+      this.regionData.productId = null;
+      this.regionData.managerId = null;
     }
   }
+
+  
 };
 </script>

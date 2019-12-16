@@ -249,6 +249,7 @@ export default {
       this.managerName = null;
       this.searchOption = [];
       this.page = 1;
+      this.isSearch = false;
       this.getListData();
     },
 
@@ -266,7 +267,7 @@ export default {
     // 删除
     handleDelete(index, row) {
       this.$messageBox
-        .confirm("确认删除该条记录吗?", "提示", {
+        .confirm("确认注销该条记录吗?", "提示", {
           type: "warning"
         })
         .then(() => {
@@ -330,7 +331,7 @@ export default {
     // 提交数据
     submitManager() {
       this.$messageBox
-        .confirm("提交数据后将无法更改，请确认无误后再提交?", "提示", {
+        .confirm("提交数据后将无法更改，请确认无误后再提交！", "提示", {
           type: "warning"
         })
         .then(() => {
@@ -360,8 +361,8 @@ export default {
             this.managerData.name = null;
             this.managerData.email = null;
             this.managerData.password = null;
-            this.page = 1;
             this.isSearch = false;
+            this.page = 1;
             this.getListData();
           } else {
             this.$message({

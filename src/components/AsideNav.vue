@@ -13,9 +13,9 @@
         <img v-else src="../assets/image/yy1.png" />
         <span slot="title">医院管理</span>
       </el-menu-item>
-      <el-menu-item index="2">
-        <!-- <img src="../assets/image/cp.png" /> -->
-        <img src="../assets/image/cp1.png" />
+      <el-menu-item index="/productManagement">
+        <img v-if="$route.path == '/productManagement'" src="../assets/image/cp.png" />
+        <img v-else src="../assets/image/cp1.png" />
         <span slot="title">产品管理</span>
       </el-menu-item>
       <el-menu-item index="3">
