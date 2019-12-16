@@ -88,7 +88,7 @@
           <label>状态：</label>
           <span v-if="singleData.status == 1">正常</span>
           <span v-else class="logout">注销</span>
-          </li>
+        </li>
       </ul>
       <div class="dialog_title" slot="title"><span class="line"></span>经理信息</div>
       <div slot="footer" class="dialog-footer">
@@ -102,21 +102,21 @@
       <el-form :model="managerData" :rules="rules" ref="ruleForm" label-width="100px">
         <!-- <el-row>
           <el-col :span="12"> -->
-            <el-form-item label="省：" prop="option">
-              <el-cascader
-                size="small"
-                :options="provinceAndCityData"
-                v-model="managerData.option"
-                @change="handleManagerChange"
-              >
-              </el-cascader>
-              <!-- <el-select size="small" v-model="managerData.province_code" placeholder="请选择省">
+        <el-form-item label="省：" prop="option">
+          <el-cascader
+            size="small"
+            :options="provinceAndCityData"
+            v-model="managerData.option"
+            @change="handleManagerChange"
+          >
+          </el-cascader>
+          <!-- <el-select size="small" v-model="managerData.province_code" placeholder="请选择省">
                 <el-option label="浙江省" value="zj"></el-option>
                 <el-option label="安徽省" value="ah"></el-option>
               </el-select> -->
-            </el-form-item>
-          <!-- </el-col> -->
-          <!-- <el-col :span="12">
+        </el-form-item>
+        <!-- </el-col> -->
+        <!-- <el-col :span="12">
             <el-form-item size="small" label="市：" prop="city_code">
               <el-select v-model="managerData.city_code" placeholder="请选择市">
                 <el-option label="贵阳" value="gy"></el-option>
@@ -129,11 +129,7 @@
           <el-input size="small" v-model="managerData.name" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="手机号：" prop="email">
-          <el-input
-            size="small"
-            v-model.number="managerData.email"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model.number="managerData.email" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="密码：" prop="password">
           <el-input
@@ -304,34 +300,35 @@ export default {
     getListData() {
       this.listLoading = true;
       let params = null;
-      if (this.isSearch){
+      if (this.isSearch) {
         params = {
           regional_manager_name: this.managerName,
           province_code: this.searchOption[0],
           city_code: this.searchOption[1],
           page: this.page,
           row: this.row
-        }
+        };
       } else {
         params = {
           page: this.page,
           row: this.row
         };
       }
-          console.log(params);
-      this.$api.regionList(params)
-        .then( res => {
-          console.log(res)
+      console.log(params);
+      this.$api
+        .regionList(params)
+        .then(res => {
+          console.log(res);
           // this.list = res
           this.listLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.listLoading = false;
-          console.log(err)
-        })
+          console.log(err);
+        });
       // this.listLoading = true;
     },
-    
+
     // 搜索
     search() {
       if (this.managerName == null && !this.searchOption.length) {
@@ -429,13 +426,14 @@ export default {
 
     // 注销区域经理
     delRegion(params) {
-      this.$api.delRegion(params)
-        .then( res => {
-          console.log(res)
+      this.$api
+        .delRegion(params)
+        .then(res => {
+          console.log(res);
         })
-        .catch( err => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     // 提交数据
@@ -447,14 +445,15 @@ export default {
         email: this.managerData.email,
         password: this.managerData.password
       };
-          console.log(params);
-      this.$api.addRegion(params)
-        .then( res => {
-          console.log(res)
+      console.log(params);
+      this.$api
+        .addRegion(params)
+        .then(res => {
+          console.log(res);
         })
-        .catch( err => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

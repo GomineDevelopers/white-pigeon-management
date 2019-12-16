@@ -18,7 +18,6 @@ export default new Vuex.Store({
     refreshToken(state, token) {
       state.token = token;
       localStorage.setItem("adminToken", token);
-      // axios.defaults.headers.common['Authorization'] = state.token
     }
   },
   actions: {

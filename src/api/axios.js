@@ -5,6 +5,13 @@ let api = {
   addRegion: params => post("/RegionManager/addRegion", params), //添加区域经理
   regionManagerDetail: params => post("/RegionManager/regionManagerDetail", params), //区域经理详情
   delRegion: params => post("/RegionManager/delRegion", params), //注销区域经理
-  regionList: params => post("/RegionManager/regionList", params) //区域经理列表
+  regionList: params => post("/RegionManager/regionList", params), //区域经理列表
+  visitList: params => post("/visitManager/visitList", params), //拜访审核列表
+  visitOperate: params => post("/visitManager/visitOperate", params), //拜访审核
+  visitDel: params => post("/visitManager/visitDel", params), //拜访删除
+  productList: params => post("/productManager/productList", params), //产品
+  meetingList: params => post("/meetingManager/meetingList", params), //会议列表
+  meetingoOperate: params => post("/meetingManager/meetingoOperate", params), //会议审核
+  meetingDel: params => post("/meetingManager/meetingDel", params) //会议删除
 };
 export default api;
