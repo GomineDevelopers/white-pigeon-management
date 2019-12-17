@@ -53,6 +53,9 @@ ul{
 .main_list table .el-icon-view{
     color: #4CCEA5;
 }
+.main_list table .el-icon-edit{
+    color: #FF8600;
+}
 .main_list thead tr th{
     background:#FAFAFA;
 }
@@ -134,5 +137,9 @@ ul{
     height: 360px;
 }
 .logout {
-    color: #f00;
-  }
+color: #f00;
+}
+.submit_loading i{
+    font-size: 14px;
+    margin-right: 5px;
+}

@@ -39,7 +39,7 @@
         <el-table-column prop="name" label="代表" width="90"></el-table-column>
         <el-table-column prop="product_name" label="产品" width="100"></el-table-column>
         <el-table-column prop="product_topic" label="会议主题"></el-table-column>
-        <el-table-column prop="hospital_name" label="医院" width="90"></el-table-column>
+        <el-table-column prop="hospital_name" label="医院" min-width="90"></el-table-column>
         <el-table-column prop="section_name" label="科室"></el-table-column>
         <el-table-column prop="speaker" label="演讲人"></el-table-column>
         <el-table-column prop="start_time" label="开始时间"></el-table-column>

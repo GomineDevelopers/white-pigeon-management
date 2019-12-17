@@ -67,8 +67,9 @@
           <span>拜访会议</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/purposetopical">目的主题</el-menu-item>
+          <el-menu-item index="/purposetopical">拜访目的</el-menu-item>
           <el-menu-item index="/visitapprove">拜访审核</el-menu-item>
+          <el-menu-item index="/">会议主题</el-menu-item>
           <el-menu-item index="/mettingapprove">会议审核</el-menu-item>
         </el-menu-item-group>
       </el-submenu>

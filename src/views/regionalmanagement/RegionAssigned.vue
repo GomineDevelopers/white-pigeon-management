@@ -111,23 +111,26 @@
           </el-cascader>
         </el-form-item>
         <el-form-item size="small" label="医院名称：" prop="hospitalId">
-          <el-select v-model="regionData.hospitalId" placeholder="请选择医院名称"  @change="chaggeHospital">
+          <el-select v-model="regionData.hospitalId" placeholder="请选择医院名称"  @change="chaggeHospital" no-data-text="无可添加区域医院">
             <el-option v-for="(item, index) in hosptalList" :label="item.hospital_name" :value="item.id" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item size="small" label="产品名：" prop="productId">
-          <el-select v-model="regionData.productId" placeholder="请选择产品名">
+          <el-select v-model="regionData.productId" placeholder="请选择产品名" no-data-text="无可添加医院产品">
             <el-option v-for="(item, index) in productList" :label="item.product_name" :value="item.product_id" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item size="small" label="区域经理：" prop="managerId">
-          <el-select v-model="regionData.managerId" placeholder="请选择区域经理">
+          <el-select v-model="regionData.managerId" placeholder="请选择区域经理" no-data-text="无可添加区域经理">
             <el-option v-for="(item, index) in regionList" :label="item.name" :value="item.region_id" :key="index"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary"  @click="addManager('ruleForm')">确 定</el-button>
+        <el-button size="small" type="primary"  @click="addManager('ruleForm')" >
+          <span v-show="submitLoading" class="submit_loading"><i class="el-icon-loading"></i>数据提交中...</span>
+          <span v-show="!submitLoading">确 定</span> 
+          </el-button>
         <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -143,6 +146,7 @@ export default {
       addLoading: false, // 新增加载数据中
       addVisble: false, //新增
       detailVisble: false, //详情弹窗
+      submitLoading: false, // 数据提交加载
       singleData: {}, //单条数据
       managerName: null, // 搜索姓名
       provinceAndCityDataPlus: provinceAndCityDataPlus, //省市数据带“全部”
@@ -341,6 +345,7 @@ export default {
             region_manager_id: this.regionData.managerId
           };
           this.submitRegion(params);
+          this.submitLoading = true;
         })
         .catch(() => {
           console.log("取消");
@@ -366,9 +371,11 @@ export default {
             });
           }
           this.addVisble = false;
+          this.submitLoading = false;
         })
         .catch( err => {
           this.addVisble = false;
+          this.submitLoading = false;
           console.log(err)
         })
     },

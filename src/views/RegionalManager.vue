@@ -311,7 +311,6 @@ export default {
               message: "删除成功",
               type: "success"
             });
-            this.page = 1;
             this.getListData();
           } else {
             this.$message({

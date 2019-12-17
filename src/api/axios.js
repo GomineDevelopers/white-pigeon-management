@@ -15,6 +15,10 @@ let api = {
   productList: params => post("/productManager/productList", params), //产品
   meetingList: params => post("/meetingManager/meetingList", params), //会议列表
   meetingoOperate: params => post("/meetingManager/meetingoOperate", params), //会议审核
-  meetingDel: params => post("/meetingManager/meetingDel", params) //会议删除
+  meetingDel: params => post("/meetingManager/meetingDel", params), //会议删除
+  visitTopicList: params => post("/visitManager/visitTopicList", params), //拜访目的列表
+  createVisit: params => post("/visitManager/visitTopicCreate", params), //创建拜访目的
+  updateVisit: params => post("/visitManager/visitTopicUpdate", params), //修改拜访目的
+  delVisit: params => post("/visitManager/visitTopicDel", params) //删除拜访目的
 };
 export default api;
