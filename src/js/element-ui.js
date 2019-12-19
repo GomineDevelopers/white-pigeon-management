@@ -24,7 +24,7 @@ import {
   Form,
   FormItem,
   Tooltip,
-  Cascader
+  Cascader,
 } from "element-ui";
 
 Vue.use(Button);

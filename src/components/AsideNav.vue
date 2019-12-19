@@ -69,7 +69,7 @@
         <el-menu-item-group>
           <el-menu-item index="/purposetopical">拜访目的</el-menu-item>
           <el-menu-item index="/visitapprove">拜访审核</el-menu-item>
-          <el-menu-item index="/">会议主题</el-menu-item>
+          <el-menu-item index="/mettingTheme">会议主题</el-menu-item>
           <el-menu-item index="/mettingapprove">会议审核</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
@@ -83,9 +83,9 @@
         <img src="../assets/image/yjbg1.png" />
         <span slot="title">业绩报告</span>
       </el-menu-item>
-      <el-menu-item index="12">
-        <!-- <img src="../assets/image/zlzx.png" /> -->
-        <img src="../assets/image/zlzx1.png" />
+      <el-menu-item index="/dataCenter">
+        <img src="../assets/image/zlzx.png"  v-if="$route.path === '/dataCenter'"/>
+        <img src="../assets/image/zlzx1.png"  v-if="$route.path != '/dataCenter'"/>
         <span slot="title">资料中心</span>
       </el-menu-item>
       <el-menu-item index="13">
