@@ -46,14 +46,14 @@
         <el-table-column prop="end_time" label="结束时间"></el-table-column>
         <el-table-column prop="status" label="状态" width="90">
           <template scope="scope">
-            <span v-if="scope.row.status == 1">通过</span>
-            <span v-if="scope.row.status == 2">不合格</span>
-            <span v-if="scope.row.status == 3">待审核</span>
-            <span v-if="scope.row.status == 4">已经核销</span>
-            <span v-if="scope.row.status == 5">已经失效</span>
-            <span v-if="scope.row.status == 6">创建</span>
-            <span v-if="scope.row.status == 7">隐藏</span>
-            <span v-if="scope.row.status == 8">删除</span>
+            <span class="status1" v-if="scope.row.status == 1">通过</span>
+            <span class="status2" v-if="scope.row.status == 2">不合格</span>
+            <span class="status3" v-if="scope.row.status == 3">待审核</span>
+            <span class="status4" v-if="scope.row.status == 4">已经核销</span>
+            <span class="status5" v-if="scope.row.status == 5">已经失效</span>
+            <span class="status6" v-if="scope.row.status == 6">创建</span>
+            <span class="status7" v-if="scope.row.status == 7">隐藏</span>
+            <span class="status8" v-if="scope.row.status == 8">删除</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
@@ -89,7 +89,7 @@
         <li><label>产品：</label>{{ singleData.product_name }}</li>
         <li><label>会议主题：</label>{{ singleData.product_topic }}</li>
         <li><label>医院：</label>{{ singleData.hospital_name }}</li>
-        <li><label>科室：</label>{{ singleData.section_id }}</li>
+        <li><label>科室：</label>{{ singleData.section_name }}</li>
         <li><label>演讲人：</label>{{ singleData.speaker }}</li>
         <li><label>开始时间：</label>{{ singleData.start_time }}</li>
         <li><label>结束时间：</label>{{ singleData.end_time }}</li>
@@ -200,7 +200,7 @@ export default {
       this.listLoading = true;
       this.getListData();
     },
-    //获取拜访数据
+    //获取会议数据
     getListData() {
       this.listLoading = true;
       let parmas = {
@@ -212,7 +212,7 @@ export default {
       this.$api
         .meetingList(parmas)
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.code == 200) {
             this.total = res.meeting_count;
             this.tableData = res.meeting_list;
@@ -234,9 +234,21 @@ export default {
     },
     // 查看详情
     handleDetail(index, row) {
-      this.detailVisble = true;
-      this.singleData = row;
-      // console.log(index, row);
+      // this.singleData = row;
+      console.log(index, row);
+      let params = { meeting_id: row.id };
+      this.$api
+        .meetingDetail(params)
+        .then(res => {
+          console.log(res);
+          if (res.code == 200) {
+            this.singleData = res.meeting_detail;
+            this.detailVisble = true;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     //搜索
     search() {
@@ -334,5 +346,22 @@ export default {
 .dialog_wrap .dialog_detail .img_list {
   display: -webkit-flex;
   display: flex;
+}
+.img_list img {
+  margin-right: 10px;
+}
+.status1 {
+  color: #5ed2ad;
+}
+.status2 {
+  color: red;
+}
+.status3 {
+  color: #e6a23c;
+}
+.status8,
+.status4,
+.status5 {
+  color: #999;
 }
 </style>

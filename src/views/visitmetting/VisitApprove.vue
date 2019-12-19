@@ -46,14 +46,14 @@
         <el-table-column prop="end_time" label="结束时间"></el-table-column>
         <el-table-column prop="status" label="状态" width="90">
           <template scope="scope">
-            <span v-if="scope.row.status == 1">通过</span>
-            <span v-if="scope.row.status == 2">不合格</span>
-            <span v-if="scope.row.status == 3">待审核</span>
-            <span v-if="scope.row.status == 4">已经取消</span>
-            <span v-if="scope.row.status == 5">已经失效</span>
-            <span v-if="scope.row.status == 6">创建</span>
-            <span v-if="scope.row.status == 7">隐藏</span>
-            <span v-if="scope.row.status == 8">删除</span>
+            <span class="status1" v-if="scope.row.status == 1">通过</span>
+            <span class="status2" v-if="scope.row.status == 2">不合格</span>
+            <span class="status3" v-if="scope.row.status == 3">待审核</span>
+            <span class="status4" v-if="scope.row.status == 4">已经取消</span>
+            <span class="status5" v-if="scope.row.status == 5">已经失效</span>
+            <span class="status6" v-if="scope.row.status == 6">创建</span>
+            <span class="status7" v-if="scope.row.status == 7">隐藏</span>
+            <span class="status8" v-if="scope.row.status == 8">删除</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
@@ -328,5 +328,22 @@ export default {
 .dialog_wrap .dialog_detail .img_list {
   display: -webkit-flex;
   display: flex;
+}
+.img_list img {
+  margin-right: 10px;
+}
+.status1 {
+  color: #5ed2ad;
+}
+.status2 {
+  color: red;
+}
+.status3 {
+  color: #e6a23c;
+}
+.status8,
+.status4,
+.status5 {
+  color: #999;
 }
 </style>

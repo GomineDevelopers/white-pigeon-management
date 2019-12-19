@@ -18,6 +18,12 @@ export default new Vuex.Store({
     refreshToken(state, token) {
       state.token = token;
       localStorage.setItem("adminToken", token);
+    },
+    //退出登录
+    logout(state) {
+      state.token = "";
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("validTime");
     }
   },
   actions: {
@@ -25,6 +31,11 @@ export default new Vuex.Store({
     refreshToken({ commit }, token) {
       return new Promise(function(resolve, reject) {
         commit("refreshToken", token);
+      });
+    },
+    logout({ commit }) {
+      return new Promise(function(resolve, reject) {
+        commit("logout");
       });
     }
   },

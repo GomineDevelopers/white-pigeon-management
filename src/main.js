@@ -15,16 +15,43 @@ Vue.config.productionTip = false;
 // 检查用户登录状态
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("adminToken"); //从localStorage中取用户token
+  let validTime = localStorage.getItem("validTime"); //从localStorage中取用户token有效时间
+  let newDate = new Date().getTime();
+  console.log("newDate", newDate);
+  console.log("validTime", validTime);
+  let time = validTime - newDate;
+  console.log(time);
   //以下几个路由无需token
   if (to.path == "/login") {
     next();
   } else {
     if (token) {
       store.commit("setToken", token);
-      next();
+      if (time > 300000) {
+        //如果过期时间差小于5分钟  刷新token
+        next();
+      } else {
+        console.log("token快过期了，即将重新请求！");
+        api
+          .refresh()
+          .then(res => {
+            console.log(res);
+            if (res.code == 200) {
+              let expires_in = parseInt(res.expires_in);
+              let expiresDate = new Date().getTime() + expires_in * 1000; // 当前时间加上900秒
+              store.dispatch("refreshToken", res.access_token); //刷新token
+              localStorage.setItem("validTime", expiresDate); //重新存放本地存放access_token有效时间validTime
+              next();
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            Message.error("token刷新失败，请重试！");
+          });
+      }
     } else {
       Message({
-        message: "请先登录！",
+        message: "您当前未登录，请先登录！",
         type: "warning"
       });
       if (to.path == "/login") {

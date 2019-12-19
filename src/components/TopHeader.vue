@@ -5,7 +5,7 @@
         <img src="https://img.yzcdn.cn/vant/cat.jpeg" />
         <i class="el-icon-arrow-down"></i>
       </span>
-      <span> <i class="el-icon-setting"></i>退出 </span>
+      <span class="logout_btn" @click="logout"> <i class="el-icon-setting"></i>退出 </span>
     </el-row>
   </el-row>
 </template>
@@ -14,6 +14,35 @@ export default {
   name: "topHeader",
   data() {
     return {};
+  },
+  methods: {
+    logout() {
+      this.$messageBox
+        .confirm("确认退出系统吗?", "提示", {
+          type: "warning"
+        })
+        .then(() => {
+          this.$api
+            .logout()
+            .then(res => {
+              console.log(res);
+              if (res.code == 200) {
+                this.$message({
+                  message: "退出成功！",
+                  type: "success"
+                });
+                this.$router.push({ path: "/login" });
+                this.$store.dispatch("logout");
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        })
+        .catch(() => {
+          console.log("取消");
+        });
+    }
   }
 };
 </script>
@@ -44,5 +73,8 @@ export default {
   height: 50px;
   border-radius: 50%;
   margin-right: 10px;
+}
+.logout_btn {
+  cursor: pointer;
 }
 </style>

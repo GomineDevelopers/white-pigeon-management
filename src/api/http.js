@@ -33,16 +33,27 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     // 如果 header 中存在 token，那么触发 refreshToken 方法，替换本地的 token
-    if (response.headers.authorization) {
-      let newToken = response.headers.authorization;
-      store.dispatch("refreshToken", newToken.split(" ")[1]);
-    }
+    // if (response.headers.authorization) {
+    //   let newToken = response.headers.authorization;
+    //   console.log("后端返回的newToken", newToken);
+    //   store.dispatch("refreshToken", newToken.split(" ")[1]);
+    // }
 
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
     // console.log(response);
     if (response.status === 200) {
       return Promise.resolve(response);
+    } else if (response.status === 400004) {
+      Message.error("用户名不存在！请重新登录");
+      setTimeout(() => {
+        router.replace({
+          path: "/login",
+          query: {
+            redirect: router.currentRoute.fullPath
+          }
+        });
+      }, 1500);
     } else {
       return Promise.reject(response);
     }
@@ -51,9 +62,9 @@ axios.interceptors.response.use(
   error => {
     if (error.response.status) {
       switch (error.response.status) {
-        case 401:
+        case 400001:
           Message({
-            message: "账号信息过期，请重新登录",
+            message: "token账号过期，请重新登录!",
             type: "warning"
           });
           // 清除token
@@ -101,7 +112,7 @@ axios.interceptors.response.use(
           break;
         case 500:
           Message({
-            message: "服务器错误",
+            message: "错误，请重试！",
             type: "warning"
           });
           break;
@@ -126,7 +137,7 @@ axios.interceptors.response.use(
           });
           break;
         default:
-          Toast(error.response.data.message);
+          Message(error.response.data.message);
       }
       return Promise.reject(error.response);
     }

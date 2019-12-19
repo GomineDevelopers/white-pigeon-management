@@ -2,6 +2,7 @@ import { get, post } from "./http";
 let api = {
   login: params => post("/login", params), //登录
   logout: params => post("/logout", params), //退出登录
+  refresh: params => post("/refresh", params), //刷新token
   addRegion: params => post("/RegionManager/addRegion", params), //添加区域经理
   regionManagerDetail: params => post("/RegionManager/regionManagerDetail", params), //区域经理详情
   delRegion: params => post("/RegionManager/delRegion", params), //注销区域经理
@@ -15,6 +16,7 @@ let api = {
   productList: params => post("/productManager/productList", params), //产品
   meetingList: params => post("/meetingManager/meetingList", params), //会议列表
   meetingoOperate: params => post("/meetingManager/meetingoOperate", params), //会议审核
+  meetingDetail: params => post("/meetingManager/meetingDetail", params), //会议详情
   meetingDel: params => post("/meetingManager/meetingDel", params), //会议删除
   visitTopicList: params => post("/visitManager/visitTopicList", params), //拜访目的列表
   createVisit: params => post("/visitManager/visitTopicCreate", params), //创建拜访目的
@@ -25,6 +27,6 @@ let api = {
   updateMeeting: params => post("/meetingManager/meetingTopicUpdate", params), //修改会议主题
   delMeeting: params => post("/meetingManager/meetingTopicDel", params), //删除会议主题
   materialList: params => post("/materialManager/materialList", params), //资料中心列表
-  materialCreate: params => post("/meetingManager/materialCreate", params), //资料中心新增资料
+  materialCreate: params => post("/meetingManager/materialCreate", params) //资料中心新增资料
 };
 export default api;

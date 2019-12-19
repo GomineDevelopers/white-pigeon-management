@@ -28,7 +28,7 @@ export default {
       if (key == 13) {
         _this.login();
       }
-    }
+    };
   },
   methods: {
     login() {
@@ -46,10 +46,14 @@ export default {
       this.$api
         .login(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.code == 200) {
-            this.$store.commit("setToken", res.token); //设置store中token
-            localStorage.setItem("adminToken", res.token);
+            let expires_in = parseInt(res.expires_in);
+            let expiresDate = new Date().getTime() + expires_in * 1000; // 当前时间加上900秒
+            // console.log("时间戳", expiresDate);
+            this.$store.commit("setToken", res.access_token); //设置store中adminToken
+            localStorage.setItem("adminToken", res.access_token); //本地存放access_token
+            localStorage.setItem("validTime", expiresDate); //本地存放access_token有效时间validTime
             this.$message({
               message: "登录成功",
               type: "success"
