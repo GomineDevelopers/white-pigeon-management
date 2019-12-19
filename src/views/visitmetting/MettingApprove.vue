@@ -89,7 +89,7 @@
         <li><label>产品：</label>{{ singleData.product_name }}</li>
         <li><label>会议主题：</label>{{ singleData.product_topic }}</li>
         <li><label>医院：</label>{{ singleData.hospital_name }}</li>
-        <li><label>科室：</label>{{ singleData.section_name }}</li>
+        <li><label>科室：</label>{{ singleData.section_id }}</li>
         <li><label>演讲人：</label>{{ singleData.speaker }}</li>
         <li><label>开始时间：</label>{{ singleData.start_time }}</li>
         <li><label>结束时间：</label>{{ singleData.end_time }}</li>
@@ -176,7 +176,7 @@ export default {
       this.$api
         .productList()
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.code == 200) {
             res.product_list.forEach(item => {
               this.productOptions.push({
