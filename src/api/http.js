@@ -2,7 +2,7 @@ import axios from "axios";
 import QS from "qs";
 import store from "@/store";
 import router from ".././router";
-import {Message} from "element-ui";
+import { Message } from "element-ui";
 // console.log(store.state);
 
 // 环境的切换
@@ -56,6 +56,7 @@ axios.interceptors.response.use(
             message: "账号信息过期，请重新登录",
             type: "warning"
           });
+          // 清除token
           setTimeout(() => {
             router.replace({
               path: "/login",
@@ -85,8 +86,8 @@ axios.interceptors.response.use(
             type: "warning"
           });
           // 清除token
-          // localStorage.removeItem("token");
-          // store.commit("setToken", null);
+          localStorage.removeItem("adminToken");
+          store.commit("setToken", null);
 
           // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
           setTimeout(() => {
