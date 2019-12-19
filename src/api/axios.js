@@ -19,6 +19,12 @@ let api = {
   visitTopicList: params => post("/visitManager/visitTopicList", params), //拜访目的列表
   createVisit: params => post("/visitManager/visitTopicCreate", params), //创建拜访目的
   updateVisit: params => post("/visitManager/visitTopicUpdate", params), //修改拜访目的
-  delVisit: params => post("/visitManager/visitTopicDel", params) //删除拜访目的
+  delVisit: params => post("/visitManager/visitTopicDel", params), //删除拜访目的
+  meetingTopicList: params => post("/meetingManager/meetingTopicList", params), //会议主题列表
+  createMeeting: params => post("/meetingManager/meetingTopicCreate", params), //创建会议主题
+  updateMeeting: params => post("/meetingManager/meetingTopicUpdate", params), //修改会议主题
+  delMeeting: params => post("/meetingManager/meetingTopicDel", params), //删除会议主题
+  materialList: params => post("/materialManager/materialList", params), //资料中心列表
+  materialCreate: params => post("/meetingManager/materialCreate", params), //资料中心新增资料
 };
 export default api;

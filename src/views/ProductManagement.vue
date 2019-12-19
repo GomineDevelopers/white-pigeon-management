@@ -397,7 +397,7 @@ export default {
     // 编辑医院
     handleEdit(index,row) {
       this.addVisble = true;
-      console.log(row)
+      this.addData = row;
     },
 
     // 点击分页当前页数
