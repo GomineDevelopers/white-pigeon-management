@@ -112,7 +112,7 @@
         <el-form-item label="上传PDF名称：" prop="title">
           <el-input size="small" v-model="addData.title" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="上传PDF：" prop="pfdUrl">
+        <el-form-item label="上传PDF：" prop="pfdUrl" ref="uploadPdf">
           <el-button class="upload_btn" size="small" type="primary">
             上传PDF
             <i class="el-icon-upload el-icon--right"></i>
@@ -140,7 +140,7 @@ export default {
   data() {
     return {
       listLoading: false, //加载数据中
-      addVisble: true, //新增
+      addVisble: false, //新增
       detailVisble: false, //详情弹窗
       singleData: {}, //单条数据
       productId: null, // 搜索产品Id
@@ -182,8 +182,8 @@ export default {
   },
   mounted() {
       this.$nextTick( () =>{
-        // this.getListData();
-        // this.getproductList()
+        this.getListData();
+        this.getproductList()
       })
   },
   methods: {
@@ -294,9 +294,13 @@ export default {
     // 选择PDF
     checkFile(e) {
       let files = e.target.files[0];
+      let errTag = this.$refs.uploadPdf.$el.childNodes[1].childNodes[3];
       if (!files.type.match('application/pdf')){
          this.$message.error("请选择PDF格式的文件上传")
          return;
+      }
+      if (errTag.innerText) {
+        errTag.style.display = "none";
       }
       this.addData.pfdUrl = null;
       this.getToken(files);
@@ -330,12 +334,10 @@ export default {
       let putExtra = {
         mimeType: null
       };
-      console.log(file)
       const observable = qiniu.upload(file, fileName, token, putExtra, config);
       observable.subscribe({
         next (res) {
           _this.percent = Math.floor(res.total.percent);
-          console.log(_this.percent);
         },
         error (err){
           switch (err.code) {
@@ -371,8 +373,6 @@ export default {
           title: this.addData.title,
           company_policy_name: this.addData.pfdUrl
         };
-        console.log(params);
-        return;
         this.$api.materialCreate(params)
         .then( res => {
           if (res.code == 200) {
@@ -380,6 +380,10 @@ export default {
               message: res.message,
               type: "success"
             });
+            this.addData.productId = null;
+            this.addData.productTypeId = null;
+            this.addData.titl = null;
+            this.addData.pfdUrl = null;
             this.isSearch = false;
             this.page = 1;
             this.getListData();
@@ -393,7 +397,6 @@ export default {
         })
         .catch( err => {
           this.addVisble = false;
-          console.log(err)
         })
     }
 
