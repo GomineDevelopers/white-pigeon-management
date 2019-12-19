@@ -17,11 +17,11 @@ router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("adminToken"); //从localStorage中取用户token
   let validTime = localStorage.getItem("validTime"); //从localStorage中取用户token有效时间
   let newDate = new Date().getTime();
-  console.log("newDate", newDate);
-  console.log("validTime", validTime);
+  // console.log("newDate", newDate);
+  // console.log("validTime", validTime);
   let time = validTime - newDate;
-  console.log(time);
-  //以下几个路由无需token
+  console.log("token有效时间剩余", time);
+  //登录路由无需token
   if (to.path == "/login") {
     next();
   } else {
@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
         api
           .refresh()
           .then(res => {
-            console.log(res);
+            // console.log(res);
             if (res.code == 200) {
               let expires_in = parseInt(res.expires_in);
               let expiresDate = new Date().getTime() + expires_in * 1000; // 当前时间加上900秒

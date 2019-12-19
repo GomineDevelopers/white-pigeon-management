@@ -6,11 +6,11 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>代表：</span>
-          <el-input v-model="representative" placeholder="请输入"></el-input>
+          <el-input size="small" v-model="representative" placeholder="请输入"></el-input>
         </div>
         <div class="main_header_item">
           <span>产品：</span>
-          <el-select v-model="product" clearable placeholder="请选择">
+          <el-select size="small" v-model="product" clearable placeholder="请选择">
             <el-option
               v-for="item in productOptions"
               :key="item.value"
@@ -176,7 +176,7 @@ export default {
       this.$api
         .productList()
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.code == 200) {
             res.product_list.forEach(item => {
               this.productOptions.push({
@@ -212,7 +212,7 @@ export default {
       this.$api
         .meetingList(parmas)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.code == 200) {
             this.total = res.meeting_count;
             this.tableData = res.meeting_list;
@@ -235,12 +235,12 @@ export default {
     // 查看详情
     handleDetail(index, row) {
       // this.singleData = row;
-      console.log(index, row);
+      // console.log(index, row);
       let params = { meeting_id: row.id };
       this.$api
         .meetingDetail(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.code == 200) {
             this.singleData = res.meeting_detail;
             this.detailVisble = true;

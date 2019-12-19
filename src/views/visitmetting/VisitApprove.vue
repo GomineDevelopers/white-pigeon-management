@@ -6,11 +6,11 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>代表：</span>
-          <el-input v-model="representative" placeholder="请输入"></el-input>
+          <el-input size="small" v-model="representative" placeholder="请输入"></el-input>
         </div>
         <div class="main_header_item">
           <span>产品：</span>
-          <el-select v-model="product" clearable placeholder="请选择">
+          <el-select size="small" v-model="product" clearable placeholder="请选择">
             <el-option
               v-for="item in productOptions"
               :key="item.value"
