@@ -26,5 +26,6 @@ let api = {
   delMeeting: params => post("/meetingManager/meetingTopicDel", params), //删除会议主题
   materialList: params => post("/materialManager/materialList", params), //资料中心列表
   materialCreate: params => post("/meetingManager/materialCreate", params), //资料中心新增资料
+  getQiniuToken: params => post("/getQiniu/getToken", params), //获取七牛云Token
 };
 export default api;
