@@ -182,7 +182,7 @@ export default {
     // 删除
     handleDelete(index, row) {
       this.$messageBox
-        .confirm("确认注销该条记录吗?", "提示", {
+        .confirm("确认删除该条记录吗?", "提示", {
           type: "warning"
         })
         .then(() => {
@@ -237,9 +237,6 @@ export default {
         .catch( err => {
           console.log(err)
         })
-        .catch(err => {
-          console.log(err);
-        });
     },
 
     // 新增提交数据

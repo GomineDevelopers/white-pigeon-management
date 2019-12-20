@@ -322,9 +322,6 @@ export default {
         .catch( err => {
           console.log(err)
         })
-        .catch(err => {
-          console.log(err);
-        });
     },
 
     // 提交数据
