@@ -3,6 +3,7 @@ let api = {
   login: params => post("/login", params), //登录
   logout: params => post("/logout", params), //退出登录
   refresh: params => post("/refresh", params), //刷新token
+  getQiniuToken: params => post("/getQiniu/getToken", params), //获取七牛云Token
   addRegion: params => post("/RegionManager/addRegion", params), //添加区域经理
   regionManagerDetail: params => post("/RegionManager/regionManagerDetail", params), //区域经理详情
   delRegion: params => post("/RegionManager/delRegion", params), //注销区域经理
@@ -29,6 +30,15 @@ let api = {
   materialList: params => post("/materialManager/materialList", params), //资料中心列表
   materialCreate: params => post("/materialManager/materialCreate", params), //资料中心新增资料
   delMaterial: params => post("/materialManager/materialDel", params), //资料中心删除资料
-  getQiniuToken: params => post("/getQiniu/getToken", params) //获取七牛云Token
+  doctorList: params => post("/doctorManager/doctorList", params), //医生管理列表
+  doctorCreate: params => post("/doctorManager/doctorCreate", params), //医生管理创建
+  doctorEdit: params => post("/doctorManager/doctorEdit", params), //医生管理修改
+  delDoctor: params => post("/doctorManager/doctorlDel", params), //医生管理删除
+  hospitalList: params => post("/hospitalManager/hospitalList", params), //医生管理医院列表
+  sectionList: params => post("/sectionManager/sectionList", params), //医生管理科室列表
+  sectionManagerList: params => post("/sectionManager/sectionManagerList", params), //科室管理列表
+  sectionCreate: params => post("/sectionManager/sectionCreate", params), //科室管理新增
+  sectionEdit: params => post("/sectionManager/sectionEdit", params), //科室管理编辑
+  delSection: params => post("/sectionManager/sectionDel", params), //科室管理删除
 };
 export default api;

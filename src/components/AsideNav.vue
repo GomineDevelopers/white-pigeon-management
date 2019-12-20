@@ -18,9 +18,14 @@
         <img v-else src="../assets/image/cp1.png" />
         <span slot="title">产品管理</span>
       </el-menu-item>
-      <el-menu-item index="3">
-        <!-- <img src="../assets/image/ys.png" /> -->
-        <img src="../assets/image/ys1.png" />
+      <el-menu-item index="/sectionManagement">
+        <img v-if="$route.path == '/sectionManagement'" src="../assets/image/cp.png" />
+        <img v-else src="../assets/image/cp1.png" />
+        <span slot="title">科室管理</span>
+      </el-menu-item>
+      <el-menu-item index="/doctorManagement">
+        <img v-if="$route.path == '/doctorManagement'" src="../assets/image/ys.png" />
+        <img v-else src="../assets/image/ys1.png" />
         <span slot="title">医生管理</span>
       </el-menu-item>
       <el-menu-item index="4">
@@ -108,7 +113,7 @@ export default {
     return {};
   },
   created() {
-    console.log(this.$route.path);
+    // console.log(this.$route.path);
   },
   methods: {
     handleOpen() {

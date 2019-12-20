@@ -246,25 +246,3 @@ export default {
     white-space: normal;
 }
 </style>
-<style scoped>
-.dot{
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  vertical-align: middle;
-  margin-right: 5px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  border-radius: 50%;
-}
-.dot.refuse{
-  background: #FF4800
-}
-.dot.approved{
-  background: #28DB99
-}
-.dot.pending{
-  background: #3399FF
-}
-</style>
