@@ -267,17 +267,17 @@ export default {
     },
 
     // 删除
-    handleDelete(index, row) {
-        this.$messageBox.confirm('确认删除该条记录吗?', '提示', {
-                type: 'warning'
-            }).then(() => {
-                console.log(row.id)
-                let para = { id: row.id };
-            }).catch(() => {
-                console.log('取消')
-            });
-    //   console.log(index, row);
-    },
+    // handleDelete(index, row) {
+    //     this.$messageBox.confirm('确认删除该条记录吗?', '提示', {
+    //             type: 'warning'
+    //         }).then(() => {
+    //             console.log(row.id)
+    //             let para = { id: row.id };
+    //         }).catch(() => {
+    //             console.log('取消')
+    //         });
+    // //   console.log(index, row);
+    // },
 
     // 点击分页当前页数
     currentChange(val) {

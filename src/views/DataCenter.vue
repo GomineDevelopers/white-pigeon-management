@@ -269,14 +269,17 @@ export default {
 
     // 删除
     handleDelete(index, row) {
-        this.$messageBox.confirm('确认删除该条记录吗?', '提示', {
-                type: 'warning'
-            }).then(() => {
-                console.log(row.id)
-                let para = { id: row.id };
-            }).catch(() => {
-                console.log('取消')
-            });
+        this.$messageBox
+          .confirm('确认删除该条记录吗?', '提示', {
+              type: 'warning'
+          })
+          .then(() => {
+              let params = { material_id: row.id };
+              this.delMaterial(params);
+          })
+          .catch(() => {
+              console.log('取消')
+          });
     },
 
     // 点击分页当前页数
@@ -365,6 +368,29 @@ export default {
         }
       });
     },
+
+    // 删除资料
+    delMaterial(params) {
+      this.$api.delMaterial(params)
+        .then( res => {
+          if (res.code == 200) {
+            this.$message({
+              message: "删除成功",
+              type: "success"
+            });
+            this.getListData();
+          } else {
+            this.$message({
+              message: res.message,
+              type: "success"
+            });
+          }
+        })
+        .catch( err => {
+          console.log(err)
+        })
+    },
+
     // 提交数据
     submitData(){
        let params = {
