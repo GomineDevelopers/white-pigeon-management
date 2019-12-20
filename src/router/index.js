@@ -67,6 +67,18 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "login" */ "../views/DataCenter.vue")
       },
+      {
+        path: "/doctorManagement",
+        name: "DoctorManagement",
+        component: () =>
+          import(/* webpackChunkName: "login" */ "../views/DoctorManagement.vue")
+      },
+      {
+        path: "/sectionManagement",
+        name: "SectionManagement",
+        component: () =>
+          import(/* webpackChunkName: "login" */ "../views/SectionManagement.vue")
+      },
       { path: "/", redirect: "/hospitalManagement" } //二级路由默认首页为数据总览页
     ]
   },

@@ -25,7 +25,7 @@ import {
   FormItem,
   Tooltip,
   Cascader,
-  Progress
+  Progress,
 } from "element-ui";
 
 Vue.use(Button);
