@@ -107,14 +107,29 @@
         <li class="img_list">
           <label>人员拍照：</label>
           <span>
-            <img :src="singleData.personnel_image" v-if="singleData.personnel_image" />
-            <img :src="singleData.personnel_image_two" v-if="singleData.personnel_image_two" />
+            <el-image
+              :src="singleData.personnel_image"
+              :preview-src-list="[singleData.personnel_image]"
+              v-if="singleData.personnel_image"
+            >
+            </el-image>
+            <el-image
+              :src="singleData.personnel_image_two"
+              :preview-src-list="[singleData.personnel_image_two]"
+              v-if="singleData.personnel_image_two"
+            >
+            </el-image>
           </span>
         </li>
         <li class="img_list">
           <label>签到拍照：</label>
           <span>
-            <img :src="singleData.sign_image" v-if="singleData.sign_image" />
+            <el-image
+              :src="singleData.sign_image"
+              :preview-src-list="[singleData.sign_image]"
+              v-if="singleData.sign_image"
+            >
+            </el-image>
           </span>
         </li>
       </ul>
@@ -339,15 +354,13 @@ export default {
 };
 </script>
 <style scoped>
-.dialog_wrap .dialog_detail li img {
-  width: 154px;
-  height: 100px;
-}
 .dialog_wrap .dialog_detail .img_list {
   display: -webkit-flex;
   display: flex;
 }
-.img_list img {
+.dialog_wrap .dialog_detail .img_list .el-image {
+  width: 154px;
+  height: 100px;
   margin-right: 10px;
 }
 .status1 {

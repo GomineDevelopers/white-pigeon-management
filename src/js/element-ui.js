@@ -25,7 +25,8 @@ import {
   FormItem,
   Tooltip,
   Cascader,
-  Progress
+  Progress,
+  Image
 } from "element-ui";
 
 Vue.use(Button);
@@ -52,5 +53,6 @@ Vue.use(FormItem);
 Vue.use(Tooltip);
 Vue.use(Cascader);
 Vue.use(Progress);
+Vue.use(Image);
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$message = Message;

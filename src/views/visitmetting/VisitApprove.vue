@@ -107,9 +107,27 @@
         <li class="img_list">
           <label>拜访照片：</label>
           <span>
-            <img :src="singleData.visit_image" v-if="singleData.visit_image" />
+            <el-image
+              :src="singleData.visit_image"
+              :preview-src-list="[singleData.visit_image]"
+              v-if="singleData.visit_image"
+            >
+            </el-image>
+            <el-image
+              :src="singleData.visit_image_two"
+              :preview-src-list="[singleData.visit_image_two]"
+              v-if="singleData.visit_image_two"
+            >
+            </el-image>
+            <el-image
+              :src="singleData.visit_image_three"
+              :preview-src-list="[singleData.visit_image_three]"
+              v-if="singleData.visit_image_three"
+            >
+            </el-image>
+            <!-- <img :src="singleData.visit_image" v-if="singleData.visit_image" />
             <img :src="singleData.visit_image_two" v-if="singleData.visit_image_two" />
-            <img :src="singleData.visit_image_three" v-if="singleData.visit_image_three" />
+            <img :src="singleData.visit_image_three" v-if="singleData.visit_image_three" /> -->
           </span>
         </li>
       </ul>
@@ -321,15 +339,13 @@ export default {
 };
 </script>
 <style scoped>
-.dialog_wrap .dialog_detail li img {
-  width: 154px;
-  height: 100px;
-}
 .dialog_wrap .dialog_detail .img_list {
   display: -webkit-flex;
   display: flex;
 }
-.img_list img {
+.dialog_wrap .dialog_detail .img_list .el-image {
+  width: 154px;
+  height: 100px;
   margin-right: 10px;
 }
 .status1 {
