@@ -841,7 +841,9 @@ export default {
     handleCreate() {
       this.isEdit = false;
       this.addVisble = true;
-      this.addData = {};
+      this.clearForm();
+      this.hospitalList = this.hospitalSearchList;
+      this.sectionList = this.sectionSearchList;
     },
 
     // 编辑医生
@@ -849,10 +851,13 @@ export default {
       this.addVisble = true;
       this.isEdit = true;
       this.addData = row;
+      this.hospitalList = this.hospitalSearchList;
+      this.sectionList = this.sectionSearchList;
     },
 
     // 医院选择框搜索
     remoteHospital(query) {
+      this.addData.hospital_id = null;
       if (query !== "") {
         setTimeout(() => {
           this.hospitalList = this.hospitalSearchList.filter(item => {
@@ -866,8 +871,9 @@ export default {
       }
     },
 
-    // 医院选择框搜索
+    // 科室择框搜索
     remoteSection(query) {
+      this.addData.section_id = null;
       if (query !== "") {
         setTimeout(() => {
           this.sectionList = this.sectionSearchList.filter(item => {
@@ -910,8 +916,6 @@ export default {
         })
         .then(() => {
           this.isEdit ? this.updateDoctor() : this.createDoctor();
-          this.hospitalList = this.hospitalSearchList;
-          this.sectionList = this.sectionSearchList;
         })
         .catch(() => {
           console.log("取消");
@@ -941,6 +945,7 @@ export default {
           }
           this.addVisble = false;
           this.submitLoading = false;
+          this.clearForm();
         })
         .catch(err => {
           this.addVisble = false;
@@ -983,12 +988,27 @@ export default {
           }
           this.addVisble = false;
           this.submitLoading = false;
+          this.clearForm();
         })
         .catch(err => {
           this.addVisble = false;
           this.submitLoading = false;
           console.log(err);
         });
+    },
+    clearForm() {
+      this.addData = {
+        doctor_name: null,
+        sex: null,
+        hospital_id: null,
+        section_id: null,
+        position: null,
+        job_title: null,
+        academic_title: null,
+        educate: null,
+        doctor_type: null,
+        doctor_status: null
+      };
     }
   }
 };
