@@ -13,16 +13,17 @@
         <img v-else src="../assets/image/yy1.png" />
         <span slot="title">医院管理</span>
       </el-menu-item>
-      <el-menu-item index="/productManagement">
-        <img v-if="$route.path == '/productManagement'" src="../assets/image/cp.png" />
-        <img v-else src="../assets/image/cp1.png" />
-        <span slot="title">产品管理</span>
-      </el-menu-item>
-      <el-menu-item index="/sectionManagement">
-        <img v-if="$route.path == '/sectionManagement'" src="../assets/image/cp.png" />
-        <img v-else src="../assets/image/cp1.png" />
-        <span slot="title">科室管理</span>
-      </el-menu-item>
+      <el-submenu index="/productManagement">
+        <template slot="title">
+          <img src="../assets/image/cp1.png" />
+          <span>产品管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/productManagement">产品管理</el-menu-item>
+          <el-menu-item index="/productManagement1">产品科室</el-menu-item>
+          <el-menu-item index="/sectionManagement">科室管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <el-menu-item index="/doctorManagement">
         <img v-if="$route.path == '/doctorManagement'" src="../assets/image/ys.png" />
         <img v-else src="../assets/image/ys1.png" />
@@ -89,8 +90,8 @@
         <span slot="title">业绩报告</span>
       </el-menu-item>
       <el-menu-item index="/dataCenter">
-        <img src="../assets/image/zlzx.png"  v-if="$route.path === '/dataCenter'"/>
-        <img src="../assets/image/zlzx1.png"  v-if="$route.path != '/dataCenter'"/>
+        <img src="../assets/image/zlzx.png" v-if="$route.path === '/dataCenter'" />
+        <img src="../assets/image/zlzx1.png" v-if="$route.path != '/dataCenter'" />
         <span slot="title">资料中心</span>
       </el-menu-item>
       <el-menu-item index="13">

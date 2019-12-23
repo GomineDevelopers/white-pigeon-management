@@ -46,7 +46,7 @@
         <el-table-column prop="position" label="职务" width="160" :formatter="formatPost"></el-table-column>
         <el-table-column prop="doctor_status" label="医生状态" min-width="100">
           <template scope="scope">
-            <span v-if="scope.row.doctor_status ==1">
+            <span v-if="scope.row.doctor_status == 1">
               <b class="dot approved"></b>在职
             </span>
             <span v-else>
@@ -87,19 +87,19 @@
       <ul class="dialog_detail">
         <li>
           <label>医生名：</label>
-          {{singleData.doctor_name}}
+          {{ singleData.doctor_name }}
         </li>
         <li>
           <label>性别：</label>
-          {{formatSex(singleData)}}
+          {{ formatSex(singleData) }}
         </li>
         <li>
           <label>所属医院：</label>
-          {{singleData.hospital_name}}
+          {{ singleData.hospital_name }}
         </li>
         <li>
           <label>科室：</label>
-          {{singleData.section_name}}
+          {{ singleData.section_name }}
         </li>
         <li>
           <label>职务：</label>
@@ -107,19 +107,19 @@
         </li>
         <li>
           <label>职务头衔：</label>
-          {{formatjob(singleData.job_title)}}
+          {{ formatjob(singleData.job_title) }}
         </li>
         <li>
           <label>学术头衔：</label>
-          {{formatAcademic(singleData.academic_title)}}
+          {{ formatAcademic(singleData.academic_title) }}
         </li>
         <li>
           <label>学历：</label>
-          {{ formatEducate(singleData.educate)}}
+          {{ formatEducate(singleData.educate) }}
         </li>
         <li>
           <label>专业人士分类：</label>
-          {{ formatDoctorType(singleData.doctor_type)}}
+          {{ formatDoctorType(singleData.doctor_type) }}
         </li>
         <li>
           <label>医生状态：</label>
