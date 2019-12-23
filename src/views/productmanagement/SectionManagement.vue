@@ -45,7 +45,7 @@
           label="创建日期"
           min-width="200"
         ></el-table-column>
-        <el-table-column label="操作" width="120" fixed="right">
+        <!-- <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
             <el-tooltip
               class="item"
@@ -70,7 +70,7 @@
               ></i>
             </el-tooltip>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
       <!-- 分页 -->
       <div class="pagination">
@@ -129,9 +129,9 @@ export default {
       submitLoading: false, //提交数据加载中
       addVisble: false, //新增/编辑
       singleData: {}, //单条数据
-      sectionName: null, // 搜索姓名
+      sectionName: null, // 搜索科室名
       isSearch: false, //是否是搜索请求
-      isEdit: false, // 是否是修改数据
+      // isEdit: false, // 是否是修改数据
       //新增数据
       addData: {},
       page: 1,
@@ -207,49 +207,49 @@ export default {
       this.getListData();
     },
     // 删除
-    handleDelete(index, row) {
-      this.$messageBox
-        .confirm("确认删除该条记录吗?", "提示", {
-          type: "warning"
-        })
-        .then(() => {
-          let params = { section_id: row.id };
-          this.$api
-            .delSection(params)
-            .then(res => {
-              if (res.code == 200) {
-                this.$message({
-                  message: "删除成功",
-                  type: "success"
-                });
-                this.getListData();
-              } else {
-                this.$message({
-                  message: res.message,
-                  type: "error"
-                });
-              }
-            })
-            .catch(err => {});
-        })
-        .catch(() => {
-          console.log("取消");
-        });
-    },
+    // handleDelete(index, row) {
+    //   this.$messageBox
+    //     .confirm("确认删除该条记录吗?", "提示", {
+    //       type: "warning"
+    //     })
+    //     .then(() => {
+    //       let params = { section_id: row.id };
+    //       this.$api
+    //         .delSection(params)
+    //         .then(res => {
+    //           if (res.code == 200) {
+    //             this.$message({
+    //               message: "删除成功",
+    //               type: "success"
+    //             });
+    //             this.getListData();
+    //           } else {
+    //             this.$message({
+    //               message: res.message,
+    //               type: "error"
+    //             });
+    //           }
+    //         })
+    //         .catch(err => {});
+    //     })
+    //     .catch(() => {
+    //       console.log("取消");
+    //     });
+    // },
 
     // 新增科室
     handleCreate() {
-      this.isEdit = false;
+      // this.isEdit = false;
       this.addData = {};
       this.addVisble = true;
     },
 
     // 编辑科室
-    handleEdit(index, row) {
-      this.addVisble = true;
-      this.isEdit = true;
-      this.addData = JSON.parse(JSON.stringify(row));
-    },
+    // handleEdit(index, row) {
+    //   this.addVisble = true;
+    //   this.isEdit = true;
+    //   this.addData = JSON.parse(JSON.stringify(row));
+    // },
 
     // 点击分页当前页数
     currentChange(val) {
@@ -280,7 +280,8 @@ export default {
           type: "warning"
         })
         .then(() => {
-          this.isEdit ? this.updateSection() : this.createSection();
+          this.createSection();
+          // this.isEdit ? this.updateSection() : this.createSection();
         })
         .catch(() => {
           console.log("取消");
@@ -316,40 +317,40 @@ export default {
           this.submitLoading = false;
           console.log(err);
         });
-    },
-
-    // 新增数据
-    updateSection() {
-      let params = {
-        section_id: this.addData.id,
-        section_name: this.addData.section_name
-      };
-      this.submitLoading = true;
-      this.$api
-        .sectionEdit(params)
-        .then(res => {
-          if (res.code == 200) {
-            this.$message({
-              message: res.message,
-              type: "success"
-            });
-            this.isSearch = false;
-            this.getListData();
-          } else {
-            this.$message({
-              message: res.message,
-              type: "error"
-            });
-          }
-          this.addVisble = false;
-          this.submitLoading = false;
-        })
-        .catch(err => {
-          this.addVisble = false;
-          this.submitLoading = false;
-          console.log(err);
-        });
     }
+
+    // 编辑数据
+    // updateSection() {
+    //   let params = {
+    //     section_id: this.addData.id,
+    //     section_name: this.addData.section_name
+    //   };
+    //   this.submitLoading = true;
+    //   this.$api
+    //     .sectionEdit(params)
+    //     .then(res => {
+    //       if (res.code == 200) {
+    //         this.$message({
+    //           message: res.message,
+    //           type: "success"
+    //         });
+    //         this.isSearch = false;
+    //         this.getListData();
+    //       } else {
+    //         this.$message({
+    //           message: res.message,
+    //           type: "error"
+    //         });
+    //       }
+    //       this.addVisble = false;
+    //       this.submitLoading = false;
+    //     })
+    //     .catch(err => {
+    //       this.addVisble = false;
+    //       this.submitLoading = false;
+    //       console.log(err);
+    //     });
+    // }
   }
 };
 </script>

@@ -42,6 +42,14 @@ let api = {
     post("/sectionManager/sectionManagerList", params), //科室管理列表
   sectionCreate: params => post("/sectionManager/sectionCreate", params), //科室管理新增
   sectionEdit: params => post("/sectionManager/sectionEdit", params), //科室管理编辑
-  delSection: params => post("/sectionManager/sectionDel", params) //科室管理删除
+  delSection: params => post("/sectionManager/sectionDel", params), //科室管理删除
+  productSectionList: params =>
+    post("/productSectionManager/productSectionList", params), //产品科室管理列表
+  createProdutSection: params =>
+    post("/productSectionManager/productSection", params), //产品科室管理创建
+  productSectionEdit: params =>
+    post("/productSectionManager/productSectionEdit", params), //产品科室管理修改
+  delProductSection: params =>
+    post("/productSectionManager/productSectionDel", params) //产品科室管理删除
 };
 export default api;

@@ -12,54 +12,72 @@ const routes = [
       {
         path: "/regionalManager",
         name: "regionalManager",
-        component: () => import(/* webpackChunkName: "home" */ "../views/RegionalManager.vue")
+        component: () =>
+          import(/* webpackChunkName: "home" */ "../views/RegionalManager.vue")
       },
       {
         path: "/regionAssigned",
         name: "regionAssigned",
         component: () =>
-          import(/* webpackChunkName: "home" */ "../views/regionalmanagement/RegionAssigned.vue")
+          import(
+            /* webpackChunkName: "home" */ "../views/regionalmanagement/RegionAssigned.vue"
+          )
       },
       {
         path: "/applyRecord",
         name: "applyRecord",
         component: () =>
-          import(/* webpackChunkName: "home" */ "../views/regionalmanagement/ApplyRecord.vue")
+          import(
+            /* webpackChunkName: "home" */ "../views/regionalmanagement/ApplyRecord.vue"
+          )
       },
       {
         path: "/hospitalManagement",
         name: "hospitalManagement",
-        component: () => import(/* webpackChunkName: "home" */ "../views/HospitalManagement.vue")
+        component: () =>
+          import(
+            /* webpackChunkName: "home" */ "../views/HospitalManagement.vue"
+          )
       },
       {
         path: "/purposetopical",
         name: "PurposeTopical",
         component: () =>
-          import(/* webpackChunkName: "login" */ "../views/visitmetting/PurposeTopical.vue")
+          import(
+            /* webpackChunkName: "login" */ "../views/visitmetting/PurposeTopical.vue"
+          )
       },
       {
         path: "/visitapprove",
         name: "VisitApprove",
         component: () =>
-          import(/* webpackChunkName: "login" */ "../views/visitmetting/VisitApprove.vue")
+          import(
+            /* webpackChunkName: "login" */ "../views/visitmetting/VisitApprove.vue"
+          )
       },
       {
         path: "/productManagement",
         name: "ProductManagement",
         component: () =>
-          import(/* webpackChunkName: "login" */ "../views/ProductManagement.vue")
+          import(
+            /* webpackChunkName: "login" */ "../views/productmanagement/ProductManagement.vue"
+          )
       },
       {
         path: "/mettingapprove",
         name: "MettingApprove",
         component: () =>
-          import(/* webpackChunkName: "login" */ "../views/visitmetting/MettingApprove.vue")
+          import(
+            /* webpackChunkName: "login" */ "../views/visitmetting/MettingApprove.vue"
+          )
       },
       {
         path: "/mettingTheme",
         name: "MettingTheme",
         component: () =>
-          import(/* webpackChunkName: "login" */ "../views/visitmetting/MettingTheme.vue")
+          import(
+            /* webpackChunkName: "login" */ "../views/visitmetting/MettingTheme.vue"
+          )
       },
       {
         path: "/dataCenter",
@@ -71,13 +89,25 @@ const routes = [
         path: "/doctorManagement",
         name: "DoctorManagement",
         component: () =>
-          import(/* webpackChunkName: "login" */ "../views/DoctorManagement.vue")
+          import(
+            /* webpackChunkName: "login" */ "../views/DoctorManagement.vue"
+          )
       },
       {
         path: "/sectionManagement",
         name: "SectionManagement",
         component: () =>
-          import(/* webpackChunkName: "login" */ "../views/SectionManagement.vue")
+          import(
+            /* webpackChunkName: "login" */ "../views/productmanagement/SectionManagement.vue"
+          )
+      },
+      {
+        path: "/productSection",
+        name: "ProductSection",
+        component: () =>
+          import(
+            /* webpackChunkName: "login" */ "../views/productmanagement/ProductSection.vue"
+          )
       },
       { path: "/", redirect: "/hospitalManagement" } //二级路由默认首页为数据总览页
     ]
@@ -85,7 +115,8 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: () => import(/* webpackChunkName: "login" */ "../views/login/Login.vue")
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/login/Login.vue")
   }
 ];
 
