@@ -4,7 +4,7 @@
       <div class="main_input">
         <div class="login_title">小白鸽后台管理</div>
         <div><el-input placeholder="用户名" v-model="userName" clearable> </el-input></div>
-        <div><el-input placeholder="密码" v-model="password" show-password></el-input></div>
+        <div><el-input placeholder="密码" v-model="password" show-password @keyup.enter.native="login"></el-input></div>
         <el-button type="primary" class="submit_btn" round @click="login"
           >登&nbsp;&nbsp;&nbsp;录</el-button
         >
@@ -19,15 +19,6 @@ export default {
     return {
       userName: "",
       password: ""
-    };
-  },
-  mounted() {
-    var _this = this;
-    document.onkeydown = function(e) {
-      var key = window.event.keyCode;
-      if (key == 13) {
-        _this.login();
-      }
     };
   },
   methods: {
