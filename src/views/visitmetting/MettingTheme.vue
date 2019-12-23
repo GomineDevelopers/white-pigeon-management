@@ -16,18 +16,54 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="product_name" label="产品名" width="300"></el-table-column>
-        <el-table-column prop="product_topic" label="会议主题" min-width="200"></el-table-column>
+        <el-table-column
+          prop="product_name"
+          label="产品名"
+          width="300"
+        ></el-table-column>
+        <el-table-column
+          prop="product_topic"
+          label="会议主题"
+          min-width="200"
+        ></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-tooltip class="item" :enterable="false" effect="dark" content="查看" placement="top">
-              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              :enterable="false"
+              effect="dark"
+              content="查看"
+              placement="top"
+            >
+              <i
+                class="el-icon-view"
+                @click="handleDetail(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
-            <el-tooltip class="item" :enterable="false" effect="dark" content="编辑" placement="top">
-              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              :enterable="false"
+              effect="dark"
+              content="编辑"
+              placement="top"
+            >
+              <i
+                class="el-icon-edit"
+                @click="handleEdit(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
-            <el-tooltip v-if="scope.row.status == 1" class="item" :enterable="false" effect="dark" content="注销" placement="top">
-              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+            <el-tooltip
+              v-if="scope.row.status == 1"
+              class="item"
+              :enterable="false"
+              effect="dark"
+              content="注销"
+              placement="top"
+            >
+              <i
+                class="el-icon-delete"
+                @click="handleDelete(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -47,37 +83,76 @@
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
-      <div class="dialog_title" slot="title"><span class="line"></span>会议主题</div>
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="detailVisble"
+      :append-to-body="true"
+      width="30%"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>会议主题
+      </div>
       <ul class="dialog_detail">
         <li><label>产品名：</label>{{ singleData.product_name }}</li>
         <li><label>会议主题：</label>{{ singleData.product_topic }}</li>
       </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
-        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="detailVisble = false"
+          >确 定</el-button
+        >
+        <el-button size="small" type="info" plain @click="detailVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
     <!-- 新增/编辑会议主题 -->
-    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
-      <div class="dialog_title" slot="title"><span class="line"></span>会议主题</div>
-      <el-form :model="addAndEditData" :rules="rules" ref="ruleForm" label-width="100px">
-        
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="addVisble"
+      :append-to-body="true"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>会议主题
+      </div>
+      <el-form
+        :model="addAndEditData"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="100px"
+      >
         <el-form-item label="产品名" prop="product_id" class="width_full">
-          <el-select v-model="addAndEditData.product_id" :disabled="isEdit" placeholder="请选择产品名" no-data-text="无可添加产品">
-            <el-option v-for="(item, index) in product" :label="item.product_name" :value="item.id" :key="index"></el-option>
+          <el-select
+            v-model="addAndEditData.product_id"
+            :disabled="isEdit"
+            placeholder="请选择产品名"
+            no-data-text="无可添加产品"
+          >
+            <el-option
+              v-for="(item, index) in product"
+              :label="item.product_name"
+              :value="item.id"
+              :key="index"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="会议主题" prop="product_topic">
-          <el-input class="textarea_box" type="textarea" v-model="addAndEditData.product_topic"></el-input>
+          <el-input
+            class="textarea_box"
+            type="textarea"
+            v-model="addAndEditData.product_topic"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" type="primary" @click="addVisit('ruleForm')">
-          <span v-show="submitLoading" class="submit_loading"><i class="el-icon-loading"></i>数据提交中...</span>
-          <span v-show="!submitLoading">确 定</span> 
+          <span v-show="submitLoading" class="submit_loading"
+            ><i class="el-icon-loading"></i>数据提交中...</span
+          >
+          <span v-show="!submitLoading">确 定</span>
         </el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
+        <el-button size="small" type="info" plain @click="addVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -104,32 +179,32 @@ export default {
       product: [],
       rules: {
         product_topic: [{ required: true, message: "请输入会议主题" }],
-        product_id: [{ required: true, message: "请选择产品名" }],
+        product_id: [{ required: true, message: "请选择产品名" }]
       }
     };
   },
   mounted() {
     this.$nextTick(() => {
       this.getListData();
-      this.getproductList()
+      this.getproductList();
     });
   },
   methods: {
-
     // 获取列表数据
     getListData() {
       this.listLoading = true;
       let params = {
-          page: this.page,
-          row: this.row
-        };
-      this.$api.meetingTopicList(params)
-        .then( res => {
-          if(res.code == 200){
+        page: this.page,
+        row: this.row
+      };
+      this.$api
+        .meetingTopicList(params)
+        .then(res => {
+          if (res.code == 200) {
             this.total = res.product_topic_count;
-            this.list = res.product_topic_list
+            this.list = res.product_topic_list;
           } else {
-             this.$message({
+            this.$message({
               message: res.message,
               type: "error"
             });
@@ -138,23 +213,24 @@ export default {
         })
         .catch(err => {
           this.listLoading = false;
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
     // 获取产品
     getproductList() {
-      this.$api.productList()
-        .then( res => {
-          if(res.code == 200){
-            this.product = res.product_list.map( item => {
-              return {id: item.id, product_name: item.product_name}
-            })
+      this.$api
+        .productList()
+        .then(res => {
+          if (res.code == 200) {
+            this.product = res.product_list.map(item => {
+              return { id: item.id, product_name: item.product_name };
+            });
           }
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
     // 查看详情
@@ -164,7 +240,7 @@ export default {
     },
 
     // 新增
-    handleCreate(){
+    handleCreate() {
       this.isEdit = false;
       this.addVisble = true;
       this.addAndEditData.product_id = null;
@@ -176,7 +252,7 @@ export default {
       this.isEdit = true;
       this.addVisble = true;
       this.product_topic_id = row.id;
-      this.addAndEditData = row;
+      this.addAndEditData = JSON.parse(JSON.stringify(row));
     },
 
     // 删除
@@ -219,8 +295,9 @@ export default {
 
     // 注销会议主题
     delVisit(params) {
-      this.$api.delMeeting(params)
-        .then( res => {
+      this.$api
+        .delMeeting(params)
+        .then(res => {
           if (res.code == 200) {
             this.$message({
               message: "删除成功",
@@ -234,20 +311,21 @@ export default {
             });
           }
         })
-        .catch( err => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     // 新增提交数据
     createMeeting() {
       let params = {
-          product_id: this.addAndEditData.product_id,
-          product_topic: this.addAndEditData.product_topic,
-        };
+        product_id: this.addAndEditData.product_id,
+        product_topic: this.addAndEditData.product_topic
+      };
       this.submitLoading = true;
-      this.$api.createMeeting(params)
-        .then( res => {
+      this.$api
+        .createMeeting(params)
+        .then(res => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
@@ -266,10 +344,10 @@ export default {
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.addVisble = false;
           this.submitLoading = false;
-          console.log(err)
+          console.log(err);
         })
         .catch(err => {
           console.log(err);
@@ -279,12 +357,13 @@ export default {
     //提交修改会议主题数据
     updateMeeting() {
       let params = {
-          product_topic_id: this.product_topic_id,
-          product_topic: this.addAndEditData.product_topic,
-        };
+        product_topic_id: this.product_topic_id,
+        product_topic: this.addAndEditData.product_topic
+      };
       this.submitLoading = true;
-      this.$api.updateMeeting(params)
-        .then( res => {
+      this.$api
+        .updateMeeting(params)
+        .then(res => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
@@ -303,10 +382,10 @@ export default {
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.addVisble = false;
           this.submitLoading = false;
-          console.log(err)
+          console.log(err);
         })
         .catch(err => {
           console.log(err);
@@ -316,13 +395,12 @@ export default {
 };
 </script>
 <style>
-.textarea_box textarea{
+.textarea_box textarea {
   min-height: 200px !important;
 }
 </style>
 <style scoped>
-.main_list{
+.main_list {
   margin-top: 20px;
 }
-
 </style>

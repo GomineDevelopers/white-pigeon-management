@@ -7,18 +7,26 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>科室名：</span>
-          <el-input size="small" v-model="sectionName" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="sectionName"
+            placeholder="请输入"
+          ></el-input>
         </div>
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
+        <el-button size="small" type="primary" @click="resetSearch" plain
+          >重置</el-button
+        >
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate">新增科室</el-button>
+        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate"
+          >新增科室</el-button
+        >
       </div>
       <el-table
         :data="list"
@@ -27,15 +35,39 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="section_name" label="科室名" min-width="200"></el-table-column>
-        <el-table-column prop="create_time" label="创建日期" min-width="200"></el-table-column>
+        <el-table-column
+          prop="section_name"
+          label="科室名"
+          min-width="200"
+        ></el-table-column>
+        <el-table-column
+          prop="create_time"
+          label="创建日期"
+          min-width="200"
+        ></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="编辑"
+              placement="top"
+            >
+              <i
+                class="el-icon-edit"
+                @click="handleEdit(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top">
-              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+            >
+              <i
+                class="el-icon-delete"
+                @click="handleDelete(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -52,13 +84,26 @@
       </div>
     </div>
     <!-- 新增 -->
-    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="addVisble"
+      :append-to-body="true"
+    >
       <div class="dialog_title" slot="title">
         <span class="line"></span>科室信息
       </div>
-      <el-form :model="addData" :rules="rules" ref="ruleForm" label-width="140px">
+      <el-form
+        :model="addData"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="140px"
+      >
         <el-form-item label="科室名：" prop="section_name">
-          <el-input size="small" v-model="addData.section_name" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.section_name"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -68,7 +113,9 @@
           </span>
           <span v-show="!submitLoading">确 定</span>
         </el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
+        <el-button size="small" type="info" plain @click="addVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -92,7 +139,7 @@ export default {
       total: 0,
       list: [], //科室列表
       rules: {
-        section_name: { required: true, message: "请输入科室名" },
+        section_name: { required: true, message: "请输入科室名" }
       }
     };
   },
@@ -102,7 +149,6 @@ export default {
     });
   },
   methods: {
-    
     // 获取列表数据
     getListData() {
       this.listLoading = true;
@@ -118,7 +164,7 @@ export default {
           page: this.page,
           row: this.row
         };
-      };
+      }
       this.$api
         .sectionManagerList(params)
         .then(res => {
@@ -202,7 +248,7 @@ export default {
     handleEdit(index, row) {
       this.addVisble = true;
       this.isEdit = true;
-      this.addData = row;
+      this.addData = JSON.parse(JSON.stringify(row));
     },
 
     // 点击分页当前页数

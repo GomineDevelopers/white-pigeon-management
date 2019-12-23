@@ -18,42 +18,101 @@
         </div>
         <div class="main_header_item">
           <span>通用名：</span>
-          <el-input size="small" v-model="commonName" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="commonName"
+            placeholder="请输入"
+          ></el-input>
         </div>
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
+        <el-button size="small" type="primary" @click="resetSearch" plain
+          >重置</el-button
+        >
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="addVisble = true">新增产品</el-button>
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
+        <el-button
+          size="small"
+          plain
+          icon="el-icon-plus"
+          @click="addVisble = true"
+          >新增产品</el-button
+        >
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
+          >下载</el-button
+        >
       </div>
-      <el-table 
-        :data="list" 
-        v-loading="listLoading" 
+      <el-table
+        :data="list"
+        v-loading="listLoading"
         element-loading-text="数据拼命加载中"
         element-loading-background="rgba(255, 255, 255, 0.8)"
-        style="width: 100%">
-        <el-table-column prop="hospital_name" label="产品名" min-width="200"></el-table-column>
-        <el-table-column prop="hospital_rank" label="通用名" min-width="160"></el-table-column>
-        <el-table-column prop="business" label="剂型" width="100"></el-table-column>
-        <el-table-column prop="phone" label="规格" width="120" ></el-table-column>
-        <el-table-column prop="net" label="包装" width="200" ></el-table-column>
-        <el-table-column prop="net" label="厂家" min-width="280" ></el-table-column>
+        style="width: 100%"
+      >
+        <el-table-column
+          prop="hospital_name"
+          label="产品名"
+          min-width="200"
+        ></el-table-column>
+        <el-table-column
+          prop="hospital_rank"
+          label="通用名"
+          min-width="160"
+        ></el-table-column>
+        <el-table-column
+          prop="business"
+          label="剂型"
+          width="100"
+        ></el-table-column>
+        <el-table-column
+          prop="phone"
+          label="规格"
+          width="120"
+        ></el-table-column>
+        <el-table-column prop="net" label="包装" width="200"></el-table-column>
+        <el-table-column
+          prop="net"
+          label="厂家"
+          min-width="280"
+        ></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-tooltip class="item" effect="dark" content="查看" placement="top">
-              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看"
+              placement="top"
+            >
+              <i
+                class="el-icon-view"
+                @click="handleDetail(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="编辑"
+              placement="top"
+            >
+              <i
+                class="el-icon-edit"
+                @click="handleEdit(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top">
-              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+            >
+              <i
+                class="el-icon-delete"
+                @click="handleDelete(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -65,59 +124,112 @@
           layout="prev, pager, next, sizes, jumper"
           @current-change="currentChange"
           @size-change="sizeChange"
-          :total="1000">
+          :total="1000"
+        >
         </el-pagination>
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
-        <div class="dialog_title" slot="title"><span class="line"></span>产品信息</div>
-        <ul class="dialog_detail">
-            <li><label>产品名：</label>{{singleData.hospital_num}}</li>
-            <li><label>通用名：</label>{{singleData.hospital_name}}</li>
-            <li><label>医院等级：</label>{{singleData.hospital_rank}}</li>
-            <li><label>剂型：</label>{{singleData.business}}</li>
-            <li><label>规格：</label>{{singleData.net}}</li>
-            <li><label>包装：</label>{{singleData.phone}}</li>
-            <li><label>厂家：</label>{{singleData.province_name}} {{singleData.city_name}}</li>
-        </ul>
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="detailVisble"
+      :append-to-body="true"
+      width="30%"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>产品信息
+      </div>
+      <ul class="dialog_detail">
+        <li><label>产品名：</label>{{ singleData.hospital_num }}</li>
+        <li><label>通用名：</label>{{ singleData.hospital_name }}</li>
+        <li><label>医院等级：</label>{{ singleData.hospital_rank }}</li>
+        <li><label>剂型：</label>{{ singleData.business }}</li>
+        <li><label>规格：</label>{{ singleData.net }}</li>
+        <li><label>包装：</label>{{ singleData.phone }}</li>
+        <li>
+          <label>厂家：</label>{{ singleData.province_name }}
+          {{ singleData.city_name }}
+        </li>
+      </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
-        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="detailVisble = false"
+          >确 定</el-button
+        >
+        <el-button size="small" type="info" plain @click="detailVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
     <!-- 新增 -->
-    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
-      <div class="dialog_title" slot="title"><span class="line"></span>产品信息</div>
-      <el-form :model="addData" :rules="rules" ref="ruleForm" label-width="100px">
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="addVisble"
+      :append-to-body="true"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>产品信息
+      </div>
+      <el-form
+        :model="addData"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="100px"
+      >
         <el-form-item label="产品名：" prop="hospital_num">
-          <el-input size="small" v-model="addData.hospital_num" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.hospital_num"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="通用名：" prop="hospital_num">
-          <el-input size="small" v-model="addData.hospital_num" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.hospital_num"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="剂型：" prop="hospital_num">
-          <el-input size="small" v-model="addData.hospital_num" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.hospital_num"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="规格：" prop="hospital_num">
-          <el-input size="small" v-model="addData.hospital_num" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.hospital_num"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="包装：" prop="hospital_num">
-          <el-input size="small" v-model="addData.hospital_num" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.hospital_num"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="厂家：" prop="hospital_num">
-          <el-input size="small" v-model="addData.hospital_num" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.hospital_num"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary"  @click="addManager('ruleForm')">确 定</el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="addManager('ruleForm')"
+          >确 定</el-button
+        >
+        <el-button size="small" type="info" plain @click="addVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-
 export default {
   name: "ProductManagement",
   data() {
@@ -130,7 +242,7 @@ export default {
       productName: null, // 搜索产品名
       isSearch: false, //是否是搜索请求
       addData: {
-        hospital_num: null,
+        hospital_num: null
       }, //新增数据
       page: 1,
       row: 10,
@@ -159,195 +271,194 @@ export default {
       ],
       list: [
         {
-            hospital_num: 1,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.baidu.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 1,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.baidu.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 12,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.baidu.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 12,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.baidu.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 15,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.jd.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 15,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.jd.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 5,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.baidu.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 5,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.baidu.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 18,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.jd.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 18,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.jd.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 165,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.baidu.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 165,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.baidu.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 189,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.jd.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 189,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.jd.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 156,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.baidu.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 156,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.baidu.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 651,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.baidu.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 651,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.baidu.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 761,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.baidu.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 761,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.baidu.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         },
         {
-            hospital_num: 1756,
-            hospital_name: "复旦大学附属眼耳鼻喉科医院",
-            hospital_rank: "三级甲等",
-            business: "公立",
-            phone: "304-62194335",
-            net: "www.baidu.com",
-            province_name: "贵州省",
-            city_name: "贵阳市",
-            address: "观山湖区贵阳北站",
-            lng: 121.3343,
-            lat: 33.454353
+          hospital_num: 1756,
+          hospital_name: "复旦大学附属眼耳鼻喉科医院",
+          hospital_rank: "三级甲等",
+          business: "公立",
+          phone: "304-62194335",
+          net: "www.baidu.com",
+          province_name: "贵州省",
+          city_name: "贵阳市",
+          address: "观山湖区贵阳北站",
+          lng: 121.3343,
+          lat: 33.454353
         }
       ],
       rules: {
-        hospital_num: { required: true, message: '请输入医院编号' },
+        hospital_num: { required: true, message: "请输入医院编号" }
       }
     };
   },
-  mounted() {
-      
-  },
+  mounted() {},
   methods: {
     // 获取列表数据
-     getListData() {
+    getListData() {
       this.listLoading = true;
       let params = null;
-      if (this.isSearch){
+      if (this.isSearch) {
         params = {
           regional_manager_name: this.managerName,
           province_code: this.searchOption[0],
           city_code: this.searchOption[1],
           page: this.page,
           row: this.row
-        }
+        };
       } else {
         params = {
           page: this.page,
           row: this.row
         };
       }
-      this.$api.regionManagerList(params)
-        .then( res => {
-          if(res.code == 200){
+      this.$api
+        .regionManagerList(params)
+        .then(res => {
+          if (res.code == 200) {
             this.total = res.regional_info_count;
-            this.list = res.regional_info_list
+            this.list = res.regional_info_list;
           } else {
-             this.$message({
+            this.$message({
               message: res.message,
               type: "error"
             });
           }
           this.listLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.listLoading = false;
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
-    
+
     // 搜索
     search() {
       if (this.commonName == null && this.productName == null) {
@@ -373,7 +484,7 @@ export default {
 
     // 下载
     downLoad() {
-      console.log('下载')
+      console.log("下载");
     },
 
     // 查看详情
@@ -384,20 +495,23 @@ export default {
 
     // 删除
     handleDelete(index, row) {
-        this.$messageBox.confirm('确认删除该条记录吗?', '提示', {
-                type: 'warning'
-            }).then(() => {
-                console.log(row.id)
-                let para = { id: row.id };
-            }).catch(() => {
-                console.log('取消')
-            });
+      this.$messageBox
+        .confirm("确认删除该条记录吗?", "提示", {
+          type: "warning"
+        })
+        .then(() => {
+          console.log(row.id);
+          let para = { id: row.id };
+        })
+        .catch(() => {
+          console.log("取消");
+        });
     },
 
     // 编辑医院
-    handleEdit(index,row) {
+    handleEdit(index, row) {
       this.addVisble = true;
-      this.addData = row;
+      this.addData = JSON.parse(JSON.stringify(row));
     },
 
     // 点击分页当前页数
@@ -414,7 +528,7 @@ export default {
 
     // 新增产品
     addManager(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.submitManager();
         } else {
@@ -423,8 +537,8 @@ export default {
       });
     },
     // 提交数据
-    submitManager(){
-       this.$messageBox
+    submitManager() {
+      this.$messageBox
         .confirm("提交数据后将无法更改，请确认无误后再提交！", "提示", {
           type: "warning"
         })
@@ -443,8 +557,9 @@ export default {
         });
     },
     submitProduct(params) {
-      this.$api.regionManagerSubmit(params)
-        .then( res => {
+      this.$api
+        .regionManagerSubmit(params)
+        .then(res => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
@@ -461,12 +576,11 @@ export default {
           }
           this.addVisble = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.addVisble = false;
-          console.log(err)
-        })
-    },
-
+          console.log(err);
+        });
+    }
   }
 };
 </script>

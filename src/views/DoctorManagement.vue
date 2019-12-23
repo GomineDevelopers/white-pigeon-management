@@ -851,7 +851,7 @@ export default {
     handleEdit(index, row) {
       this.addVisble = true;
       this.isEdit = true;
-      this.addData = row;
+      this.addData = JSON.parse(JSON.stringify(row));
       this.hospitalList = this.hospitalSearchList;
       this.sectionList = this.sectionSearchList;
     },
