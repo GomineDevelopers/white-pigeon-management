@@ -205,6 +205,7 @@
         <span class="line"></span>医生信息
       </div>
       <el-form
+        v-if="addVisble"
         :model="addData"
         :rules="rules"
         ref="ruleForm"
@@ -945,7 +946,6 @@ export default {
           }
           this.addVisble = false;
           this.submitLoading = false;
-          this.clearForm();
         })
         .catch(err => {
           this.addVisble = false;
@@ -988,7 +988,6 @@ export default {
           }
           this.addVisble = false;
           this.submitLoading = false;
-          this.clearForm();
         })
         .catch(err => {
           this.addVisble = false;
