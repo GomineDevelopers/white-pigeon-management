@@ -8,10 +8,10 @@
         <div class="main_header_item">
           <span>产品名：</span>
           <el-select size="small" v-model="productId" placeholder="请选择">
-            <el-option 
-              v-for="(item, index) in product" 
-              :label="item.product_name" 
-              :value="item.id" 
+            <el-option
+              v-for="(item, index) in product"
+              :label="item.product_name"
+              :value="item.id"
               :key="index"
             ></el-option>
           </el-select>
@@ -30,37 +30,76 @@
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
+        <el-button size="small" type="primary" @click="resetSearch" plain
+          >重置</el-button
+        >
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="addVisble = true">新增资料</el-button>
+        <el-button
+          size="small"
+          plain
+          icon="el-icon-plus"
+          @click="addVisble = true"
+          >新增资料</el-button
+        >
       </div>
-      <el-table 
-        :data="list" 
-        v-loading="listLoading" 
+      <el-table
+        :data="list"
+        v-loading="listLoading"
         element-loading-text="数据拼命加载中"
         element-loading-background="rgba(255, 255, 255, 0.8)"
-        style="width: 100%">
-        <el-table-column prop="product_name" label="产品名" width="200"></el-table-column>
+        style="width: 100%"
+      >
+        <el-table-column
+          prop="product_name"
+          label="产品名"
+          width="200"
+        ></el-table-column>
         <el-table-column prop="product_data_type" label="类型" width="140">
           <template scope="scope">
-             <span v-if="scope.row.product_data_type == 1">科室会议</span>
-             <span v-if="scope.row.product_data_type == 2">代表培训</span>
-             <span v-if="scope.row.product_data_type == 3">说明书</span>
+            <span v-if="scope.row.product_data_type == 1">科室会议</span>
+            <span v-if="scope.row.product_data_type == 2">代表培训</span>
+            <span v-if="scope.row.product_data_type == 3">说明书</span>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="PDF名称" min-width="120"></el-table-column>
-        <el-table-column prop="create_time" label="日期" min-width="200" ></el-table-column>
+        <el-table-column prop="title" label="PDF名称" min-width="140">
+          <template scope="scope">
+            <el-link type="primary" @click="readPDF(scope.row)">{{
+              scope.row.title
+            }}</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="create_time"
+          label="日期"
+          min-width="200"
+        ></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-tooltip class="item" effect="dark" content="查看" placement="top">
-              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看"
+              placement="top"
+            >
+              <i
+                class="el-icon-view"
+                @click="handleDetail(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top">
-              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+            >
+              <i
+                class="el-icon-delete"
+                @click="handleDelete(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -72,64 +111,136 @@
           layout="prev, pager, next, sizes, jumper"
           @current-change="currentChange"
           @size-change="sizeChange"
-          :total="total">
+          :total="total"
+        >
         </el-pagination>
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
-        <div class="dialog_title" slot="title"><span class="line"></span>产品信息</div>
-        <ul class="dialog_detail">
-            <li><label>产品名：</label>{{singleData.product_name}}</li>
-            <li><label>类型：</label>
-              <span v-if="singleData.product_data_type == 1">科室会议</span>
-              <span v-if="singleData.product_data_type == 2">代表培训</span>
-              <span v-if="singleData.product_data_type == 3">说明书</span>
-            </li>
-            <li><label>上传PDF名称：</label>{{singleData.title}}</li>
-            <li><label>上传PDF：</label>{{singleData.company_policy_name}}</li>
-            <li><label>上传时间：</label>{{singleData.create_time}}</li>
-        </ul>
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="detailVisble"
+      :append-to-body="true"
+      width="30%"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>产品信息
+      </div>
+      <ul class="dialog_detail">
+        <li><label>产品名：</label>{{ singleData.product_name }}</li>
+        <li>
+          <label>类型：</label>
+          <span v-if="singleData.product_data_type == 1">科室会议</span>
+          <span v-if="singleData.product_data_type == 2">代表培训</span>
+          <span v-if="singleData.product_data_type == 3">说明书</span>
+        </li>
+        <li><label>上传PDF名称：</label>{{ singleData.title }}</li>
+        <li>
+          <label>上传PDF：</label
+          ><el-link type="primary" @click="readPDF(singleData)">
+            {{ singleData.company_policy_name }}</el-link
+          >
+        </li>
+        <li><label>上传时间：</label>{{ singleData.create_time }}</li>
+      </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
-        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="detailVisble = false"
+          >确 定</el-button
+        >
+        <el-button size="small" type="info" plain @click="detailVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
     <!-- 新增 -->
-    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
-      <div class="dialog_title" slot="title"><span class="line"></span>产品信息</div>
-      <el-form :model="addData" :rules="rules" ref="ruleForm" label-width="120px">
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="addVisble"
+      :append-to-body="true"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>产品信息
+      </div>
+      <el-form
+        :model="addData"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="120px"
+      >
         <el-form-item label="产品名" prop="productId" class="width_full">
-          <el-select size="small" v-model="addData.productId" placeholder="请选择产品名" no-data-text="无可添加产品">
-            <el-option v-for="(item, index) in product" :label="item.product_name" :value="item.id" :key="index"></el-option>
+          <el-select
+            size="small"
+            v-model="addData.productId"
+            placeholder="请选择产品名"
+            no-data-text="无可添加产品"
+          >
+            <el-option
+              v-for="(item, index) in product"
+              :label="item.product_name"
+              :value="item.id"
+              :key="index"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="类型" prop="productTypeId" class="width_full">
-          <el-select size="small" v-model="addData.productTypeId" placeholder="请选择类型" no-data-text="无可添加类型">
-            <el-option v-for="(item, index) in productType" :label="item.label" :value="item.value" :key="index"></el-option>
+          <el-select
+            size="small"
+            v-model="addData.productTypeId"
+            placeholder="请选择类型"
+            no-data-text="无可添加类型"
+          >
+            <el-option
+              v-for="(item, index) in productType"
+              :label="item.label"
+              :value="item.value"
+              :key="index"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="上传PDF名称：" prop="title">
-          <el-input size="small" v-model="addData.title" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.title"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="上传PDF：" prop="pfdUrl" ref="uploadPdf">
           <el-button class="upload_btn" size="small" type="primary">
             上传PDF
             <i class="el-icon-upload el-icon--right"></i>
-            <input type="file" @change="checkFile">
+            <input type="file" @change="checkFile" />
           </el-button>
           <span class="upload_tips">点击上传PDF</span>
           <div class="upload_name">
-            {{addData.pfdUrl}}
+            {{ addData.pfdUrl }}
             <i v-show="addData.pfdUrl" class="el-icon-circle-check"></i>
-            <el-progress v-show="percent > 0 && percent < 100" :percentage="percent" status="success"></el-progress>
+            <el-progress
+              v-show="percent > 0 && percent < 100"
+              :percentage="percent"
+              status="success"
+            ></el-progress>
           </div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary"  @click="add('ruleForm')">确 定</el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="add('ruleForm')"
+          >确 定</el-button
+        >
+        <el-button size="small" type="info" plain @click="addVisble = false"
+          >取 消</el-button
+        >
       </div>
+    </el-dialog>
+    <!-- 预览pdf -->
+    <el-dialog
+      class="pdf_view"
+      :visible.sync="pdfVisble"
+      :append-to-body="true"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>{{ pdfData.title }}
+      </div>
+      <iframe :src="pdfData.pdfSrc"></iframe>
     </el-dialog>
   </div>
 </template>
@@ -141,11 +252,13 @@ export default {
     return {
       listLoading: false, //加载数据中
       addVisble: false, //新增
+      pdfVisble: false,
       detailVisble: false, //详情弹窗
       singleData: {}, //单条数据
       productId: null, // 搜索产品Id
       productTypeId: null, // 搜索类型Id
       isSearch: false, //是否是搜索请求
+      pdfData: {}, //预览PDF
       percent: 0,
       addData: {
         productId: null,
@@ -173,70 +286,71 @@ export default {
       ],
       list: [],
       rules: {
-        productId: { required: true, message: '请选择产品' },
-        productTypeId: { required: true, message: '请选择类型' },
-        title: { required: true, message: '请输入PDF名称' },
-        pfdUrl: { required: true, message: '请选择上传PDF' },
+        productId: { required: true, message: "请选择产品" },
+        productTypeId: { required: true, message: "请选择类型" },
+        title: { required: true, message: "请输入PDF名称" },
+        pfdUrl: { required: true, message: "请选择上传PDF" }
       }
     };
   },
   mounted() {
-      this.$nextTick( () =>{
-        this.getListData();
-        this.getproductList()
-      })
+    this.$nextTick(() => {
+      this.getListData();
+      this.getproductList();
+    });
   },
   methods: {
     // 获取列表数据
-     getListData() {
+    getListData() {
       this.listLoading = true;
       let params = null;
-      if (this.isSearch){
+      if (this.isSearch) {
         params = {
           product_id: this.productId,
           product_data_type: this.productTypeId,
           page: this.page,
           row: this.row
-        }
+        };
       } else {
         params = {
           page: this.page,
           row: this.row
         };
       }
-      this.$api.materialList(params)
-        .then( res => {
-          if(res.code == 200){
-            console.log(res)
+      this.$api
+        .materialList(params)
+        .then(res => {
+          if (res.code == 200) {
             this.total = res.meterialDetail_count;
-            this.list = res.meterialDetail
+            this.list = res.meterialDetail;
           } else {
-             this.$message({
+            this.$message({
               message: res.message,
               type: "error"
             });
           }
           this.listLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.listLoading = false;
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
     // 获取产品
     getproductList() {
-      this.$api.productList()
-        .then( res => {
-          if(res.code == 200){
-            this.product = res.product_list.map( item => {
-              return {id: item.id, product_name: item.product_name}
-            })
+      this.$api
+        .productList()
+        .then(res => {
+          if (res.code == 200) {
+            this.product = res.product_list.map(item => {
+              return { id: item.id, product_name: item.product_name };
+            });
           }
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // 搜索
     search() {
@@ -267,19 +381,28 @@ export default {
       this.singleData = row;
     },
 
+    // 预览PDF
+    readPDF(row) {
+      this.pdfData = {
+        title: row.title,
+        pdfSrc: row.company_policy_name
+      };
+      this.pdfVisble = true;
+    },
+
     // 删除
     handleDelete(index, row) {
-        this.$messageBox
-          .confirm('确认删除该条记录吗?', '提示', {
-              type: 'warning'
-          })
-          .then(() => {
-              let params = { material_id: row.id };
-              this.delMaterial(params);
-          })
-          .catch(() => {
-              console.log('取消')
-          });
+      this.$messageBox
+        .confirm("确认删除该条记录吗?", "提示", {
+          type: "warning"
+        })
+        .then(() => {
+          let params = { material_id: row.id };
+          this.delMaterial(params);
+        })
+        .catch(() => {
+          console.log("取消");
+        });
     },
 
     // 点击分页当前页数
@@ -298,9 +421,9 @@ export default {
     checkFile(e) {
       let files = e.target.files[0];
       let errTag = this.$refs.uploadPdf.$el.childNodes[1].childNodes[3];
-      if (!files.type.match('application/pdf')){
-         this.$message.error("请选择PDF格式的文件上传")
-         return;
+      if (!files.type.match("application/pdf")) {
+        this.$message.error("请选择PDF格式的文件上传");
+        return;
       }
       if (errTag.innerText) {
         errTag.style.display = "none";
@@ -311,22 +434,24 @@ export default {
 
     // 获取上去七牛云的doman和token
     getToken(file) {
-      this.$api.getQiniuToken('/getQiniu/getToken')
-        .then( res => {
-          if (res.code === 100){
+      this.$api
+        .getQiniuToken("/getQiniu/getToken")
+        .then(res => {
+          if (res.code === 100) {
             let domain = res.domain;
             let token = res.token;
-            this.uploadToQiniuyun( file, token, domain)
+            this.uploadToQiniuyun(file, token, domain);
           } else {
             this.$message.error(res.message);
           }
-      }).catch(err => {
-        console.log(err)
-      })
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     // 上传文件到七牛云
-    uploadToQiniuyun( file, token, domain ) {
+    uploadToQiniuyun(file, token, domain) {
       let _this = this;
       const config = {
         useCdnDomain: true,
@@ -339,10 +464,10 @@ export default {
       };
       const observable = qiniu.upload(file, fileName, token, putExtra, config);
       observable.subscribe({
-        next (res) {
+        next(res) {
           _this.percent = Math.floor(res.total.percent);
         },
-        error (err){
+        error(err) {
           switch (err.code) {
             case 401:
               _this.$message.error("上传失败，请检查是否登录再重试");
@@ -353,14 +478,14 @@ export default {
           }
         },
         complete(res) {
-          _this.addData.pfdUrl = `${api}${res.key}`
+          _this.addData.pfdUrl = `${api}${res.key}`;
         }
       });
     },
 
     // 新增资料
     add(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.submitData();
         } else {
@@ -371,8 +496,9 @@ export default {
 
     // 删除资料
     delMaterial(params) {
-      this.$api.delMaterial(params)
-        .then( res => {
+      this.$api
+        .delMaterial(params)
+        .then(res => {
           if (res.code == 200) {
             this.$message({
               message: "删除成功",
@@ -386,21 +512,22 @@ export default {
             });
           }
         })
-        .catch( err => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     // 提交数据
-    submitData(){
-       let params = {
-          product_id: this.addData.productId,
-          product_data_type: this.addData.productTypeId,
-          title: this.addData.title,
-          company_policy_name: this.addData.pfdUrl
-        };
-        this.$api.materialCreate(params)
-        .then( res => {
+    submitData() {
+      let params = {
+        product_id: this.addData.productId,
+        product_data_type: this.addData.productTypeId,
+        title: this.addData.title,
+        company_policy_name: this.addData.pfdUrl
+      };
+      this.$api
+        .materialCreate(params)
+        .then(res => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
@@ -421,22 +548,46 @@ export default {
           }
           this.addVisble = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.addVisble = false;
-        })
+        });
     }
-
   }
 };
 </script>
+<style>
+.pdf_view .el-dialog {
+  width: 50%;
+  min-width: 768px;
+  max-width: 1200px;
+  height: 90%;
+  margin-bottom: 0 !important;
+  margin-top: 1% !important;
+}
+.pdf_view .el-dialog__headerbtn {
+  top: 10px;
+}
+.pdf_view .el-dialog__headerbtn .el-dialog__close {
+  font-size: 32px;
+}
+.pdf_view .el-dialog .el-dialog__body {
+  padding: 0;
+  height: 100%;
+}
+.pdf_view iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
 <style scoped>
-.dialog_detail li label{
+.dialog_detail li label {
   width: 100px;
 }
-.upload_btn{
+.upload_btn {
   position: relative;
 }
-.upload_btn input{
+.upload_btn input {
   position: absolute;
   left: 0;
   top: 0;
@@ -444,18 +595,18 @@ export default {
   bottom: 0;
   opacity: 0;
 }
-.upload_tips{
+.upload_tips {
   padding-left: 10px;
   color: #aaa;
 }
 .upload_name {
   position: relative;
 }
-.upload_name i{
+.upload_name i {
   position: absolute;
   right: 0;
   top: 10px;
   font-size: 20px;
-  color: #67C23A;
+  color: #67c23a;
 }
 </style>

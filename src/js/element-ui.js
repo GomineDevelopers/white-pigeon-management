@@ -26,7 +26,8 @@ import {
   Tooltip,
   Cascader,
   Progress,
-  Image
+  Image,
+  Link
 } from "element-ui";
 
 Vue.use(Button);
@@ -54,5 +55,6 @@ Vue.use(Tooltip);
 Vue.use(Cascader);
 Vue.use(Progress);
 Vue.use(Image);
+Vue.use(Link);
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$message = Message;

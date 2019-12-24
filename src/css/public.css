@@ -1,166 +1,166 @@
-ul{
-    list-style: none;
+ul {
+  list-style: none;
 }
-.breadcrumb{
-    color: #ADB3A8;
-    font-size: 16px;
+.breadcrumb {
+  color: #adb3a8;
+  font-size: 16px;
 }
-.main_header{
-    font-size: 14px;
-    padding: 20px 12px;
-    background: #fff;
-    margin: 15px 0 16px;
-    box-shadow: 0px 0 8px 0px rgba(218, 218, 218, 1);
+.main_header {
+  font-size: 14px;
+  padding: 20px 12px;
+  background: #fff;
+  margin: 15px 0 16px;
+  box-shadow: 0px 0 8px 0px rgba(218, 218, 218, 1);
 }
-.main_header_item{
-    margin-right: 36px;
-    margin-bottom: 10px;
-    display: inline-block;
+.main_header_item {
+  margin-right: 36px;
+  margin-bottom: 10px;
+  display: inline-block;
 }
-.main_header_item .el-input{
-    width: auto;
+.main_header_item .el-input {
+  width: auto;
 }
-.main_header_btns{
-    text-align: right;
+.main_header_btns {
+  text-align: right;
 }
-.main_header_btns .is-plain{
-    background: #fff;
+.main_header_btns .is-plain {
+  background: #fff;
 }
-.main_list{
-    padding: 20px;
-    box-shadow: 0px 0 8px 0px rgba(218, 218, 218, 1);
+.main_list {
+  padding: 20px;
+  box-shadow: 0px 0 8px 0px rgba(218, 218, 218, 1);
 }
-.main_list .toolbar .el-button{
-    margin-right: 4px;
-    color: #333;
+.main_list .toolbar .el-button {
+  margin-right: 4px;
+  color: #333;
 }
-.main_list .toolbar .el-button:hover{
-    color: #3399FF;
+.main_list .toolbar .el-button:hover {
+  color: #3399ff;
 }
-.main_list .toolbar{
-    margin-bottom: 20px;
+.main_list .toolbar {
+  margin-bottom: 20px;
 }
-.main_list .toolbar i{
-    font-weight: bold;;
+.main_list .toolbar i {
+  font-weight: bold;
 }
-.main_list table i{
-    color: #409EFF;
-    font-size: 16px;
-    padding: 3px 8px;
-    cursor: pointer;
-    outline: none;
+.main_list table i {
+  color: #409eff;
+  font-size: 16px;
+  padding: 3px 8px;
+  cursor: pointer;
+  outline: none;
 }
-.main_list table .el-icon-view{
-    color: #4CCEA5;
+.main_list table .el-icon-view {
+  color: #4ccea5;
 }
-.main_list table .el-icon-edit{
-    color: #FF8600;
+.main_list table .el-icon-edit {
+  color: #ff8600;
 }
-.main_list thead tr th{
-    background:#FAFAFA;
+.main_list thead tr th {
+  background: #fafafa;
 }
-.main_list .el-table .cell{
-    white-space: nowrap;
+.main_list .el-table .cell {
+  white-space: nowrap;
 }
-.main_list .pagination{
-    margin-top: 30px;
-    text-align: center;
+.main_list .pagination {
+  margin-top: 30px;
+  text-align: center;
 }
 .main_list .el-pager li,
-.main_list .el-pagination button{
-    background-color: #fff;
-    border: 1px solid #DCDFE6;
+.main_list .el-pagination button {
+  background-color: #fff;
+  border: 1px solid #dcdfe6;
 }
-.el-pagination.is-background .btn-next, 
+.el-pagination.is-background .btn-next,
 .el-pagination.is-background .btn-prev,
-.main_list .el-pagination.is-background li{
-    background: #fff;
+.main_list .el-pagination.is-background li {
+  background: #fff;
 }
-.el-pagination.is-background .btn-next:hover, 
+.el-pagination.is-background .btn-next:hover,
 .el-pagination.is-background .btn-prev:hover,
 .main_list .el-pager li.active,
-.el-pagination.is-background .el-pager li:not(.disabled):hover{
-    color: #409EFF;
-    border: 1px solid #409EFF;
+.el-pagination.is-background .el-pager li:not(.disabled):hover {
+  color: #409eff;
+  border: 1px solid #409eff;
 }
-.main_list .el-pager li.active:hover{
-    color: #fff !important;
+.main_list .el-pager li.active:hover {
+  color: #fff !important;
 }
-.dialog_wrap .el-dialog{
-    width: 30%;
-    min-width: 600px;
+.dialog_wrap .el-dialog {
+  width: 30%;
+  min-width: 600px;
 }
-.dialog_wrap .el-form{
-    width: 70%;
-    min-width: 500px;
+.dialog_wrap .el-form {
+  width: 70%;
+  min-width: 500px;
 }
-.dialog_wrap .el-dialog__header{
-    border-bottom: 1px solid #e5e5e5;
+.dialog_wrap .el-dialog__header {
+  border-bottom: 1px solid #e5e5e5;
 }
 .width_full,
-.width_full .el-select{
-    width: 100%;
+.width_full .el-select {
+  width: 100%;
 }
-.dialog_title{
-    font-size: 18px;
+.dialog_title {
+  font-size: 18px;
 }
-.dialog_title .line{
-    display: inline-block;
-    width: 3px;
-    height: 20px;
-    margin-right: 6px;
-    vertical-align: -2px;
-    background: #3399FF;
-    border-radius: 10px;
+.dialog_title .line {
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: -2px;
+  background: #3399ff;
+  border-radius: 10px;
 }
-.dialog_wrap .el-dialog__header .el-icon-close{
-    font-size: 24px;
-    color: #333;
-    right: 10px;
-    font-weight: 600;
+.dialog_wrap .el-dialog__header .el-icon-close {
+  font-size: 24px;
+  color: #333;
+  right: 10px;
+  font-weight: 600;
 }
-.dialog_wrap .el-dialog__header .el-icon-close:hover{
-    color: #3399FF;
+.dialog_wrap .el-dialog__header .el-icon-close:hover {
+  color: #3399ff;
 }
-.dialog_detail li{
-    line-height: 36px;
-    color: #333;
-    font-size: 14px;
+.dialog_detail li {
+  line-height: 36px;
+  color: #333;
+  font-size: 14px;
 }
-.dialog_detail li label{
-    display: inline-block;
-    width: 80px;
-    margin-right: 10px;
-    text-align: right;
+.dialog_detail li label {
+  display: inline-block;
+  width: 80px;
+  margin-right: 10px;
+  text-align: right;
 }
 .el-cascader-panel .el-cascader-menu {
-    height: 360px;
+  height: 360px;
 }
 .logout {
-    color: #f00;
+  color: #f00;
 }
-.submit_loading i{
-    font-size: 14px;
-    margin-right: 5px;
+.submit_loading i {
+  font-size: 14px;
+  margin-right: 5px;
 }
 
-.dot{
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    vertical-align: middle;
-    margin-right: 5px;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    border-radius: 50%;
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  vertical-align: middle;
+  margin-right: 5px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
 }
-.dot.refuse{
-    background: #FF4800
+.dot.refuse {
+  background: #ff4800;
 }
-.dot.approved{
-    background: #28DB99
+.dot.approved {
+  background: #28db99;
 }
-.dot.pending{
-    background: #3399FF
+.dot.pending {
+  background: #3399ff;
 }
