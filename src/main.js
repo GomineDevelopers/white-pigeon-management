@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
         api
           .refresh()
           .then(res => {
-            // console.log(res);
+            console.log(res);
             if (res.code == 200) {
               let expires_in = parseInt(res.expires_in);
               let expiresDate = new Date().getTime() + expires_in * 1000; // 当前时间加上900秒

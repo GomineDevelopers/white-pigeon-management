@@ -9,10 +9,7 @@
       unique-opened
     >
       <el-menu-item index="/hospitalManagement">
-        <img
-          v-if="$route.path == '/hospitalManagement'"
-          src="../assets/image/yy.png"
-        />
+        <img v-if="$route.path == '/hospitalManagement'" src="../assets/image/yy.png" />
         <img v-else src="../assets/image/yy1.png" />
         <span slot="title">医院管理</span>
       </el-menu-item>
@@ -28,14 +25,11 @@
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="/doctorManagement">
-        <img
-          v-if="$route.path == '/doctorManagement'"
-          src="../assets/image/ys.png"
-        />
+        <img v-if="$route.path == '/doctorManagement'" src="../assets/image/ys.png" />
         <img v-else src="../assets/image/ys1.png" />
         <span slot="title">医生管理</span>
       </el-menu-item>
-      <el-menu-item index="4">
+      <el-menu-item index="/representative">
         <!-- <img src="../assets/image/db.png" /> -->
         <img src="../assets/image/db1.png" />
         <span slot="title">代表管理</span>
@@ -52,14 +46,8 @@
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="/regionalManager">
-        <img
-          src="../assets/image/qyjl.png"
-          v-if="$route.path === '/regionalManager'"
-        />
-        <img
-          src="../assets/image/qyjl1.png"
-          v-if="$route.path != '/regionalManager'"
-        />
+        <img src="../assets/image/qyjl.png" v-if="$route.path === '/regionalManager'" />
+        <img src="../assets/image/qyjl1.png" v-if="$route.path != '/regionalManager'" />
         <span slot="title">区域经理</span>
       </el-menu-item>
       <el-menu-item index="7">
@@ -102,14 +90,8 @@
         <span slot="title">业绩报告</span>
       </el-menu-item>
       <el-menu-item index="/dataCenter">
-        <img
-          src="../assets/image/zlzx.png"
-          v-if="$route.path === '/dataCenter'"
-        />
-        <img
-          src="../assets/image/zlzx1.png"
-          v-if="$route.path != '/dataCenter'"
-        />
+        <img src="../assets/image/zlzx.png" v-if="$route.path === '/dataCenter'" />
+        <img src="../assets/image/zlzx1.png" v-if="$route.path != '/dataCenter'" />
         <span slot="title">资料中心</span>
       </el-menu-item>
       <el-menu-item index="13">
