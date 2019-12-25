@@ -27,7 +27,8 @@ import {
   Cascader,
   Progress,
   Image,
-  Link
+  Link,
+  OptionGroup
 } from "element-ui";
 
 Vue.use(Button);
@@ -56,5 +57,6 @@ Vue.use(Cascader);
 Vue.use(Progress);
 Vue.use(Image);
 Vue.use(Link);
+Vue.use(OptionGroup);
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$message = Message;
