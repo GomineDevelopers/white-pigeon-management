@@ -44,6 +44,10 @@ let api = {
   createProdutSection: params => post("/productSectionManager/productSection", params), //产品科室管理创建
   productSectionEdit: params => post("/productSectionManager/productSectionEdit", params), //产品科室管理修改
   delProductSection: params => post("/productSectionManager/productSectionDel", params), //产品科室管理删除
-  userManagerList: params => post("/userManager/userManagerList", params) //代表管理
+  userManagerList: params => post("/userManager/userManagerList", params), //代表管理
+  hospitalManagerList: params => post("/hospitalManager/hospitalManagerList", params), //医院管理列表
+  hospitalAdd: params => post("/hospitalManager/hospitalAdd", params), //添加医院
+  hospitalDel: params => post("/hospitalManager/hospitalDel", params), //删除医院
+  hospitalEdit: params => post("/hospitalManager/hospitalEdit", params) //编辑医院
 };
 export default api;
