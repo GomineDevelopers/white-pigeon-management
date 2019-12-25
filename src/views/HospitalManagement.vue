@@ -16,7 +16,7 @@
         </div>
         <div class="main_header_item">
           <span>医院：</span>
-          <el-input size="small" v-model="hospitalId" placeholder="请输入"></el-input>
+          <el-input size="small" v-model="hospitalName" placeholder="请输入"></el-input>
         </div>
         <div class="main_header_item">
           <span>等级：</span>
@@ -44,23 +44,51 @@
       <el-table
         :data="tableData"
         v-loading="listLoading"
-        element-loading-text="数据拼命加载中"
-        element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
+        element-loading-text="数据拼命加载中..."
+        element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="hospital_num" label="医院编号" width="120"></el-table-column>
+        <el-table-column prop="id" label="医院编号" width="120"></el-table-column>
         <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
-        <el-table-column prop="hospital_rank" label="医院等级" width="120"></el-table-column>
-        <el-table-column prop="business" label="经营方式" width="120"></el-table-column>
-        <el-table-column prop="phone" label="联系方式" width="160"></el-table-column>
-        <el-table-column prop="net" label="医院网址" width="240"></el-table-column>
+        <el-table-column
+          prop="hospital_level"
+          :formatter="levelFormatter"
+          label="医院等级"
+          width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="hospital_type"
+          :formatter="typeFormatter"
+          label="医院类型"
+          width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="hospital_run_type"
+          :formatter="runTypeFormatter"
+          label="经营方式"
+          width="120"
+        ></el-table-column>
+
+        <el-table-column prop="hospital_mobile" label="联系方式" width="160"></el-table-column>
+        <el-table-column prop="hospital_url" label="医院网址" width="240"></el-table-column>
+        <el-table-column prop="status" label="状态" width="240">
+          <template scope="scope">
+            <span class="normal" v-if="scope.row.status == 1">正常</span>
+            <span class="abnormal" v-if="scope.row.status == 2">已删除</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="编辑"
+              placement="top"
+              v-if="scope.row.status == 1"
+            >
               <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="删除" placement="top">
@@ -76,19 +104,17 @@
           layout="prev, pager, next, sizes, jumper"
           @current-change="currentChange"
           @size-change="sizeChange"
-          :total="1000"
+          :total="total"
         ></el-pagination>
       </div>
     </div>
     <!-- 详情弹窗 -->
     <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>医院信息
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>医院信息</div>
       <ul class="dialog_detail">
         <li>
           <label>医院编号：</label>
-          {{ singleData.hospital_num }}
+          {{ singleData.id }}
         </li>
         <li>
           <label>医院名称：</label>
@@ -96,19 +122,23 @@
         </li>
         <li>
           <label>医院等级：</label>
-          {{ singleData.hospital_rank }}
+          {{ levelFormatter(singleData) }}
+        </li>
+        <li>
+          <label>医院类型：</label>
+          {{ typeFormatter(singleData) }}
         </li>
         <li>
           <label>经营方式：</label>
-          {{ singleData.business }}
+          {{ runTypeFormatter(singleData) }}
         </li>
         <li>
           <label>医院网址：</label>
-          {{ singleData.net }}
+          {{ singleData.hospital_url }}
         </li>
         <li>
           <label>联系方式：</label>
-          {{ singleData.phone }}
+          {{ singleData.hospital_mobile }}
         </li>
         <li>
           <label>所在省市：</label>
@@ -117,16 +147,16 @@
         </li>
         <li>
           <label>详细地址：</label>
-          {{ singleData.address }}
+          {{ singleData.detail_address }}
         </li>
         <li>
           <span>
             <label>经度：</label>
-            {{ singleData.lng }}
+            {{ singleData.hospital_longtude }}
           </span>
           <span>
             <label>纬度：</label>
-            {{ singleData.lat }}
+            {{ singleData.hospital_latitude }}
           </span>
         </li>
       </ul>
@@ -137,18 +167,15 @@
     </el-dialog>
     <!-- 新增 -->
     <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>新增医院
-      </div>
+      <div class="dialog_title" slot="title" v-if="!isEdit"><span class="line"></span>新增医院</div>
+      <div class="dialog_title" slot="title" v-else><span class="line"></span>编辑医院</div>
       <el-form v-if="addVisble" :model="addData" :rules="rules" ref="ruleForm" label-width="100px">
-        <el-form-item label="医院编号：" prop="hospital_num">
-          <el-input size="small" v-model="addData.hospital_num" placeholder="请输入"></el-input>
-        </el-form-item>
         <el-form-item label="医院名称：" prop="hospital_name" class="width_full">
-          <el-select size="small" v-model="addData.hospital_name" placeholder="请选择医院名称">
-            <el-option label="复旦大学附属眼耳鼻喉科医院" value="复旦大学附属眼耳鼻喉科医院"></el-option>
-            <el-option label="附属眼耳鼻喉科医院" value="附属眼耳鼻喉科医院"></el-option>
-          </el-select>
+          <el-input
+            size="small"
+            v-model="addData.hospital_name"
+            placeholder="请输入医院名称"
+          ></el-input>
         </el-form-item>
         <el-form-item label="医院等级：" prop="hospital_rank" class="width_full">
           <el-select size="small" v-model="addData.hospital_rank" placeholder="请选择医院等级">
@@ -160,23 +187,38 @@
             ></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="医院类型：" prop="hospital_type" class="width_full">
+          <el-select size="small" v-model="addData.hospital_type" placeholder="请选择医院类型">
+            <el-option
+              v-for="item in hospitalType"
+              :label="item.type"
+              :value="item.id"
+              :key="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="经营方式：" prop="business" class="width_full">
           <el-select size="small" v-model="addData.business" placeholder="请选择经营方式">
-            <el-option label="公立" value="公立"></el-option>
-            <el-option label="私立" value="私立"></el-option>
+            <el-option
+              v-for="item in runType"
+              :label="item.type"
+              :value="item.id"
+              :key="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="医院网址：" prop="net">
           <el-input size="small" v-model="addData.net" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="联系方式：" prop="phone">
+        <el-form-item label="联系方式：">
           <el-input size="small" v-model="addData.phone" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="省/市：" prop="option">
+        <el-form-item label="省/市/区：" prop="option">
           <el-cascader
             class="width_full"
+            :disabled="isEdit"
             size="small"
-            :options="provinceAndCityData"
+            :options="provinceoOptions"
             v-model="addData.option"
             @change="handleManagerChange"
           ></el-cascader>
@@ -187,28 +229,41 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="纬度：" prop="lng">
-              <el-input size="small" v-model="addData.lng" placeholder="请输入"></el-input>
+              <el-input
+                size="small"
+                v-model="addData.lng"
+                @input="addData.lng = addData.lng.replace(/^\s+|\s+$/g, '')"
+                placeholder="请输入"
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="经度：" prop="lat">
-              <el-input size="small" v-model="addData.lat" placeholder="请输入"></el-input>
+              <el-input
+                size="small"
+                v-model="addData.lat"
+                @input="addData.lat = addData.lat.replace(/^\s+|\s+$/g, '')"
+                placeholder="请输入"
+              ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-form-item label="邮编：">
+          <el-input size="small" v-model="addData.postcode" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="Email：">
+          <el-input size="small" v-model="addData.hospital_email" placeholder="请输入"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="addManager('ruleForm')">确 定</el-button>
+        <el-button size="small" type="primary" @click="addhospital('ruleForm')">确 定</el-button>
         <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import {
-  provinceAndCityDataPlus,
-  provinceAndCityData
-} from "element-china-area-data";
+import { regionData, provinceAndCityDataPlus } from "element-china-area-data";
 export default {
   name: "hostpitalManagement",
   data() {
@@ -230,17 +285,19 @@ export default {
       addVisble: false, //新增
       detailVisble: false, //详情弹窗
       singleData: {}, //单条数据
-      provinceAndCityDataPlus: provinceAndCityDataPlus, //省市数据带“全部”
-      provinceAndCityData: provinceAndCityData, //省市数据不带“全部”
+      provinceoOptions: regionData, //省市区三级联动带全部选项
+      provinceAndCityDataPlus: provinceAndCityDataPlus, //省市二级联动带全部选项
       isSearch: false, //是否是搜索请求
+      isEdit: false, //编辑和新增的区分标识
       searchOption: [], //搜索省市
       gradeId: null, //搜索等级
-      hospitalId: null, //搜索医院
+      hospitalName: null, //搜索医院
+      hospitalId: null, //编辑医院时的医院id
       addData: {
         // option: [],
-        // hospital_num: null,
         // hospital_name: null,
         // hospital_rank: null,
+        // hospital_type:null,
         // business: null,
         // net: null,
         // phone: null,
@@ -249,6 +306,8 @@ export default {
         // address: null,
         // lng: null,
         // lat: null
+        // postcode:null,
+        // hospital_email:null,
       }, //新增数据
       page: 1,
       row: 10,
@@ -264,208 +323,190 @@ export default {
         { id: 9, grade_name: "一级丙等" },
         { id: 10, grade_name: "未知" }
       ],
-      tableData: [
-        {
-          hospital_num: 1,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.baidu.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 12,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.baidu.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 15,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.jd.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 5,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.baidu.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 18,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.jd.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 165,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.baidu.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 189,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.jd.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 156,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.baidu.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 651,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.baidu.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 761,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.baidu.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        },
-        {
-          hospital_num: 1756,
-          hospital_name: "复旦大学附属眼耳鼻喉科医院",
-          hospital_rank: "三级甲等",
-          business: "公立",
-          phone: "304-62194335",
-          net: "www.baidu.com",
-          province_name: "贵州省",
-          city_name: "贵阳市",
-          address: "观山湖区贵阳北站",
-          lng: 121.3343,
-          lat: 33.454353
-        }
+      hospitalType: [
+        { id: 1, type: "综合医院" },
+        { id: 2, type: "专科医院" },
+        { id: 3, type: "整形美容医院" },
+        { id: 4, type: "未知" }
       ],
+      runType: [
+        { id: 1, type: "国营医院" },
+        { id: 2, type: "股份制医院" },
+        { id: 3, type: "中外合资医院" },
+        { id: 4, type: "合伙制医院" },
+        { id: 5, type: "私人医院" },
+        { id: 6, type: "未知" }
+      ],
+      tableData: [
+        // {
+        //   hospital_num: 1,
+        //   hospital_name: "复旦大学附属眼耳鼻喉科医院",
+        //   hospital_rank: "三级甲等",
+        //   business: "公立",
+        //   phone: "304-62194335",
+        //   net: "www.baidu.com",
+        //   province_name: "贵州省",
+        //   city_name: "贵阳市",
+        //   address: "观山湖区贵阳北站",
+        //   lng: 121.3343,
+        //   lat: 33.454353
+        // },
+      ],
+      total: null,
       rules: {
-        hospital_num: { required: true, message: "请输入医院编号" },
-        option: { required: true, message: "请选择省市" },
+        option: { required: true, message: "请选择省市区" },
         hospital_name: { required: true, message: "请输入医院名称" },
         hospital_rank: { required: true, message: "请选择医院等级" },
+        hospital_type: { required: true, message: "请选择医院类型" },
         business: { required: true, message: "请选择经营方式" },
-        phone: { required: true, message: "请输入联系方式" },
         address: { required: true, message: "请输入详细地址" },
         lng: { required: true, message: "请输入医院纬度" },
         lat: { required: true, message: "请输入医院经度" }
       }
     };
   },
-  mounted() {},
+  mounted() {
+    this.$nextTick(() => {
+      this.getListData();
+    });
+  },
   methods: {
     //地区省市搜索操作
     handleChange(arr) {
       this.searchOption = arr;
     },
-
     // 新增/编辑经理省市选择
     handleManagerChange(arr) {
       this.addData.option = arr;
+      this.$messageBox
+        .confirm("医院省市区数据非常重要，数据提交后将无法更改，请确认省市区信息无误！", "提示", {
+          type: "warning"
+        })
+        .then(() => {
+          console.log("确认！");
+        })
+        .catch(() => {
+          console.log("取消！");
+        });
     },
     // 获取列表数据
     getListData() {
       let params = {
         page: this.page,
-        row: this.row
+        row: this.row,
+        province_code: this.searchOption[0],
+        city_code: this.searchOption[1],
+        hospital_name: this.hospitalName,
+        hospital_level: this.gradeId,
+        status: this.status
       };
-      console.log(params);
-      // this.listLoading = true;
+      this.listLoading = true;
+      this.$api
+        .hospitalManagerList(params)
+        .then(res => {
+          console.log(res);
+          this.listLoading = false;
+          if (res.code == 200) {
+            this.total = res.hospital_manager_count;
+            this.tableData = res.hospital_manager_list;
+          }
+        })
+        .catch(error => {
+          this.listLoading = false;
+          console.log(error);
+        });
     },
-    // 状态转换
-    formatStatus(row, column) {
-      return row.status == 1 ? "正常" : "注销";
+    // 医院等级转换
+    levelFormatter(row) {
+      if (row.hospital_level != null) {
+        switch (row.hospital_level) {
+          case 1:
+            return "三级甲等";
+          case 2:
+            return "三级乙等";
+          case 3:
+            return "三级丙等";
+          case 4:
+            return "二级甲等";
+          case 5:
+            return "二级乙等";
+          case 6:
+            return "二级丙等";
+          case 7:
+            return "一级甲等";
+          case 8:
+            return "一级乙等";
+          case 9:
+            return "一级丙等";
+          case 10:
+            return "未知";
+          default:
+            return "";
+        }
+      } else {
+        return "";
+      }
+    },
+    // 医院类型转换
+    typeFormatter(row) {
+      if (row.hospital_type != null) {
+        switch (row.hospital_type) {
+          case 1:
+            return "综合医院";
+          case 2:
+            return "专科医院";
+          case 3:
+            return "整形美容医院";
+          case 4:
+            return "未知";
+          default:
+            return "";
+        }
+      } else {
+        return "";
+      }
+    },
+    // 医院等级转换
+    runTypeFormatter(row) {
+      if (row.hospital_run_type != null) {
+        switch (row.hospital_run_type) {
+          case 1:
+            return "国营医院";
+          case 2:
+            return "股份制医院";
+          case 3:
+            return "中外合资医院";
+          case 4:
+            return "合伙制医院";
+          case 5:
+            return "私人医院";
+          case 6:
+            return "未知";
+          default:
+            return "";
+        }
+      } else {
+        return "";
+      }
     },
     // 搜索
     search() {
-      if (
-        this.hospitalId == null &&
-        !this.searchOption.length &&
-        this.gradeId == null
-      ) {
+      if (this.hospitalId == null && !this.searchOption.length && this.gradeId == null) {
         this.$message({
           message: "请输入或选择搜索内容",
           type: "error"
         });
         return false;
       }
-      console.log(this.hospitalId, this.searchOption, this.gradeId);
+      // console.log(this.hospitalId, this.searchOption, this.gradeId);
+      this.getListData();
     },
     // 重置搜索内容
     resetSearch() {
       this.searchOption = [];
       this.gradeId = null;
       this.hospitalId = null;
+      this.getListData();
     },
     // 下载
     downLoad() {
@@ -473,19 +514,39 @@ export default {
     },
     // 查看详情
     handleDetail(index, row) {
+      console.log(row);
       this.detailVisble = true;
       this.singleData = row;
-      console.log(index, row);
     },
     // 删除
     handleDelete(index, row) {
       this.$messageBox
-        .confirm("确认删除该条记录吗?", "提示", {
+        .confirm("确认删除此医院吗?", "提示", {
           type: "warning"
         })
         .then(() => {
-          console.log(row.id);
-          let para = { id: row.id };
+          console.log(row);
+          let params = { hospital_id: row.id };
+          this.$api
+            .hospitalDel(params)
+            .then(res => {
+              console.log(res);
+              if (res.code == 200) {
+                this.$message({
+                  message: "医院状态更改成功！",
+                  type: "success"
+                });
+                this.getListData();
+              } else {
+                this.$message({
+                  message: res.message,
+                  type: "error"
+                });
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
         })
         .catch(() => {
           console.log("取消");
@@ -493,7 +554,7 @@ export default {
       //   console.log(index, row);
     },
 
-    // 新增科室
+    // 点击新增医院
     handleCreate() {
       this.isEdit = false;
       this.addData = {};
@@ -502,10 +563,23 @@ export default {
 
     // 编辑医院
     handleEdit(index, row) {
-      this.isSearch = true;
+      this.isEdit = true;
       this.addVisble = true;
-      this.addData = JSON.parse(JSON.stringify(row));
-      console.log(row);
+      this.hospitalId = row.id;
+      this.addData = {
+        hospital_name: row.hospital_name,
+        hospital_rank: row.hospital_level,
+        hospital_type: row.hospital_type,
+        business: row.hospital_run_type,
+        net: row.hospital_url,
+        phone: row.hospital_mobile,
+        option: [String(row.province_code), String(row.city_code), String(row.area_code)],
+        address: row.detail_address,
+        lng: row.hospital_longtude,
+        lat: row.hospital_latitude,
+        postcode: row.postcode,
+        hospital_email: row.hospital_email
+      };
     },
     // 点击分页当前页数
     currentChange(val) {
@@ -516,10 +590,10 @@ export default {
     // 切换每页条数
     sizeChange(val) {
       this.row = val;
-      console.log(val);
+      // console.log(val);
     },
-    // 新增经理
-    addManager(formName) {
+    // 新增医院确认按钮
+    addhospital(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.submitManager();
@@ -530,8 +604,108 @@ export default {
     },
     // 提交数据
     submitManager() {
-      console.log(this.addData);
+      if (this.isEdit) {
+        console.log("编辑");
+        this.$messageBox
+          .confirm("请确认信息无误后再提交！", "提示", {
+            type: "warning"
+          })
+          .then(() => {
+            let params = {
+              hospital_id: this.hospitalId,
+              hospital_name: this.addData.hospital_name,
+              hospital_level: this.addData.hospital_rank,
+              hospital_type: this.addData.hospital_type,
+              hospital_run_type: this.addData.business,
+              hospital_url: this.addData.net,
+              hospital_mobile: this.addData.phone,
+              province_code: this.addData.option[0],
+              city_code: this.addData.option[1],
+              area_code: this.addData.option[2],
+              detail_address: this.addData.address,
+              hospital_longtude: this.addData.lng,
+              hospital_latitude: this.addData.lat,
+              postcode: this.addData.postcode,
+              hospital_email: this.addData.hospital_email
+            };
+            this.$api
+              .hospitalEdit(params)
+              .then(res => {
+                console.log(res);
+                if (res.code == 200) {
+                  this.$message({
+                    message: "编辑信息成功！",
+                    type: "success"
+                  });
+                  this.addVisble = false;
+                  this.getListData();
+                } else {
+                  this.$message({
+                    message: res.message,
+                    type: "error"
+                  });
+                }
+              })
+              .catch(error => {
+                this.$message({
+                  message: res.message,
+                  type: "error"
+                });
+                console.log(error);
+              });
+          });
+      } else {
+        console.log("添加");
+        this.$messageBox
+          .confirm("请确认无误后再提交！", "提示", {
+            type: "warning"
+          })
+          .then(() => {
+            let params = {
+              hospital_name: this.addData.hospital_name,
+              hospital_level: this.addData.hospital_rank,
+              hospital_type: this.addData.hospital_type,
+              hospital_run_type: this.addData.business,
+              hospital_url: this.addData.net,
+              hospital_mobile: this.addData.phone,
+              province_code: this.addData.option[0],
+              city_code: this.addData.option[1],
+              area_code: this.addData.option[2],
+              detail_address: this.addData.address,
+              hospital_longtude: this.addData.lng,
+              hospital_latitude: this.addData.lat,
+              postcode: this.addData.postcode,
+              hospital_email: this.addData.hospital_email
+            };
+            this.$api
+              .hospitalEdit(params)
+              .then(res => {
+                console.log(res);
+                if (res.code == 200) {
+                  this.$message({
+                    message: "编辑信息成功！",
+                    type: "success"
+                  });
+                  this.addVisble = false;
+                  this.page = 1;
+                  this.getListData();
+                }
+              })
+              .catch(error => {
+                this.$message({
+                  message: res.message,
+                  type: "error"
+                });
+                console.log(error);
+              });
+          });
+      }
     }
   }
 };
 </script>
+<style scoped>
+.el-table .el-table__body-wrapper .abnormal {
+  color: red;
+}
+</style>

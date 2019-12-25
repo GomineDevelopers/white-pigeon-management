@@ -54,6 +54,11 @@ let api = {
   userManagerList: params => post("/userManager/userManagerList", params), //代表管理
   productManagerList: params =>
     post("/productManager/productManagerList", params), //产品管理列表
-  productAdd: params => post("/productManager/productAdd", params) //产品管理新增
+  productAdd: params => post("/productManager/productAdd", params), //产品管理新增
+  hospitalManagerList: params =>
+    post("/hospitalManager/hospitalManagerList", params), //医院管理列表
+  hospitalAdd: params => post("/hospitalManager/hospitalAdd", params), //添加医院
+  hospitalDel: params => post("/hospitalManager/hospitalDel", params), //删除医院
+  hospitalEdit: params => post("/hospitalManager/hospitalEdit", params) //编辑医院
 };
 export default api;
