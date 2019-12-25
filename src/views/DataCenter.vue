@@ -8,12 +8,22 @@
         <div class="main_header_item">
           <span>产品名：</span>
           <el-select size="small" v-model="productId" placeholder="请选择">
-            <el-option
-              v-for="(item, index) in product"
-              :label="item.product_name"
-              :value="item.id"
-              :key="index"
-            ></el-option>
+            <el-option-group
+              v-for="group in product"
+              :key="group.label"
+              :label="group.label"
+            >
+              <el-option
+                v-for="(item, index) in group.options"
+                :label="item.product_name"
+                :value="item.id"
+                :key="index"
+              >
+                <span :class="{ logout: item.status != 1 }">{{
+                  item.product_name
+                }}</span>
+              </el-option>
+            </el-option-group>
           </el-select>
         </div>
         <div class="main_header_item">
@@ -175,7 +185,7 @@
             no-data-text="无可添加产品"
           >
             <el-option
-              v-for="(item, index) in product"
+              v-for="(item, index) in product[0].options"
               :label="item.product_name"
               :value="item.id"
               :key="index"
@@ -269,7 +279,16 @@ export default {
       page: 1,
       row: 10,
       total: 0,
-      product: [],
+      product: [
+        {
+          label: "有效产品",
+          options: []
+        },
+        {
+          label: "已注销产品",
+          options: []
+        }
+      ],
       productType: [
         {
           value: "1",
@@ -343,8 +362,20 @@ export default {
         .productList()
         .then(res => {
           if (res.code == 200) {
-            this.product = res.product_list.map(item => {
-              return { id: item.id, product_name: item.product_name };
+            res.product_list.forEach(item => {
+              if (item.status == 1) {
+                this.product[0].options.push({
+                  id: item.id,
+                  product_name: item.product_name,
+                  status: item.status
+                });
+              } else {
+                this.product[1].options.push({
+                  id: item.id,
+                  product_name: item.product_name,
+                  status: item.status
+                });
+              }
             });
           }
         })

@@ -7,7 +7,11 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>姓名：</span>
-          <el-input size="small" v-model="managerName" placeholder="请输入区域经理姓名"></el-input>
+          <el-input
+            size="small"
+            v-model="managerName"
+            placeholder="请输入区域经理姓名"
+          ></el-input>
         </div>
         <div class="main_header_item">
           <span>省/市：</span>
@@ -22,27 +26,62 @@
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
+        <el-button size="small" type="primary" @click="resetSearch" plain
+          >重置</el-button
+        >
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="addVisble = true">新增区域</el-button>
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
+        <el-button
+          size="small"
+          plain
+          icon="el-icon-plus"
+          @click="addVisble = true"
+          >新增区域</el-button
+        >
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
+          >下载</el-button
+        >
       </div>
-      <el-table 
-        :data="list" 
-        v-loading="listLoading" 
+      <el-table
+        :data="list"
+        v-loading="listLoading"
         element-loading-text="数据拼命加载中"
         element-loading-background="rgba(255, 255, 255, 0.8)"
-        style="width: 100%">
-        <el-table-column prop="province_name" label="省" width="160"></el-table-column>
-        <el-table-column prop="city_name" label="市/区" width="160"></el-table-column>
-        <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
-        <el-table-column prop="id" label="医院编号" min-width="120"></el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="140" ></el-table-column>
-        <el-table-column prop="user_name" label="区域经理" min-width="100" ></el-table-column>
+        style="width: 100%"
+      >
+        <el-table-column
+          prop="province_name"
+          label="省"
+          width="160"
+        ></el-table-column>
+        <el-table-column
+          prop="city_name"
+          label="市/区"
+          width="160"
+        ></el-table-column>
+        <el-table-column
+          prop="hospital_name"
+          label="医院名称"
+          min-width="260"
+        ></el-table-column>
+        <el-table-column
+          prop="id"
+          label="医院编号"
+          min-width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="product_name"
+          label="产品名"
+          min-width="140"
+        ></el-table-column>
+        <el-table-column
+          prop="user_name"
+          label="区域经理"
+          min-width="100"
+        ></el-table-column>
         <!-- <el-table-column prop="status" label="状态" width="80">
           <template scope="scope">
             <span v-if="scope.row.status == 1">正常</span>
@@ -51,13 +90,20 @@
         </el-table-column> -->
         <el-table-column label="操作" width="60" fixed="right">
           <template scope="scope">
-            <el-tooltip class="item" effect="dark" content="查看" placement="top">
-              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看"
+              placement="top"
+            >
+              <i
+                class="el-icon-view"
+                @click="handleDetail(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
             <!-- <el-tooltip v-if="scope.row.status == 1" class="item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip> -->
-            
           </template>
         </el-table-column>
       </el-table>
@@ -70,36 +116,60 @@
           @size-change="sizeChange"
           :page-sizes="[10, 20, 30, 40]"
           :current-page.sync="page"
-          :total="total">
+          :total="total"
+        >
         </el-pagination>
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
-        <ul class="dialog_detail">
-            <li><label>省：</label>{{singleData.province_name}}</li>
-            <li><label>市：</label>{{singleData.city_name}}</li>
-            <li><label>医院名称：</label>{{singleData.hospital_name}}</li>
-            <li><label>医院编号：</label>{{singleData.id}}</li>
-            <li><label>产品名：</label>{{singleData.product_name}}</li>
-            <li><label>区域经理：</label>{{singleData.user_name}}</li>
-            <li>
-              <label>状态：</label>
-              <span v-if="singleData.status == 1">正常</span>
-              <span v-else class="logout">注销</span>
-            </li>
-        </ul>
-        <div class="dialog_title" slot="title"><span class="line"></span>区域信息</div>
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="detailVisble"
+      :append-to-body="true"
+      width="30%"
+    >
+      <ul class="dialog_detail">
+        <li><label>省：</label>{{ singleData.province_name }}</li>
+        <li><label>市：</label>{{ singleData.city_name }}</li>
+        <li><label>医院名称：</label>{{ singleData.hospital_name }}</li>
+        <li><label>医院编号：</label>{{ singleData.id }}</li>
+        <li><label>产品名：</label>{{ singleData.product_name }}</li>
+        <li><label>区域经理：</label>{{ singleData.user_name }}</li>
+        <li>
+          <label>状态：</label>
+          <span v-if="singleData.status == 1">正常</span>
+          <span v-else class="logout">注销</span>
+        </li>
+      </ul>
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>区域信息
+      </div>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
-        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="detailVisble = false"
+          >确 定</el-button
+        >
+        <el-button size="small" type="info" plain @click="detailVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
     <!-- 新增 -->
-    <el-dialog  class="dialog_wrap width_full" :visible.sync="addVisble" :append-to-body="true"
+    <el-dialog
+      class="dialog_wrap width_full"
+      :visible.sync="addVisble"
+      :append-to-body="true"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>区域信息
+      </div>
+      <el-form
+        :model="regionData"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="100px"
+        v-loading="addLoading"
+        element-loading-text="数据拼命加载中..."
       >
-      <div class="dialog_title" slot="title"><span class="line"></span>区域信息</div>
-      <el-form :model="regionData" :rules="rules" ref="ruleForm" label-width="100px" v-loading="addLoading" element-loading-text="数据拼命加载中...">
         <el-form-item label="省/市：" prop="option">
           <el-cascader
             class="width_full"
@@ -111,33 +181,68 @@
           </el-cascader>
         </el-form-item>
         <el-form-item size="small" label="医院名称：" prop="hospitalId">
-          <el-select v-model="regionData.hospitalId" placeholder="请选择医院名称"  @change="chaggeHospital" no-data-text="无可添加区域医院">
-            <el-option v-for="(item, index) in hosptalList" :label="item.hospital_name" :value="item.id" :key="index"></el-option>
+          <el-select
+            v-model="regionData.hospitalId"
+            placeholder="请选择医院名称"
+            @change="chaggeHospital"
+            no-data-text="无可添加区域医院"
+          >
+            <el-option
+              v-for="(item, index) in hosptalList"
+              :label="item.hospital_name"
+              :value="item.id"
+              :key="index"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item size="small" label="产品名：" prop="productId">
-          <el-select v-model="regionData.productId" placeholder="请选择产品名" no-data-text="无可添加医院产品">
-            <el-option v-for="(item, index) in productList" :label="item.product_name" :value="item.product_id" :key="index"></el-option>
+          <el-select
+            v-model="regionData.productId"
+            placeholder="请选择产品名"
+            no-data-text="无可添加医院产品"
+          >
+            <el-option
+              v-for="(item, index) in productList"
+              :label="item.product_name"
+              :value="item.product_id"
+              :key="index"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item size="small" label="区域经理：" prop="managerId">
-          <el-select v-model="regionData.managerId" placeholder="请选择区域经理" no-data-text="无可添加区域经理">
-            <el-option v-for="(item, index) in regionList" :label="item.name" :value="item.region_id" :key="index"></el-option>
+          <el-select
+            v-model="regionData.managerId"
+            placeholder="请选择区域经理"
+            no-data-text="无可添加区域经理"
+          >
+            <el-option
+              v-for="(item, index) in regionList"
+              :label="item.name"
+              :value="item.region_id"
+              :key="index"
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary"  @click="addManager('ruleForm')" >
-          <span v-show="submitLoading" class="submit_loading"><i class="el-icon-loading"></i>数据提交中...</span>
-          <span v-show="!submitLoading">确 定</span> 
-          </el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="addManager('ruleForm')">
+          <span v-show="submitLoading" class="submit_loading"
+            ><i class="el-icon-loading"></i>数据提交中...</span
+          >
+          <span v-show="!submitLoading">确 定</span>
+        </el-button>
+        <el-button size="small" type="info" plain @click="addVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import { provinceAndCityDataPlus, provinceAndCityData } from "element-china-area-data";
+import {
+  provinceAndCityDataPlus,
+  provinceAndCityData
+} from "element-china-area-data";
 export default {
   name: "RegionalManager",
   data() {
@@ -157,7 +262,7 @@ export default {
         option: [],
         hospitalId: null,
         productId: null,
-        managerId: null,
+        managerId: null
       }, //新增数据
       regionList: [], //区域经理列表
       hosptalList: [], //医院列表
@@ -167,18 +272,23 @@ export default {
       total: 0,
       list: [],
       rules: {
-        option: [{ required: true, message: "请选择省市", trigger: 'change'}],
-        hospitalId: [{ required: true, message: '请选择医院名称', trigger: 'change'}],
-        productId: [{ required: true, message: '请选择产品名', trigger: 'change'}],
-        managerId: [{ required: true, message: '请选择区域经理', trigger: 'change'}]
+        option: [{ required: true, message: "请选择省市", trigger: "change" }],
+        hospitalId: [
+          { required: true, message: "请选择医院名称", trigger: "change" }
+        ],
+        productId: [
+          { required: true, message: "请选择产品名", trigger: "change" }
+        ],
+        managerId: [
+          { required: true, message: "请选择区域经理", trigger: "change" }
+        ]
       }
     };
   },
   mounted() {
-      this.getListData();
+    this.getListData();
   },
   methods: {
-
     //地区省市操作
     handleChange(arr) {
       this.searchOption = arr;
@@ -190,8 +300,8 @@ export default {
       this.resetAddData();
       let params = {
         province_code: arr[0],
-        city_code: arr[1],
-      }
+        city_code: arr[1]
+      };
       this.getInfoByProvince(params);
     },
 
@@ -199,37 +309,38 @@ export default {
     getListData() {
       this.listLoading = true;
       let params = null;
-      if (this.isSearch){
+      if (this.isSearch) {
         params = {
           regional_manager_name: this.managerName,
           province_code: this.searchOption[0],
           city_code: this.searchOption[1],
           page: this.page,
           row: this.row
-        }
+        };
       } else {
         params = {
           page: this.page,
           row: this.row
         };
       }
-      this.$api.regionManagerList(params)
-        .then( res => {
-          if(res.code == 200){
+      this.$api
+        .regionManagerList(params)
+        .then(res => {
+          if (res.code == 200) {
             this.total = res.regional_info_count;
-            this.list = res.regional_info_list
+            this.list = res.regional_info_list;
           } else {
-             this.$message({
+            this.$message({
               message: res.message,
               type: "error"
             });
           }
           this.listLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.listLoading = false;
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
     // 搜索
@@ -257,13 +368,13 @@ export default {
 
     // 下载
     downLoad() {
-      console.log('下载')
+      console.log("下载");
     },
 
     // 查看详情
     handleDetail(index, row) {
-        this.detailVisble = true;
-        this.singleData = row;
+      this.detailVisble = true;
+      this.singleData = row;
     },
 
     // 删除
@@ -295,33 +406,34 @@ export default {
     chaggeHospital(val) {
       this.productList = [];
       this.regionData.productId = null;
-      this.hosptalList.forEach( item => {
-        if(item.id == val) {
+      this.hosptalList.forEach(item => {
+        if (item.id == val) {
           this.productList = item.product_info;
         }
-      })
-    },  
+      });
+    },
 
     // 通过省市获取医院信息
-    getInfoByProvince(params){
+    getInfoByProvince(params) {
       this.addLoading = true;
-      this.$api.getInfoByProvince(params)
-        .then( res => {
+      this.$api
+        .getInfoByProvince(params)
+        .then(res => {
           if (res.code == 200) {
             this.hosptalList = res.hospital_product;
             this.regionList = res.region_list;
-          };
+          }
           this.addLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.addLoading = false;
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
     // 新增区域
     addManager(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.submitManager();
         } else {
@@ -331,8 +443,8 @@ export default {
     },
 
     // 提交数据
-    submitManager(){
-       this.$messageBox
+    submitManager() {
+      this.$messageBox
         .confirm("提交数据后将无法更改，请确认无误后再提交！", "提示", {
           type: "warning"
         })
@@ -352,8 +464,9 @@ export default {
         });
     },
     submitRegion(params) {
-      this.$api.regionManagerSubmit(params)
-        .then( res => {
+      this.$api
+        .regionManagerSubmit(params)
+        .then(res => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
@@ -373,11 +486,11 @@ export default {
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.addVisble = false;
           this.submitLoading = false;
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
     // 重置添加数据
@@ -390,7 +503,5 @@ export default {
       this.regionData.managerId = null;
     }
   }
-
-  
 };
 </script>
