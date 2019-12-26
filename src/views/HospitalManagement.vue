@@ -48,33 +48,29 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="id" label="医院编号" width="120"></el-table-column>
-        <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
+        <el-table-column prop="id" label="医院编号"></el-table-column>
+        <el-table-column prop="hospital_name" label="医院名称" min-width="240"></el-table-column>
         <el-table-column
           prop="hospital_level"
           :formatter="levelFormatter"
           label="医院等级"
-          width="120"
         ></el-table-column>
         <el-table-column
           prop="hospital_type"
           :formatter="typeFormatter"
           label="医院类型"
-          width="120"
         ></el-table-column>
         <el-table-column
           prop="hospital_run_type"
           :formatter="runTypeFormatter"
           label="经营方式"
-          width="120"
         ></el-table-column>
 
-        <el-table-column prop="hospital_mobile" label="联系方式" width="160"></el-table-column>
-        <el-table-column prop="hospital_url" label="医院网址" width="240"></el-table-column>
+        <el-table-column prop="hospital_mobile" label="联系方式"></el-table-column>
+        <el-table-column prop="hospital_url" label="医院网址"></el-table-column>
         <el-table-column
           prop="status"
           label="状态"
-          width="240"
           :filters="[
             { text: '正常', value: 1 },
             { text: '已删除', value: 2 }
@@ -87,7 +83,7 @@
             <span class="abnormal" v-if="scope.row.status == 2">已删除</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="120" fixed="right">
+        <el-table-column label="操作" fixed="right">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>

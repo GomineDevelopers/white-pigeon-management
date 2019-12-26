@@ -19,7 +19,7 @@
           <span>产品管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/productManagement">产品管理</el-menu-item>
+          <!-- <el-menu-item index="/productManagement">产品管理</el-menu-item> -->
           <el-menu-item index="/productSection">产品科室</el-menu-item>
           <el-menu-item index="/sectionManagement">科室管理</el-menu-item>
         </el-menu-item-group>
@@ -30,11 +30,11 @@
         <span slot="title">医生管理</span>
       </el-menu-item>
       <el-menu-item index="/representative">
-        <!-- <img src="../assets/image/db.png" /> -->
-        <img src="../assets/image/db1.png" />
+        <img src="../assets/image/db.png" v-if="$route.path == '/representative'" />
+        <img src="../assets/image/db1.png" v-else />
         <span slot="title">代表管理</span>
       </el-menu-item>
-      <el-submenu index="5">
+      <el-submenu index="/regionAssigned">
         <template slot="title">
           <!-- <img src="../assets/image/qygl.png" /> -->
           <img src="../assets/image/qygl1.png" />
@@ -42,7 +42,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/regionAssigned">区域分配</el-menu-item>
-          <el-menu-item index="/applyRecord">申请记录</el-menu-item>
+          <!-- <el-menu-item index="/applyRecord">申请记录</el-menu-item> -->
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="/regionalManager">
@@ -50,14 +50,14 @@
         <img src="../assets/image/qyjl1.png" v-if="$route.path != '/regionalManager'" />
         <span slot="title">区域经理</span>
       </el-menu-item>
-      <el-menu-item index="7">
-        <!-- <img src="../assets/image/zbgl.png" /> -->
+      <!-- <el-menu-item index="7">
+        <img src="../assets/image/zbgl.png" />
         <img src="../assets/image/zbgl1.png" />
         <span slot="title">中标管理</span>
-      </el-menu-item>
-      <el-submenu index="8">
+      </el-menu-item> -->
+      <!-- <el-submenu index="8">
         <template slot="title">
-          <!-- <img src="../assets/image/qy.png" /> -->
+          <img src="../assets/image/qy.png" />
           <img src="../assets/image/qy1.png" />
           <span>签约管理</span>
         </template>
@@ -65,10 +65,9 @@
           <el-menu-item index="8-1">签约审批</el-menu-item>
           <el-menu-item index="8-2">签约档案</el-menu-item>
         </el-menu-item-group>
-      </el-submenu>
+      </el-submenu> -->
       <el-submenu index="/purposetopical">
         <template slot="title">
-          <!-- <img src="../assets/image/bfhy.png" /> -->
           <img src="../assets/image/bfhy1.png" />
           <span>拜访会议</span>
         </template>
@@ -79,31 +78,31 @@
           <el-menu-item index="/mettingapprove">会议审核</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="10">
-        <!-- <img src="../assets/image/jj.png" /> -->
+      <!-- <el-menu-item index="10">
+        <img src="../assets/image/jj.png" />
         <img src="../assets/image/jj1.png" />
         <span slot="title">奖金计算</span>
       </el-menu-item>
       <el-menu-item index="11">
-        <!-- <img src="../assets/image/yjbg.png" /> -->
+        <img src="../assets/image/yjbg.png" />
         <img src="../assets/image/yjbg1.png" />
         <span slot="title">业绩报告</span>
-      </el-menu-item>
+      </el-menu-item> -->
       <el-menu-item index="/dataCenter">
         <img src="../assets/image/zlzx.png" v-if="$route.path === '/dataCenter'" />
         <img src="../assets/image/zlzx1.png" v-if="$route.path != '/dataCenter'" />
         <span slot="title">资料中心</span>
       </el-menu-item>
-      <el-menu-item index="13">
-        <!-- <img src="../assets/image/qx.png" /> -->
+      <!-- <el-menu-item index="13">
+        <img src="../assets/image/qx.png" />
         <img src="../assets/image/qx1.png" />
         <span slot="title">权限管理</span>
       </el-menu-item>
       <el-menu-item index="14">
-        <!-- <img src="../assets/image/sz.png" /> -->
+        <img src="../assets/image/sz.png" />
         <img src="../assets/image/sz1.png" />
         <span slot="title">系统设置</span>
-      </el-menu-item>
+      </el-menu-item> -->
     </el-menu>
   </el-row>
 </template>
