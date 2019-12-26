@@ -51,7 +51,8 @@ ul {
   outline: none;
 }
 .main_list table .el-icon-view,
-.main_list table .el-icon-document-copy {
+.main_list table .el-icon-document-copy,
+.status_success {
   color: #4ccea5;
 }
 .main_list table .el-icon-edit {
@@ -120,7 +121,8 @@ ul {
   right: 10px;
   font-weight: 600;
 }
-.dialog_wrap .el-dialog__header .el-icon-close:hover {
+.dialog_wrap .el-dialog__header .el-icon-close:hover,
+.status_waiting {
   color: #3399ff;
 }
 .dialog_detail li {
@@ -137,6 +139,7 @@ ul {
 .el-cascader-panel .el-cascader-menu {
   height: 360px;
 }
+
 .logout {
   color: #f00;
 }
