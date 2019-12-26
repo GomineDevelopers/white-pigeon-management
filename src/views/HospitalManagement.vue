@@ -71,7 +71,17 @@
 
         <el-table-column prop="hospital_mobile" label="联系方式" width="160"></el-table-column>
         <el-table-column prop="hospital_url" label="医院网址" width="240"></el-table-column>
-        <el-table-column prop="status" label="状态" width="240">
+        <el-table-column
+          prop="status"
+          label="状态"
+          width="240"
+          :filters="[
+            { text: '正常', value: 1 },
+            { text: '已删除', value: 2 }
+          ]"
+          :filter-method="filterStatus"
+          filter-placement="bottom-end"
+        >
           <template scope="scope">
             <span class="normal" v-if="scope.row.status == 1">正常</span>
             <span class="abnormal" v-if="scope.row.status == 2">已删除</span>
@@ -388,6 +398,9 @@ export default {
         .catch(() => {
           console.log("取消！");
         });
+    },
+    filterStatus(value, row) {
+      return row.status === value;
     },
     // 获取列表数据
     getListData() {
@@ -707,5 +720,8 @@ export default {
 <style scoped>
 .el-table .el-table__body-wrapper .abnormal {
   color: red;
+}
+.main_list table .el-table__column-filter-trigger i {
+  color: #333 !important;
 }
 </style>
