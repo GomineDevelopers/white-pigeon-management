@@ -55,7 +55,6 @@
         <img v-else src="../assets/image/zbgl1.png" />
         <span slot="title">中标管理</span>
       </el-menu-item>
-      -->
       <!-- <el-submenu index="8">
         <template slot="title">
           <img src="../assets/image/qy.png" />
