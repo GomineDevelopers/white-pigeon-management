@@ -50,11 +50,12 @@
         <img src="../assets/image/qyjl1.png" v-if="$route.path != '/regionalManager'" />
         <span slot="title">区域经理</span>
       </el-menu-item>
-      <!-- <el-menu-item index="7">
-        <img src="../assets/image/zbgl.png" />
-        <img src="../assets/image/zbgl1.png" />
+      <el-menu-item index="/biddingManagement">
+        <img v-if="$route.path === '/biddingManagement'" src="../assets/image/zbgl.png" />
+        <img v-else src="../assets/image/zbgl1.png" />
         <span slot="title">中标管理</span>
-      </el-menu-item> -->
+      </el-menu-item>
+      -->
       <!-- <el-submenu index="8">
         <template slot="title">
           <img src="../assets/image/qy.png" />

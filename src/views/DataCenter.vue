@@ -8,20 +8,18 @@
         <div class="main_header_item">
           <span>产品名：</span>
           <el-select size="small" v-model="productId" placeholder="请选择">
-            <el-option-group
-              v-for="group in product"
-              :key="group.label"
-              :label="group.label"
-            >
+            <el-option-group v-for="group in product" :key="group.label" :label="group.label">
               <el-option
                 v-for="(item, index) in group.options"
                 :label="item.product_name"
                 :value="item.id"
                 :key="index"
               >
-                <span :class="{ logout: item.status != 1 }">{{
+                <span :class="{ logout: item.status != 1 }">
+                  {{
                   item.product_name
-                }}</span>
+                  }}
+                </span>
               </el-option>
             </el-option-group>
           </el-select>
@@ -40,21 +38,13 @@
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button
-          size="small"
-          plain
-          icon="el-icon-plus"
-          @click="addVisble = true"
-          >新增资料</el-button
-        >
+        <el-button size="small" plain icon="el-icon-plus" @click="addVisble = true">新增资料</el-button>
       </div>
       <el-table
         :data="list"
@@ -63,11 +53,7 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column
-          prop="product_name"
-          label="产品名"
-          width="200"
-        ></el-table-column>
+        <el-table-column prop="product_name" label="产品名" width="200"></el-table-column>
         <el-table-column prop="product_data_type" label="类型" width="140">
           <template scope="scope">
             <span v-if="scope.row.product_data_type == 1">科室会议</span>
@@ -77,39 +63,21 @@
         </el-table-column>
         <el-table-column prop="title" label="PDF名称" min-width="140">
           <template scope="scope">
-            <el-link type="primary" @click="readPDF(scope.row)">{{
+            <el-link type="primary" @click="readPDF(scope.row)">
+              {{
               scope.row.title
-            }}</el-link>
+              }}
+            </el-link>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="create_time"
-          label="日期"
-          min-width="200"
-        ></el-table-column>
+        <el-table-column prop="create_time" label="日期" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看"
-              placement="top"
-            >
-              <i
-                class="el-icon-view"
-                @click="handleDetail(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="查看" placement="top">
+              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="删除"
-              placement="top"
-            >
-              <i
-                class="el-icon-delete"
-                @click="handleDelete(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="删除" placement="top">
+              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -122,61 +90,49 @@
           @current-change="currentChange"
           @size-change="sizeChange"
           :total="total"
-        >
-        </el-pagination>
+        ></el-pagination>
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="detailVisble"
-      :append-to-body="true"
-      width="30%"
-    >
+    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
       <div class="dialog_title" slot="title">
         <span class="line"></span>产品信息
       </div>
       <ul class="dialog_detail">
-        <li><label>产品名：</label>{{ singleData.product_name }}</li>
+        <li>
+          <label>产品名：</label>
+          {{ singleData.product_name }}
+        </li>
         <li>
           <label>类型：</label>
           <span v-if="singleData.product_data_type == 1">科室会议</span>
           <span v-if="singleData.product_data_type == 2">代表培训</span>
           <span v-if="singleData.product_data_type == 3">说明书</span>
         </li>
-        <li><label>上传PDF名称：</label>{{ singleData.title }}</li>
         <li>
-          <label>上传PDF：</label
-          ><el-link type="primary" @click="readPDF(singleData)">
-            {{ singleData.company_policy_name }}</el-link
-          >
+          <label>上传PDF名称：</label>
+          {{ singleData.title }}
         </li>
-        <li><label>上传时间：</label>{{ singleData.create_time }}</li>
+        <li>
+          <label>上传PDF：</label>
+          <el-link type="primary" @click="readPDF(singleData)">{{ singleData.company_policy_name }}</el-link>
+        </li>
+        <li>
+          <label>上传时间：</label>
+          {{ singleData.create_time }}
+        </li>
       </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false"
-          >确 定</el-button
-        >
-        <el-button size="small" type="info" plain @click="detailVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
+        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 新增 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="addVisble"
-      :append-to-body="true"
-    >
+    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
       <div class="dialog_title" slot="title">
         <span class="line"></span>产品信息
       </div>
-      <el-form
-        :model="addData"
-        :rules="rules"
-        ref="ruleForm"
-        label-width="120px"
-      >
+      <el-form :model="addData" :rules="rules" ref="ruleForm" label-width="120px">
         <el-form-item label="产品名" prop="productId" class="width_full">
           <el-select
             size="small"
@@ -208,17 +164,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="上传PDF名称：" prop="title">
-          <el-input
-            size="small"
-            v-model="addData.title"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.title" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="上传PDF：" prop="pfdUrl" ref="uploadPdf">
           <el-button class="upload_btn" size="small" type="primary">
             上传PDF
             <i class="el-icon-upload el-icon--right"></i>
-            <input type="file" @change="checkFile" />
+            <input type="file" accept=".pdf" @change="checkFile" />
           </el-button>
           <span class="upload_tips">点击上传PDF</span>
           <div class="upload_name">
@@ -233,22 +185,15 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="add('ruleForm')"
-          >确 定</el-button
-        >
-        <el-button size="small" type="info" plain @click="addVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="primary" @click="add('ruleForm')">确 定</el-button>
+        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 预览pdf -->
-    <el-dialog
-      class="pdf_view"
-      :visible.sync="pdfVisble"
-      :append-to-body="true"
-    >
+    <el-dialog class="pdf_view" :visible.sync="pdfVisble" :append-to-body="true">
       <div class="dialog_title" slot="title">
-        <span class="line"></span>{{ pdfData.title }}
+        <span class="line"></span>
+        {{ pdfData.title }}
       </div>
       <iframe :src="pdfData.pdfSrc"></iframe>
     </el-dialog>
@@ -451,6 +396,7 @@ export default {
     // 选择PDF
     checkFile(e) {
       let files = e.target.files[0];
+      console.log(files);
       let errTag = this.$refs.uploadPdf.$el.childNodes[1].childNodes[3];
       if (!files.type.match("application/pdf")) {
         this.$message.error("请选择PDF格式的文件上传");
@@ -460,13 +406,13 @@ export default {
         errTag.style.display = "none";
       }
       this.addData.pfdUrl = null;
-      this.getToken(files);
+      // this.getToken(files);
     },
 
     // 获取上去七牛云的doman和token
     getToken(file) {
       this.$api
-        .getQiniuToken("/getQiniu/getToken")
+        .getQiniuToken()
         .then(res => {
           if (res.code === 100) {
             let domain = res.domain;

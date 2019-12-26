@@ -19,9 +19,9 @@
                 :value="item.product_name"
                 :key="index"
               >
-                <span :class="{ logout: item.status != 1 }">{{
-                  item.product_name
-                }}</span>
+                <span :class="{ logout: item.status != 1 }">
+                  {{ item.product_name }}
+                </span>
               </el-option>
             </el-option-group>
           </el-select>
@@ -42,8 +42,8 @@
             placeholder="请选择"
             style="width: 120px"
           >
-            <el-option label="正常" value="1"> </el-option>
-            <el-option label="注销" value="2"> </el-option>
+            <el-option label="正常" value="1"></el-option>
+            <el-option label="注销" value="2"></el-option>
           </el-select>
         </div>
       </el-col>
@@ -153,8 +153,7 @@
           @current-change="currentChange"
           @size-change="sizeChange"
           :total="total"
-        >
-        </el-pagination>
+        ></el-pagination>
       </div>
     </div>
     <!-- 详情弹窗 -->
@@ -168,20 +167,50 @@
         <span class="line"></span>产品信息
       </div>
       <ul class="dialog_detail">
-        <li><label>产品名：</label>{{ singleData.product_name }}</li>
-        <li><label>通用名：</label>{{ singleData.generic_name }}</li>
-        <li><label>剂型：</label>{{ singleData.dosage_form }}</li>
-        <li><label>规格：</label>{{ singleData.specification }}</li>
-        <li><label>包装：</label>{{ singleData.package }}</li>
-        <li><label>厂家：</label>{{ singleData.factory }}</li>
-        <li><label>竞品名：</label>{{ singleData.compete_name }}</li>
-        <li><label>所属省份：</label>{{ singleData.province_name }}</li>
+        <li>
+          <label>产品名：</label>
+          {{ singleData.product_name }}
+        </li>
+        <li>
+          <label>通用名：</label>
+          {{ singleData.generic_name }}
+        </li>
+        <li>
+          <label>剂型：</label>
+          {{ singleData.dosage_form }}
+        </li>
+        <li>
+          <label>规格：</label>
+          {{ singleData.specification }}
+        </li>
+        <li>
+          <label>包装：</label>
+          {{ singleData.package }}
+        </li>
+        <li>
+          <label>厂家：</label>
+          {{ singleData.factory }}
+        </li>
+        <li>
+          <label>竞品名：</label>
+          {{ singleData.compete_name }}
+        </li>
+        <li>
+          <label>所属省份：</label>
+          {{ singleData.province_name }}
+        </li>
         <li>
           <label>主要适应症：</label>
           <p>{{ singleData.indications }}</p>
         </li>
-        <li><label>中标价：</label>{{ singleData.bidding_price }}</li>
-        <li><label>生产公司：</label>{{ singleData.product_company }}</li>
+        <li>
+          <label>中标价：</label>
+          {{ singleData.bidding_price }}
+        </li>
+        <li>
+          <label>生产公司：</label>
+          {{ singleData.product_company }}
+        </li>
         <li>
           <label>产品公司盖章：</label>
           <el-image
@@ -189,8 +218,7 @@
             :src="singleData.product_company_stamp"
             :preview-src-list="[singleData.product_company_stamp]"
             v-if="singleData.product_company_stamp"
-          >
-          </el-image>
+          ></el-image>
         </li>
         <li>
           <label>产品图片：</label>
@@ -199,8 +227,7 @@
             :src="singleData.product_image"
             :preview-src-list="[singleData.product_image]"
             v-if="singleData.product_image"
-          >
-          </el-image>
+          ></el-image>
         </li>
         <li>
           <label>状态：</label>
@@ -224,14 +251,14 @@
       :append-to-body="true"
     >
       <div class="dialog_title" slot="title">
-        <span class="line"></span>产品信息
+        <span class="line"></span>{{isEdit ? "修改" : "新增"}}产品信息
       </div>
       <el-form
         v-if="addVisble"
         :model="addData"
         :rules="rules"
         ref="ruleForm"
-        label-width="110px"
+        label-width="130px"
       >
         <el-form-item label="产品名：" prop="product_name">
           <el-input
@@ -282,10 +309,16 @@
             placeholder="请输入"
           ></el-input>
         </el-form-item>
-        <el-form-item label="所属省份：" prop="province_code">
+        <el-form-item
+          label="所属省份："
+          prop="province_code"
+          class="width_full"
+        >
           <el-select
             size="small"
+            :disabled="isEdit"
             v-model="addData.province_code"
+            @change="changeProvince"
             placeholder="请选择"
           >
             <el-option
@@ -293,8 +326,7 @@
               :label="item.name"
               :value="item.code"
               :key="index"
-            >
-            </el-option>
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="主要适应症：" prop="indications">
@@ -320,18 +352,54 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="产品公司盖章：" prop="product_company_stamp">
-          <el-input
-            size="small"
-            v-model="addData.product_company_stamp"
-            placeholder="请输入"
-          ></el-input>
+          <div class="upload_img">
+            <el-image
+              class="img"
+              v-if="addData.product_company_stamp"
+              :src="addData.product_company_stamp"
+            ></el-image>
+            <i
+              class="el-icon-plus"
+              v-show="
+                !company_stamp_percent || addData.product_company_stamp == null
+              "
+            ></i>
+            <el-progress
+              v-show="company_stamp_percent"
+              :percentage="company_stamp_percent"
+              color="#67c23a"
+            ></el-progress>
+            <input
+              type="file"
+              accept="image/*"
+              data-num="1"
+              @change="checkFile"
+            />
+          </div>
         </el-form-item>
         <el-form-item label="产品图片：" prop="product_image">
-          <el-input
-            size="small"
-            v-model="addData.product_image"
-            placeholder="请输入"
-          ></el-input>
+          <div class="upload_img">
+            <el-image
+              class="img"
+              v-if="addData.product_image"
+              :src="addData.product_image"
+            ></el-image>
+            <i
+              class="el-icon-plus"
+              v-show="!product_image_percent || addData.product_image == null"
+            ></i>
+            <el-progress
+              v-show="product_image_percent"
+              :percentage="product_image_percent"
+              color="#67c23a"
+            ></el-progress>
+            <input
+              type="file"
+              accept="image/*"
+              data-num="2"
+              @change="checkFile"
+            />
+          </div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -349,6 +417,7 @@
   </div>
 </template>
 <script>
+import * as qiniu from "qiniu-js";
 export default {
   name: "ProductManagement",
   data() {
@@ -362,8 +431,10 @@ export default {
       productName: null, // 搜索产品名
       searchStatus: null, //搜索状态
       isSearch: false, //是否是搜索请求
-      isEdit: false,
+      isEdit: false, //是否是编辑内容
       addData: {}, //新增数据
+      company_stamp_percent: 0, //公司盖章图片上传进度条
+      product_image_percent: 0, //产品图片上传进度条
       page: 1,
       row: 10,
       total: 0,
@@ -384,7 +455,16 @@ export default {
         dosage_form: { required: true, message: "请输入剂型" },
         specification: { required: true, message: "请输入规格" },
         package: { required: true, message: "请输入包装" },
-        factory: { required: true, message: "请输入厂家" }
+        factory: { required: true, message: "请输入厂家" },
+        province_code: { required: true, message: "请选择省" },
+        indications: { required: true, message: "请输入主要适应症" },
+        bidding_price: { required: true, message: "请输入中标价" },
+        product_company: { required: true, message: "请输入生产公司" },
+        product_company_stamp: {
+          required: true,
+          message: "请上传产品公司盖章"
+        },
+        product_image: { required: true, message: "请上传产品图片" }
       },
       provinceList: [
         { code: 110000, name: "北京市" },
@@ -521,7 +601,6 @@ export default {
       this.productName = null;
       this.searchStatus = null;
       this.isSearch = false;
-      this.page = 1;
       this.getListData();
     },
 
@@ -551,18 +630,30 @@ export default {
         });
     },
 
-    // 新增医生
+    // 新增产品
     handleCreate() {
       this.isEdit = false;
       this.addVisble = true;
-      this.addData = {};
+      this.company_stamp_percent = 0;
+      this.product_image_percent = 0;
+      this.addData = {
+        product_company_stamp: null,
+        product_image: null
+      };
     },
 
-    // 编辑医院
+    // 编辑产品
     handleEdit(index, row) {
       this.isEdit = true;
       this.addVisble = true;
+      this.company_stamp_percent = 0;
+      this.product_image_percent = 0;
       this.addData = JSON.parse(JSON.stringify(row));
+    },
+
+    // 选择所属省份弹出提示
+    changeProvince(val) {
+      this.$messageBox.alert("医院省市区数据非常重要，数据提交后将无法更改，请确认省市区信息无误！");
     },
 
     // 点击分页当前页数
@@ -587,6 +678,7 @@ export default {
         }
       });
     },
+
     // 提交数据
     submitManager() {
       this.$messageBox
@@ -605,8 +697,6 @@ export default {
     createProduct() {
       let params = this.addData;
       this.submitLoading = true;
-      console.log(params);
-      return;
       this.$api
         .productAdd(params)
         .then(res => {
@@ -635,7 +725,7 @@ export default {
     },
 
     // 修改数据
-    updateDoctor() {
+    updateProduct() {
       let params = {
         product_id: this.addData.id,
         product_name: this.addData.product_name,
@@ -643,13 +733,18 @@ export default {
         dosage_form: this.addData.dosage_form,
         specification: this.addData.specification,
         package: this.addData.package,
-        factory: this.addData.factory
+        factory: this.addData.factory,
+        compete_name: this.addData.compete_name,
+        province_code: this.addData.province_code,
+        indications: this.addData.indications,
+        bidding_price: this.addData.bidding_price,
+        product_company: this.addData.product_company,
+        product_company_stamp: this.addData.product_company_stamp,
+        product_image: this.addData.product_image
       };
-      console.log(params);
-      return;
       this.submitLoading = true;
       this.$api
-        .doctorEdit(params)
+        .productEdit(params)
         .then(res => {
           if (res.code == 200) {
             this.$message({
@@ -672,10 +767,94 @@ export default {
           this.submitLoading = false;
           console.log(err);
         });
+    },
+
+    // 选择图片上传
+    checkFile(e) {
+      let files = e.target.files[0];
+      if (!files.type.match("image/*")) {
+        this.$message.error("请选择图片格式的文件上传");
+        return;
+      }
+      this.fileNumber = e.target.dataset.num;
+      this.getToken(files);
+    },
+
+    // 获取上去七牛云的doman和token
+    getToken(file) {
+      this.$api
+        .getQiniuToken()
+        .then(res => {
+          if (res.code === 100) {
+            let domain = res.domain;
+            let token = res.token;
+            this.uploadToQiniuyun(file, token, domain);
+          } else {
+            this.$message.error(res.message);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    // 上传文件到七牛云
+    uploadToQiniuyun(file, token, domain) {
+      let _this = this;
+      const config = {
+        useCdnDomain: true,
+        region: qiniu.region.z2
+      };
+      let api = `http://${domain}/`;
+      let fileName =
+        _this.fileNumber == 1
+          ? `company_stamp_${file.name}`
+          : `product_${file.name}`;
+      let putExtra = {
+        mimeType: null
+      };
+      const observable = qiniu.upload(file, fileName, token, putExtra, config);
+      observable.subscribe({
+        next(res) {
+          let percent = Math.floor(res.total.percent);
+          if (_this.fileNumber == 1) {
+            _this.company_stamp_percent = percent;
+          } else {
+            _this.product_image_percent = percent;
+          }
+        },
+        error(err) {
+          switch (err.code) {
+            case 401:
+              _this.$message.error("上传失败，请检查是否登录再重试");
+              break;
+            default:
+              _this.$message.error(err.message);
+              break;
+          }
+        },
+        complete(res) {
+          let imgSrc = `${api}${res.key}`;
+          if (_this.fileNumber == 1) {
+            _this.addData.product_company_stamp = imgSrc;
+          } else {
+            _this.addData.product_image = imgSrc;
+          }
+        }
+      });
     }
   }
 };
 </script>
+<style>
+.upload_img .el-progress-bar__outer {
+  height: 4px !important;
+}
+.upload_img .el-progress__text {
+  font-size: 12px !important;
+  color: #67c23a;
+}
+</style>
 <style>
 .dialog_wrap_detail .el-dialog {
   max-height: 80%;
@@ -700,5 +879,39 @@ export default {
 .dialog_detail .img {
   width: 100px;
   height: 100px;
+}
+.upload_img {
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.upload_img .img {
+  width: 100%;
+  height: 100%;
+}
+.upload_img .el-icon-plus {
+  color: #d9d9d9;
+  font-size: 50px;
+  margin-top: 35px;
+}
+.upload_img .el-progress {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+}
+
+.upload_img input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 </style>

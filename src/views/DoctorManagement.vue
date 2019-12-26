@@ -792,7 +792,6 @@ export default {
       this.doctorName = null;
       this.doctorStatus = null;
       this.isSearch = false;
-      this.page = 1;
       this.getListData();
     },
 
@@ -899,7 +898,7 @@ export default {
       this.getListData();
     },
 
-    // 新增产品
+    // 新增医生
     addManager(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -954,7 +953,7 @@ export default {
         });
     },
 
-    // 新增数据
+    // 修改数据
     updateDoctor() {
       let params = {
         doctor_id: this.addData.id,
