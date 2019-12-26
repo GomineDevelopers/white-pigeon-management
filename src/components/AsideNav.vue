@@ -19,7 +19,7 @@
           <span>产品管理</span>
         </template>
         <el-menu-item-group>
-          <!-- <el-menu-item index="/productManagement">产品管理</el-menu-item> -->
+          <el-menu-item index="/productManagement">产品管理</el-menu-item>
           <el-menu-item index="/productSection">产品科室</el-menu-item>
           <el-menu-item index="/sectionManagement">科室管理</el-menu-item>
         </el-menu-item-group>

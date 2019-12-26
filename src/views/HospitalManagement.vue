@@ -49,7 +49,7 @@
         style="width: 100%"
       >
         <el-table-column prop="id" label="医院编号"></el-table-column>
-        <el-table-column prop="hospital_name" label="医院名称" min-width="240"></el-table-column>
+        <el-table-column prop="hospital_name" label="医院名称" min-width="150"></el-table-column>
         <el-table-column
           prop="hospital_level"
           :formatter="levelFormatter"
@@ -67,7 +67,7 @@
         ></el-table-column>
 
         <el-table-column prop="hospital_mobile" label="联系方式"></el-table-column>
-        <el-table-column prop="hospital_url" label="医院网址"></el-table-column>
+        <el-table-column prop="hospital_url" label="医院网址" min-width="150"></el-table-column>
         <el-table-column
           prop="status"
           label="状态"
@@ -83,7 +83,7 @@
             <span class="abnormal" v-if="scope.row.status == 2">已删除</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right">
+        <el-table-column label="操作" fixed="right" min-width="130">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
