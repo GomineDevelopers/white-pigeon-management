@@ -11,6 +11,9 @@ import { Message } from "element-ui";
 // } else if (process.env.NODE_ENV == "production") {
 //   axios.defaults.baseURL = "http://swj.edgrng.com/admin";
 // }
+if (process.env.NODE_ENV == "production") {
+  axios.defaults.baseURL = "http://back.zidata.cn/admin";
+}
 
 axios.defaults.timeout = 10000; //设置请求超时
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8"; //设置post请求头
