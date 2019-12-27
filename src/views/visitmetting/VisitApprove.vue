@@ -11,13 +11,22 @@
         <div class="main_header_item">
           <span>产品：</span>
           <el-select size="small" v-model="product" clearable placeholder="请选择">
-            <el-option
-              v-for="item in productOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+            <el-option-group
+              v-for="group in productOptions"
+              :key="group.label"
+              :label="group.label"
             >
-            </el-option>
+              <el-option
+                v-for="(item, index) in group.options"
+                :label="item.product_name"
+                :value="item.id"
+                :key="index"
+              >
+                <span :class="{ logout: item.status != 1 }">
+                  {{ item.product_name }}
+                </span>
+              </el-option>
+            </el-option-group>
           </el-select>
         </div>
       </el-col>
@@ -56,23 +65,8 @@
               v-if="scope.row.visit_image"
             >
             </el-image>
-            <!-- <el-image
-              class="visit_img"
-              :src="scope.row.visit_image_two"
-              :preview-src-list="[scope.row.visit_image_two]"
-              v-if="scope.row.visit_image_two"
-            >
-            </el-image>
-            <el-image
-              class="visit_img"
-              :src="scope.row.visit_image_three"
-              :preview-src-list="[scope.row.visit_image_three]"
-              v-if="scope.row.visit_image_three"
-            >
-            </el-image> -->
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="end_time" label="结束时间"></el-table-column> -->
         <el-table-column prop="status" label="状态">
           <template scope="scope">
             <span class="status1" v-if="scope.row.status == 1">通过</span>
@@ -85,7 +79,7 @@
             <span class="status8" v-if="scope.row.status == 8">删除</span>
           </template>
         </el-table-column>
-        <el-table-column label="审核" fixed="right" width="110">
+        <el-table-column label="审核" width="110">
           <template scope="scope">
             <el-tooltip
               v-if="scope.row.status == 3"
@@ -112,7 +106,13 @@
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-document-copy" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+              v-if="scope.row.status != 8"
+            >
               <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>
@@ -196,10 +196,14 @@ export default {
       representative: "", //代表
       product: "",
       productOptions: [
-        // {
-        //   value: 1,
-        //   label: ""
-        // }
+        {
+          label: "有效产品",
+          options: []
+        },
+        {
+          label: "已注销产品",
+          options: []
+        }
       ],
       page: 1,
       row: 10,
@@ -236,13 +240,22 @@ export default {
       this.$api
         .productList()
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.code == 200) {
             res.product_list.forEach(item => {
-              this.productOptions.push({
-                value: item.id,
-                label: item.product_name
-              });
+              if (item.status == 1) {
+                this.productOptions[0].options.push({
+                  id: item.id,
+                  product_name: item.product_name,
+                  status: item.status
+                });
+              } else {
+                this.productOptions[1].options.push({
+                  id: item.id,
+                  product_name: item.product_name,
+                  status: item.status
+                });
+              }
             });
           }
         })

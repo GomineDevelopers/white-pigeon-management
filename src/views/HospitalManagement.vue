@@ -73,14 +73,14 @@
           label="状态"
           :filters="[
             { text: '正常', value: 1 },
-            { text: '已删除', value: 2 }
+            { text: '删除', value: 2 }
           ]"
           :filter-method="filterStatus"
           filter-placement="bottom-end"
         >
           <template scope="scope">
             <span class="normal" v-if="scope.row.status == 1">正常</span>
-            <span class="abnormal" v-if="scope.row.status == 2">已删除</span>
+            <span class="abnormal" v-if="scope.row.status == 2">删除</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" min-width="130">
@@ -97,7 +97,13 @@
             >
               <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+              v-if="scope.row.status == 1"
+            >
               <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>

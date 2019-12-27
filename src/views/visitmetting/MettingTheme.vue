@@ -5,9 +5,7 @@
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate"
-          >新增</el-button
-        >
+        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate">新增</el-button>
       </div>
       <el-table
         :data="list"
@@ -16,16 +14,8 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column
-          prop="product_name"
-          label="产品名"
-          width="300"
-        ></el-table-column>
-        <el-table-column
-          prop="product_topic"
-          label="会议主题"
-          min-width="200"
-        ></el-table-column>
+        <el-table-column prop="product_name" label="产品名" width="300"></el-table-column>
+        <el-table-column prop="product_topic" label="会议主题" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
             <el-tooltip
@@ -35,10 +25,7 @@
               content="查看"
               placement="top"
             >
-              <i
-                class="el-icon-view"
-                @click="handleDetail(scope.$index, scope.row)"
-              ></i>
+              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
             <el-tooltip
               class="item"
@@ -47,10 +34,7 @@
               content="编辑"
               placement="top"
             >
-              <i
-                class="el-icon-edit"
-                @click="handleEdit(scope.$index, scope.row)"
-              ></i>
+              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
             </el-tooltip>
             <el-tooltip
               v-if="scope.row.status == 1"
@@ -60,10 +44,7 @@
               content="注销"
               placement="top"
             >
-              <i
-                class="el-icon-delete"
-                @click="handleDelete(scope.$index, scope.row)"
-              ></i>
+              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -83,43 +64,21 @@
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="detailVisble"
-      :append-to-body="true"
-      width="30%"
-    >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>会议主题
-      </div>
+    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
+      <div class="dialog_title" slot="title"><span class="line"></span>会议主题</div>
       <ul class="dialog_detail">
         <li><label>产品名：</label>{{ singleData.product_name }}</li>
         <li><label>会议主题：</label>{{ singleData.product_topic }}</li>
       </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false"
-          >确 定</el-button
-        >
-        <el-button size="small" type="info" plain @click="detailVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
+        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 新增/编辑会议主题 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="addVisble"
-      :append-to-body="true"
-    >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>会议主题
-      </div>
-      <el-form
-        :model="addAndEditData"
-        :rules="rules"
-        ref="ruleForm"
-        label-width="100px"
-      >
+    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
+      <div class="dialog_title" slot="title"><span class="line"></span>会议主题</div>
+      <el-form :model="addAndEditData" :rules="rules" ref="ruleForm" label-width="100px">
         <el-form-item label="产品名" prop="product_id" class="width_full">
           <el-select
             v-model="addAndEditData.product_id"
@@ -150,9 +109,7 @@
           >
           <span v-show="!submitLoading">确 定</span>
         </el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
