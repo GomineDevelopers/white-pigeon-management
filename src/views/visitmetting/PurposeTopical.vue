@@ -223,8 +223,13 @@ export default {
         .productList()
         .then(res => {
           if (res.code == 200) {
-            this.product = res.product_list.map(item => {
-              return { id: item.id, product_name: item.product_name };
+            res.product_list.forEach(item => {
+              if (item.status == 1) {
+                this.product.push({
+                  id: item.id,
+                  product_name: item.product_name
+                });
+              }
             });
           }
         })
