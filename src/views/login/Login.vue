@@ -2,9 +2,16 @@
   <el-row class="login">
     <el-row class="login_content">
       <div class="main_input">
-        <div class="login_title">小白鸽后台管理</div>
+        <div class="login_title">朱鹊医访后台管理</div>
         <div><el-input placeholder="用户名" v-model="userName" clearable> </el-input></div>
-        <div><el-input placeholder="密码" v-model="password" show-password @keyup.enter.native="login"></el-input></div>
+        <div>
+          <el-input
+            placeholder="密码"
+            v-model="password"
+            show-password
+            @keyup.enter.native="login"
+          ></el-input>
+        </div>
         <el-button type="primary" class="submit_btn" round @click="login"
           >登&nbsp;&nbsp;&nbsp;录</el-button
         >
@@ -37,7 +44,7 @@ export default {
       this.$api
         .login(params)
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.code == 200) {
             let expires_in = parseInt(res.expires_in);
             let expiresDate = new Date().getTime() + expires_in * 1000; // 当前时间加上900秒

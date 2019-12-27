@@ -6,20 +6,11 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>代表：</span>
-          <el-input
-            size="small"
-            v-model="representative"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="representative" placeholder="请输入"></el-input>
         </div>
         <div class="main_header_item">
           <span>产品：</span>
-          <el-select
-            size="small"
-            v-model="product"
-            clearable
-            placeholder="请选择"
-          >
+          <el-select size="small" v-model="product" clearable placeholder="请选择">
             <el-option
               v-for="item in productOptions"
               :key="item.value"
@@ -32,9 +23,7 @@
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" plain @click="reset"
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" plain @click="reset">重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
@@ -48,21 +37,10 @@
         style="width: 100%"
       >
         <el-table-column prop="name" label="代表" width="90"></el-table-column>
-        <el-table-column
-          prop="product_name"
-          label="产品"
-          width="100"
-        ></el-table-column>
-        <el-table-column
-          prop="product_topic"
-          label="会议主题"
-        ></el-table-column>
-        <el-table-column
-          prop="hospital_name"
-          label="医院"
-          min-width="90"
-        ></el-table-column>
-        <el-table-column prop="section_name" label="科室"></el-table-column>
+        <el-table-column prop="product_name" label="产品" width="100"></el-table-column>
+        <el-table-column prop="product_topic" label="会议主题"></el-table-column>
+        <el-table-column prop="hospital_name" label="医院" min-width="90"></el-table-column>
+        <!-- <el-table-column prop="section_name" label="科室"></el-table-column> -->
         <el-table-column prop="speaker" label="演讲人"></el-table-column>
         <el-table-column prop="start_time" label="开始时间"></el-table-column>
         <el-table-column prop="end_time" label="结束时间"></el-table-column>
@@ -80,27 +58,11 @@
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看"
-              placement="top"
-            >
-              <i
-                class="el-icon-document-copy"
-                @click="handleDetail(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="查看" placement="top">
+              <i class="el-icon-document-copy" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="删除"
-              placement="top"
-            >
-              <i
-                class="el-icon-delete"
-                @click="handleDelete(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="删除" placement="top">
+              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -121,12 +83,7 @@
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="detailVisble"
-      :append-to-body="true"
-      width="30%"
-    >
+    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
       <ul class="dialog_detail">
         <li><label>代表：</label>{{ singleData.name }}</li>
         <li><label>产品：</label>{{ singleData.product_name }}</li>
@@ -176,16 +133,10 @@
           </span>
         </li>
       </ul>
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>会议审核
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>会议审核</div>
       <div slot="footer" class="dialog-footer" v-if="singleData.status == 3">
-        <el-button size="small" type="primary" @click="approve(1)"
-          >通 过</el-button
-        >
-        <el-button size="small" type="warning" @click="approve(2)"
-          >拒 绝</el-button
-        >
+        <el-button size="small" type="primary" @click="approve(1)">通 过</el-button>
+        <el-button size="small" type="warning" @click="approve(2)">拒 绝</el-button>
       </div>
     </el-dialog>
   </el-row>
@@ -276,17 +227,19 @@ export default {
       this.$api
         .meetingList(parmas)
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.code == 200) {
             this.total = res.meeting_count;
             this.tableData = res.meeting_list;
             this.listLoading = false;
           } else {
+            this.listLoading = false;
             this.tableData = [];
             this.$message.error("数据请求失败，请重试！");
           }
         })
         .catch(error => {
+          this.listLoading = false;
           console.log(error);
         });
     },
