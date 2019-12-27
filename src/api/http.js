@@ -16,7 +16,8 @@ if (process.env.NODE_ENV == "production") {
 }
 
 axios.defaults.timeout = 10000; //设置请求超时
-axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8"; //设置post请求头
+axios.defaults.headers.post["Content-Type"] =
+  "application/x-www-form-urlencoded;charset=UTF-8"; //设置post请求头
 
 // 请求拦截
 axios.interceptors.request.use(
