@@ -88,18 +88,19 @@
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="编辑"
-              placement="top"
-              v-if="scope.row.status == 1"
-            >
-              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top">
-              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
-            </el-tooltip>
+            <template v-if="scope.row.status == 1">
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="编辑"
+                placement="top"
+              >
+                <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+              </el-tooltip>
+              <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+              </el-tooltip>
+            </template>
           </template>
         </el-table-column>
       </el-table>

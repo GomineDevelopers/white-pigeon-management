@@ -76,7 +76,7 @@
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top">
+            <el-tooltip v-if="scope.row.status == 1" class="item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>
@@ -120,6 +120,11 @@
         <li>
           <label>上传时间：</label>
           {{ singleData.create_time }}
+        </li>
+        <li>
+          <label>状态：</label>
+          <span v-if="singleData.status == 1">正常</span>
+          <span v-else class="logout">已注销</span>
         </li>
       </ul>
       <div slot="footer" class="dialog-footer">

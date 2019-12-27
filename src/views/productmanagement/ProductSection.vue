@@ -8,12 +8,22 @@
         <div class="main_header_item">
           <span>产品名：</span>
           <el-select size="small" v-model="productId" placeholder="请选择">
-            <el-option
-              v-for="(item, index) in product"
-              :label="item.product_name"
-              :value="item.id"
-              :key="index"
-            ></el-option>
+            <el-option-group
+              v-for="group in product"
+              :key="group.label"
+              :label="group.label"
+            >
+              <el-option
+                v-for="(item, index) in group.options"
+                :label="item.product_name"
+                :value="item.id"
+                :key="index"
+              >
+                <span :class="{ logout: item.status != 1 }">
+                  {{ item.product_name }}
+                </span>
+              </el-option>
+            </el-option-group>
           </el-select>
         </div>
         <div class="main_header_item">
@@ -70,7 +80,7 @@
           min-width="200"
         ></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template scope="scope" v-show="scope.row.status == 1">
             <el-tooltip
               class="item"
               effect="dark"
@@ -131,7 +141,7 @@
             no-data-text="无可添加产品"
           >
             <el-option
-              v-for="(item, index) in product"
+              v-for="(item, index) in product[0].options"
               :label="item.product_name"
               :value="item.id"
               :key="index"
@@ -192,7 +202,16 @@ export default {
       row: 10,
       total: 0,
       list: [], //科室列表
-      product: [],
+      product: [
+        {
+          label: "有效产品",
+          options: []
+        },
+        {
+          label: "已注销产品",
+          options: []
+        }
+      ],
       sectionTopList: [], //头部搜索科室
       sectionList: [], //科室列表
       sectionSearchList: [], //科室搜索列表
@@ -253,8 +272,20 @@ export default {
         .productList()
         .then(res => {
           if (res.code == 200) {
-            this.product = res.product_list.map(item => {
-              return { id: item.id, product_name: item.product_name };
+            res.product_list.forEach(item => {
+              if (item.status == 1) {
+                this.product[0].options.push({
+                  id: item.id,
+                  product_name: item.product_name,
+                  status: item.status
+                });
+              } else {
+                this.product[1].options.push({
+                  id: item.id,
+                  product_name: item.product_name,
+                  status: item.status
+                });
+              }
             });
           }
         })
