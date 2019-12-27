@@ -8,11 +8,7 @@
         <div class="main_header_item">
           <span>产品名：</span>
           <el-select size="small" v-model="productName" placeholder="请选择">
-            <el-option-group
-              v-for="group in product"
-              :key="group.label"
-              :label="group.label"
-            >
+            <el-option-group v-for="group in product" :key="group.label" :label="group.label">
               <el-option
                 v-for="(item, index) in group.options"
                 :label="item.product_name"
@@ -28,20 +24,11 @@
         </div>
         <div class="main_header_item">
           <span>通用名：</span>
-          <el-input
-            size="small"
-            v-model="commonName"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="commonName" placeholder="请输入"></el-input>
         </div>
         <div class="main_header_item">
           <span>状态：</span>
-          <el-select
-            size="small"
-            v-model="searchStatus"
-            placeholder="请选择"
-            style="width: 120px"
-          >
+          <el-select size="small" v-model="searchStatus" placeholder="请选择" style="width: 120px">
             <el-option label="正常" value="1"></el-option>
             <el-option label="注销" value="2"></el-option>
           </el-select>
@@ -49,20 +36,14 @@
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate"
-          >新增产品</el-button
-        >
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
-          >下载</el-button
-        >
+        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate">新增产品</el-button>
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
       </div>
       <el-table
         :data="list"
@@ -71,36 +52,12 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column
-          prop="product_name"
-          label="产品名"
-          min-width="200"
-        ></el-table-column>
-        <el-table-column
-          prop="generic_name"
-          label="通用名"
-          min-width="160"
-        ></el-table-column>
-        <el-table-column
-          prop="dosage_form"
-          label="剂型"
-          width="100"
-        ></el-table-column>
-        <el-table-column
-          prop="specification"
-          label="规格"
-          width="120"
-        ></el-table-column>
-        <el-table-column
-          prop="package"
-          label="包装"
-          width="200"
-        ></el-table-column>
-        <el-table-column
-          prop="factory"
-          label="厂家"
-          min-width="280"
-        ></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="200"></el-table-column>
+        <el-table-column prop="generic_name" label="通用名" min-width="160"></el-table-column>
+        <el-table-column prop="dosage_form" label="剂型" width="100"></el-table-column>
+        <el-table-column prop="specification" label="规格" width="120"></el-table-column>
+        <el-table-column prop="package" label="包装" width="200"></el-table-column>
+        <el-table-column prop="factory" label="厂家" min-width="280"></el-table-column>
         <el-table-column prop="status" label="状态" width="100">
           <template scope="scope">
             <span v-if="scope.row.status == 1">正常</span>
@@ -109,38 +66,14 @@
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看"
-              placement="top"
-            >
-              <i
-                class="el-icon-view"
-                @click="handleDetail(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="查看" placement="top">
+              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="编辑"
-              placement="top"
-            >
-              <i
-                class="el-icon-edit"
-                @click="handleEdit(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="删除"
-              placement="top"
-            >
-              <i
-                class="el-icon-delete"
-                @click="handleDelete(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="删除" placement="top">
+              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -163,9 +96,7 @@
       :append-to-body="true"
       width="30%"
     >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>产品信息
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>产品信息</div>
       <ul class="dialog_detail">
         <li>
           <label>产品名：</label>
@@ -236,12 +167,8 @@
         </li>
       </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false"
-          >确 定</el-button
-        >
-        <el-button size="small" type="info" plain @click="detailVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
+        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 新增 -->
@@ -251,69 +178,31 @@
       :append-to-body="true"
     >
       <div class="dialog_title" slot="title">
-        <span class="line"></span>{{isEdit ? "修改" : "新增"}}产品信息
+        <span class="line"></span>{{ isEdit ? "修改" : "新增" }}产品信息
       </div>
-      <el-form
-        v-if="addVisble"
-        :model="addData"
-        :rules="rules"
-        ref="ruleForm"
-        label-width="130px"
-      >
+      <el-form v-if="addVisble" :model="addData" :rules="rules" ref="ruleForm" label-width="130px">
         <el-form-item label="产品名：" prop="product_name">
-          <el-input
-            size="small"
-            v-model="addData.product_name"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.product_name" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="通用名：" prop="generic_name">
-          <el-input
-            size="small"
-            v-model="addData.generic_name"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.generic_name" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="剂型：" prop="dosage_form">
-          <el-input
-            size="small"
-            v-model="addData.dosage_form"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.dosage_form" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="规格：" prop="specification">
-          <el-input
-            size="small"
-            v-model="addData.specification"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.specification" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="包装：" prop="package">
-          <el-input
-            size="small"
-            v-model="addData.package"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.package" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="厂家：" prop="factory">
-          <el-input
-            size="small"
-            v-model="addData.factory"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.factory" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="竞品名：" prop="compete_name">
-          <el-input
-            size="small"
-            v-model="addData.compete_name"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.compete_name" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item
-          label="所属省份："
-          prop="province_code"
-          class="width_full"
-        >
+        <el-form-item label="所属省份：" prop="province_code" class="width_full">
           <el-select
             size="small"
             :disabled="isEdit"
@@ -338,18 +227,10 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="中标价：" prop="bidding_price">
-          <el-input
-            size="small"
-            v-model="addData.bidding_price"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.bidding_price" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="生产公司：" prop="product_company">
-          <el-input
-            size="small"
-            v-model="addData.product_company"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.product_company" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="产品公司盖章：" prop="product_company_stamp">
           <div class="upload_img">
@@ -360,21 +241,14 @@
             ></el-image>
             <i
               class="el-icon-plus"
-              v-show="
-                !company_stamp_percent || addData.product_company_stamp == null
-              "
+              v-show="!company_stamp_percent || addData.product_company_stamp == null"
             ></i>
             <el-progress
               v-show="company_stamp_percent"
               :percentage="company_stamp_percent"
               color="#67c23a"
             ></el-progress>
-            <input
-              type="file"
-              accept="image/*"
-              data-num="1"
-              @change="checkFile"
-            />
+            <input type="file" accept="image/*" data-num="1" @change="checkFile" />
           </div>
         </el-form-item>
         <el-form-item label="产品图片：" prop="product_image">
@@ -393,12 +267,7 @@
               :percentage="product_image_percent"
               color="#67c23a"
             ></el-progress>
-            <input
-              type="file"
-              accept="image/*"
-              data-num="2"
-              @change="checkFile"
-            />
+            <input type="file" accept="image/*" data-num="2" @change="checkFile" />
           </div>
         </el-form-item>
       </el-form>
@@ -409,9 +278,7 @@
           </span>
           <span v-show="!submitLoading">确 定</span>
         </el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -579,11 +446,7 @@ export default {
 
     // 搜索
     search() {
-      if (
-        this.commonName == null &&
-        this.productName == null &&
-        this.searchStatus == null
-      ) {
+      if (this.commonName == null && this.productName == null && this.searchStatus == null) {
         this.$message({
           message: "请输入或选择搜索内容",
           type: "error"
@@ -653,7 +516,9 @@ export default {
 
     // 选择所属省份弹出提示
     changeProvince(val) {
-      this.$messageBox.alert("医院省市区数据非常重要，数据提交后将无法更改，请确认省市区信息无误！");
+      this.$messageBox.alert(
+        "医院省市区数据非常重要，数据提交后将无法更改，请确认省市区信息无误！"
+      );
     },
 
     // 点击分页当前页数
@@ -806,10 +671,7 @@ export default {
         region: qiniu.region.z2
       };
       let api = `http://${domain}/`;
-      let fileName =
-        _this.fileNumber == 1
-          ? `company_stamp_${file.name}`
-          : `product_${file.name}`;
+      let fileName = _this.fileNumber == 1 ? `company_stamp_${file.name}` : `product_${file.name}`;
       let putExtra = {
         mimeType: null
       };
@@ -856,9 +718,9 @@ export default {
 }
 </style>
 <style>
-.dialog_wrap_detail .el-dialog {
+/* .dialog_wrap_detail .el-dialog {
   max-height: 80%;
-}
+} */
 .dialog_wrap_detail .el-dialog__body {
   max-height: 600px;
   overflow-y: auto;
