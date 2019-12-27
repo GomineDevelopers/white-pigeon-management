@@ -1,3 +1,14 @@
+body .el-table th.gutter {
+  display: table-cell !important;
+}
+
+body .el-table colgroup.gutter {
+  display: table-cell !important;
+}
+
+table {
+  width: 100% !important;
+}
 .el-menu-vertical-demo::-webkit-scrollbar-track,
 .el-main::-webkit-scrollbar-track,
 .main_list .el-table__body-wrapper::-webkit-scrollbar-track {
