@@ -36,15 +36,44 @@
         @selection-change="selectionChange"
         style="width: 100%"
       >
-        <el-table-column prop="user_name" label="代表名" width="90"></el-table-column>
+        <el-table-column prop="user_name" label="代表名" width="80"></el-table-column>
         <el-table-column prop="hospital_name" label="拜访医院"></el-table-column>
         <el-table-column prop="doctor_name" label="拜访医生" width="90"></el-table-column>
         <el-table-column prop="visit_goal" label="拜访目的"></el-table-column>
-        <el-table-column prop="product_name" label="产品" width="100"></el-table-column>
+        <el-table-column prop="product_name" label="产品" width="90"></el-table-column>
         <el-table-column prop="visit_position" label="位置"></el-table-column>
         <el-table-column prop="start_time" label="开始时间"></el-table-column>
-        <el-table-column prop="end_time" label="结束时间"></el-table-column>
-        <el-table-column prop="status" label="状态" width="90">
+        <el-table-column prop="scope" label="拜访照片">
+          <template scope="scope">
+            <el-image
+              class="visit_img"
+              :src="scope.row.visit_image"
+              :preview-src-list="[
+                scope.row.visit_image,
+                scope.row.visit_image_two,
+                scope.row.visit_image_three
+              ]"
+              v-if="scope.row.visit_image"
+            >
+            </el-image>
+            <!-- <el-image
+              class="visit_img"
+              :src="scope.row.visit_image_two"
+              :preview-src-list="[scope.row.visit_image_two]"
+              v-if="scope.row.visit_image_two"
+            >
+            </el-image>
+            <el-image
+              class="visit_img"
+              :src="scope.row.visit_image_three"
+              :preview-src-list="[scope.row.visit_image_three]"
+              v-if="scope.row.visit_image_three"
+            >
+            </el-image> -->
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="end_time" label="结束时间"></el-table-column> -->
+        <el-table-column prop="status" label="状态">
           <template scope="scope">
             <span class="status1" v-if="scope.row.status == 1">通过</span>
             <span class="status2" v-if="scope.row.status == 2">不合格</span>
@@ -54,6 +83,28 @@
             <span class="status6" v-if="scope.row.status == 6">创建</span>
             <span class="status7" v-if="scope.row.status == 7">隐藏</span>
             <span class="status8" v-if="scope.row.status == 8">删除</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="审核" fixed="right" width="110">
+          <template scope="scope">
+            <el-tooltip
+              v-if="scope.row.status == 3"
+              class="item approved_pass"
+              effect="dark"
+              content="通过"
+              placement="top"
+            >
+              <i class="el-icon-circle-check" @click="approve(1, scope.row.id)"></i>
+            </el-tooltip>
+            <el-tooltip
+              v-if="scope.row.status == 3"
+              class="item approved_nopass"
+              effect="dark"
+              content="拒绝"
+              placement="top"
+            >
+              <i class="el-icon-circle-close" @click="approve(2, scope.row.id)"></i>
+            </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
@@ -125,16 +176,13 @@
               v-if="singleData.visit_image_three"
             >
             </el-image>
-            <!-- <img :src="singleData.visit_image" v-if="singleData.visit_image" />
-            <img :src="singleData.visit_image_two" v-if="singleData.visit_image_two" />
-            <img :src="singleData.visit_image_three" v-if="singleData.visit_image_three" /> -->
           </span>
         </li>
       </ul>
       <div class="dialog_title" slot="title"><span class="line"></span>拜访审核</div>
       <div slot="footer" class="dialog-footer" v-if="singleData.status == 3">
-        <el-button size="small" type="primary" @click="approve(1)">通 过</el-button>
-        <el-button size="small" type="warning" @click="approve(2)">拒 绝</el-button>
+        <el-button size="small" type="primary" @click="approve(1, singleData.id)">通 过</el-button>
+        <el-button size="small" type="warning" @click="approve(2, singleData.id)">拒 绝</el-button>
       </div>
     </el-dialog>
   </el-row>
@@ -224,7 +272,7 @@ export default {
       this.$api
         .visitList(parmas)
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.code == 200) {
             this.total = res.visit_count;
             this.tableData = res.visit_list;
@@ -297,11 +345,12 @@ export default {
         });
     },
     //通过审核
-    approve(type) {
+    approve(type, id) {
+      // console.log(id);
       let message;
       let messageType;
       if (type == 1) {
-        message = "确认修改当前状态为‘通过’吗?";
+        message = "确认修改当前拜访状态为‘通过’吗?";
         messageType = "info";
       } else {
         message = "确认拒绝当前拜访吗？状态提交后不可更改！";
@@ -313,7 +362,7 @@ export default {
           closeOnClickModal: false
         })
         .then(() => {
-          let params = { visit_id: this.singleData.id, is_pass: type };
+          let params = { visit_id: id, is_pass: type };
           this.$api
             .visitOperate(params)
             .then(res => {
@@ -340,6 +389,16 @@ export default {
   }
 };
 </script>
+<style>
+.visit_img .el-image__preview {
+  width: 90px;
+  height: 70px;
+  margin-right: 10px;
+}
+.el-image-viewer__close .el-icon-circle-close {
+  font-size: 40px;
+}
+</style>
 <style scoped>
 .dialog_wrap .dialog_detail .img_list {
   display: -webkit-flex;
@@ -363,5 +422,11 @@ export default {
 .status4,
 .status5 {
   color: #999;
+}
+.approved_pass {
+  color: #67c23a;
+}
+.approved_nopass {
+  color: #f56c6c;
 }
 </style>

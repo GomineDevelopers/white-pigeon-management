@@ -51,7 +51,7 @@ export default {
 }
 .el-main {
   background-color: #fff;
-  z-index: 9;
+  /* z-index: 9; */
   padding: 20px;
 }
 </style>
