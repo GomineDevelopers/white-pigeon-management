@@ -7,26 +7,18 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>姓名：</span>
-          <el-input
-            size="small"
-            v-model="managerName"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="managerName" placeholder="请输入"></el-input>
         </div>
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
-          >下载</el-button
-        >
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
       </div>
       <el-table
         :data="list"
@@ -35,23 +27,16 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column
-          prop="province_name"
-          label="省/市"
-          width="200"
-        ></el-table-column>
-        <el-table-column
-          prop="id"
-          label="代表编号"
-          width="140"
-        ></el-table-column>
-        <el-table-column prop="name" label="姓名" width="140"></el-table-column>
-        <el-table-column prop="phone" label="手机号"></el-table-column>
-        <el-table-column prop="id_card" label="身份证号"></el-table-column>
+        <el-table-column prop="province_name" label="省/市" min-width="140"></el-table-column>
+        <el-table-column prop="id" label="代表编号" min-width="140"></el-table-column>
+        <el-table-column prop="name" label="姓名" minwidth="140"></el-table-column>
+        <el-table-column prop="phone" label="手机号" min-width="140"></el-table-column>
+        <el-table-column prop="id_card" label="身份证号" min-width="140"></el-table-column>
         <el-table-column
           prop="id_effect_time"
           label="身份证有效期"
           :formatter="dateFormatter"
+          min-width="140"
         ></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
@@ -62,10 +47,7 @@
               content="查看"
               placement="top"
             >
-              <i
-                class="el-icon-view"
-                @click="handleDetail(scope.$index, scope.row)"
-              ></i>
+              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
             <!-- <el-tooltip
               v-if="scope.row.status == 1"
@@ -95,12 +77,7 @@
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="detailVisble"
-      :append-to-body="true"
-      width="30%"
-    >
+    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
       <ul class="dialog_detail">
         <li><label>省/市：</label>{{ singleData.province_name }}</li>
         <li><label>姓名：</label>{{ singleData.name }}</li>
@@ -114,43 +91,28 @@
           <label>身份证照片：</label>
           <el-image
             :src="singleData.id_front_img"
-            :preview-src-list="[
-              singleData.id_front_img,
-              singleData.id_back_img
-            ]"
+            :preview-src-list="[singleData.id_front_img, singleData.id_back_img]"
             v-if="singleData.id_front_img"
           >
           </el-image>
           <el-image
             :src="singleData.id_back_img"
-            :preview-src-list="[
-              singleData.id_front_img,
-              singleData.id_back_img
-            ]"
+            :preview-src-list="[singleData.id_front_img, singleData.id_back_img]"
             v-if="singleData.id_back_img"
           >
           </el-image>
         </li>
       </ul>
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>代表信息
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>代表信息</div>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false"
-          >确 定</el-button
-        >
-        <el-button size="small" type="info" plain @click="detailVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
+        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import {
-  provinceAndCityDataPlus,
-  provinceAndCityData
-} from "element-china-area-data";
+import { provinceAndCityDataPlus, provinceAndCityData } from "element-china-area-data";
 export default {
   name: "representative",
   data() {

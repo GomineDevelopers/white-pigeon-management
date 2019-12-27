@@ -48,25 +48,28 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="id" label="医院编号"></el-table-column>
-        <el-table-column prop="hospital_name" label="医院名称" min-width="150"></el-table-column>
+        <el-table-column prop="id" label="医院编号" min-width="80"></el-table-column>
+        <el-table-column prop="hospital_name" label="医院名称" min-width="180"></el-table-column>
         <el-table-column
           prop="hospital_level"
           :formatter="levelFormatter"
           label="医院等级"
+          min-width="110"
         ></el-table-column>
         <el-table-column
           prop="hospital_type"
           :formatter="typeFormatter"
           label="医院类型"
+          min-width="110"
         ></el-table-column>
         <el-table-column
           prop="hospital_run_type"
           :formatter="runTypeFormatter"
           label="经营方式"
+          min-width="110"
         ></el-table-column>
 
-        <el-table-column prop="hospital_mobile" label="联系方式"></el-table-column>
+        <el-table-column prop="hospital_mobile" label="联系方式" min-width="110"></el-table-column>
         <el-table-column prop="hospital_url" label="医院网址" min-width="150"></el-table-column>
         <el-table-column
           prop="status"
@@ -77,13 +80,14 @@
           ]"
           :filter-method="filterStatus"
           filter-placement="bottom-end"
+          width="90"
         >
           <template scope="scope">
             <span class="normal" v-if="scope.row.status == 1">正常</span>
             <span class="abnormal" v-if="scope.row.status == 2">删除</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" min-width="130">
+        <el-table-column label="操作" fixed="right" width="120">
           <template scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
