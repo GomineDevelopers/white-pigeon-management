@@ -7,6 +7,7 @@ function resolve(dir) {
 module.exports = {
   publicPath: "./",
   assetsDir: "static",
+  productionSourceMap: false,
   //反向代理的配置
   devServer: {
     proxy: {
