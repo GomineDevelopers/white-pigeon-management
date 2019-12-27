@@ -97,28 +97,30 @@
                 @click="handleDetail(scope.$index, scope.row)"
               ></i>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="编辑"
-              placement="top"
-            >
-              <i
-                class="el-icon-edit"
-                @click="handleEdit(scope.$index, scope.row)"
-              ></i>
-            </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="删除"
-              placement="top"
-            >
-              <i
-                class="el-icon-delete"
-                @click="handleDelete(scope.$index, scope.row)"
-              ></i>
-            </el-tooltip>
+            <template v-if="scope.row.status == 1">
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="编辑"
+                placement="top"
+              >
+                <i
+                  class="el-icon-edit"
+                  @click="handleEdit(scope.$index, scope.row)"
+                ></i>
+              </el-tooltip>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="删除"
+                placement="top"
+              >
+                <i
+                  class="el-icon-delete"
+                  @click="handleDelete(scope.$index, scope.row)"
+                ></i>
+              </el-tooltip>
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -184,6 +186,11 @@
           <label>医生状态：</label>
           <span v-if="singleData.doctor_status == 1">&nbsp;在职</span>
           <span v-else class="logout">&nbsp;离职</span>
+        </li>
+        <li>
+          <label>状态：</label>
+          <span v-if="singleData.status == 1">正常</span>
+          <span v-else class="logout">已注销</span>
         </li>
       </ul>
       <div slot="footer" class="dialog-footer">

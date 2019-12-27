@@ -27,26 +27,27 @@
             >
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip
-              v-if="scope.row.status == 1"
-              class="item"
-              :enterable="false"
-              effect="dark"
-              content="编辑"
-              placement="top"
-            >
-              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
-            </el-tooltip>
-            <el-tooltip
-              v-if="scope.row.status == 1"
-              class="item"
-              :enterable="false"
-              effect="dark"
-              content="注销"
-              placement="top"
-            >
-              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
-            </el-tooltip>
+            <template v-if="scope.row.status == 1">
+              <el-tooltip
+                class="item"
+                :enterable="false"
+                effect="dark"
+                content="编辑"
+                placement="top"
+              >
+                <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+              </el-tooltip>
+              <el-tooltip
+                v-if="scope.row.status == 1"
+                class="item"
+                :enterable="false"
+                effect="dark"
+                content="注销"
+                placement="top"
+              >
+                <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+              </el-tooltip>
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -70,6 +71,11 @@
       <ul class="dialog_detail">
         <li><label>产品名：</label>{{ singleData.product_name }}</li>
         <li><label>拜访目的：</label>{{ singleData.visit_goal }}</li>
+        <li>
+          <label>状态：</label>
+          <span v-if="singleData.status == 1">正常</span>
+          <span v-else class="logout">已注销</span>
+        </li>
       </ul>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>

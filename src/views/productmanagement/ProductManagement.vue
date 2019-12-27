@@ -164,7 +164,7 @@
         </li>
         <li>
           <label>状态：</label>
-          <span v-if="singleData.status">正常</span>
+          <span v-if="singleData.status == 1">正常</span>
           <span v-else class="logout">已注销</span>
         </li>
       </ul>
