@@ -38,7 +38,6 @@
                 <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
               </el-tooltip>
               <el-tooltip
-                v-if="scope.row.status == 1"
                 class="item"
                 :enterable="false"
                 effect="dark"
