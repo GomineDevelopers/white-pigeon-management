@@ -638,7 +638,7 @@ export default {
     // 搜索
     search() {
       if (
-        this.hospitalId == null &&
+        this.hospitalName == null &&
         !this.searchOption.length &&
         this.gradeId == null
       ) {
@@ -648,14 +648,14 @@ export default {
         });
         return false;
       }
-      // console.log(this.hospitalId, this.searchOption, this.gradeId);
+      //console.log(this.hospitalName, this.searchOption, this.gradeId);
       this.getListData();
     },
     // 重置搜索内容
     resetSearch() {
       this.searchOption = [];
       this.gradeId = null;
-      this.hospitalId = null;
+      this.hospitalName = null;
       this.getListData();
     },
     // 下载
