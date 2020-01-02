@@ -1,9 +1,12 @@
-import { get, post } from "./http";
+import { get, post, downFile } from "./http";
 let api = {
   login: params => post("/login", params), //登录
   logout: params => post("/logout", params), //退出登录
   refresh: params => post("/refresh", params), //刷新token
   getQiniuToken: params => post("/getQiniu/getToken", params), //获取七牛云Token
+
+  downVisitExcel: params => downFile("/visitManager/visitList", params), //拜访数据下载
+
   addRegion: params => post("/RegionManager/addRegion", params), //添加区域经理
   regionManagerDetail: params =>
     post("/RegionManager/regionManagerDetail", params), //区域经理详情
@@ -13,7 +16,7 @@ let api = {
   getInfoByProvince: params => post("/RegionManager/getInfoByProvince", params), //省市获取信息
   regionManagerSubmit: params =>
     post("/RegionManager/regionManagerSubmit", params), //绑定医院产品
-  visitList: params => post("/visitManager/visitList", params), //拜访审核列表
+  visitList: params => get("/visitManager/visitList", params), //拜访审核列表
   visitOperate: params => post("/visitManager/visitOperate", params), //拜访审核
   visitDel: params => post("/visitManager/visitDel", params), //拜访删除
   productList: params => post("/productManager/productList", params), //产品

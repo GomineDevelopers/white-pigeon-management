@@ -71,7 +71,7 @@
           src="../assets/image/zbgl.png"
         />
         <img v-else src="../assets/image/zbgl1.png" />
-        <span slot="title">中标管理</span>
+        <span slot="title">产品申请</span>
       </el-menu-item>
       <!-- <el-submenu index="8">
         <template slot="title">
