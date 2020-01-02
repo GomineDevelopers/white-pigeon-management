@@ -6,7 +6,8 @@ let api = {
   getQiniuToken: params => post("/getQiniu/getToken", params), //获取七牛云Token
 
   downVisitExcel: params => downFile("/visitManager/visitList", params), //拜访数据下载
-
+  downHospitalManagerExcel: params =>
+    downFile("/hospitalManager/hospitalManagerList", params), //医院管理数据下载
   addRegion: params => post("/RegionManager/addRegion", params), //添加区域经理
   regionManagerDetail: params =>
     post("/RegionManager/regionManagerDetail", params), //区域经理详情
@@ -60,7 +61,7 @@ let api = {
   productAdd: params => post("/productManager/productAdd", params), //产品管理新增
   productEdit: params => post("/productManager/productEdit", params), //产品管理修改
   hospitalManagerList: params =>
-    post("/hospitalManager/hospitalManagerList", params), //医院管理列表
+    get("/hospitalManager/hospitalManagerList", params), //医院管理列表
   hospitalAdd: params => post("/hospitalManager/hospitalAdd", params), //添加医院
   hospitalDel: params => post("/hospitalManager/hospitalDel", params), //删除医院
   hospitalEdit: params => post("/hospitalManager/hospitalEdit", params), //编辑医院

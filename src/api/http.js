@@ -187,7 +187,7 @@ export function post(url, params) {
 }
 
 /**
- * 表格下载get方法，对应get请求
+ * 表格下载downFile方法，对应get请求
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
@@ -201,14 +201,14 @@ export function downFile(url, params) {
       const blob = new Blob([res.data], {
         type: "application/vnd.ms-excel"
       });
+      let date = new Date();
+      let time =
+        date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
       let src = window.URL.createObjectURL(blob);
       let aLink = document.createElement("a");
       aLink.style.display = "none";
       aLink.href = src;
-      aLink.setAttribute(
-        "download",
-        params.user_name ? params.user_name : "数据表格" + ".xls"
-      );
+      aLink.setAttribute("download", "数据下载" + time + ".xls");
       document.body.appendChild(aLink);
       aLink.click();
       document.body.removeChild(aLink);

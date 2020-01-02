@@ -24,7 +24,7 @@
         </div>
         <div class="main_header_item">
           <span>等级：</span>
-          <el-select size="small" v-model="gradeId" placeholder="请选择">
+          <el-select size="small" v-model="gradeId" placeholder="请选择" style="width: 120px">
             <el-option
               v-for="item in gradeArr"
               :key="item.id"
@@ -33,6 +33,21 @@
             ></el-option>
           </el-select>
         </div>
+        <div class="main_header_item">
+          <span>状态：</span>
+          <el-select
+            size="small"
+            v-model="searchStatus"
+            placeholder="请选择"
+            style="width: 120px"
+          >
+            <el-option label="正常" value="1"></el-option>
+            <el-option label="删除" value="2"></el-option>
+          </el-select>
+        </div>
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
+          >下载</el-button
+        >
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
@@ -46,9 +61,6 @@
       <div class="toolbar">
         <el-button size="small" plain icon="el-icon-plus" @click="handleCreate"
           >新增医院</el-button
-        >
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
-          >下载</el-button
         >
       </div>
       <el-table
@@ -430,24 +442,10 @@ export default {
       isEdit: false, //编辑和新增的区分标识
       searchOption: [], //搜索省市
       gradeId: null, //搜索等级
+      searchStatus: null, //搜索医院状态
       hospitalName: null, //搜索医院
       hospitalId: null, //编辑医院时的医院id
-      addData: {
-        // option: [],
-        // hospital_name: null,
-        // hospital_rank: null,
-        // hospital_type:null,
-        // business: null,
-        // net: null,
-        // phone: null,
-        // province_code: null,
-        // city_code: null,
-        // address: null,
-        // lng: null,
-        // lat: null
-        // postcode:null,
-        // hospital_email:null,
-      }, //新增数据
+      addData: {}, //新增数据
       page: 1,
       row: 10,
       gradeArr: [
@@ -476,21 +474,7 @@ export default {
         { id: 5, type: "私人医院" },
         { id: 6, type: "未知" }
       ],
-      tableData: [
-        // {
-        //   hospital_num: 1,
-        //   hospital_name: "复旦大学附属眼耳鼻喉科医院",
-        //   hospital_rank: "三级甲等",
-        //   business: "公立",
-        //   phone: "304-62194335",
-        //   net: "www.baidu.com",
-        //   province_name: "贵州省",
-        //   city_name: "贵阳市",
-        //   address: "观山湖区贵阳北站",
-        //   lng: 121.3343,
-        //   lat: 33.454353
-        // },
-      ],
+      tableData: [],
       total: null,
       rules: {
         option: { required: true, message: "请选择省市区" },
@@ -544,13 +528,12 @@ export default {
         city_code: this.searchOption[1],
         hospital_name: this.hospitalName,
         hospital_level: this.gradeId,
-        status: this.status
+        status: this.searchStatus
       };
       this.listLoading = true;
       this.$api
         .hospitalManagerList(params)
         .then(res => {
-          console.log(res);
           this.listLoading = false;
           if (res.code == 200) {
             this.total = res.hospital_manager_count;
@@ -640,7 +623,8 @@ export default {
       if (
         this.hospitalName == null &&
         !this.searchOption.length &&
-        this.gradeId == null
+        this.gradeId == null &&
+        this.searchStatus == null
       ) {
         this.$message({
           message: "请输入或选择搜索内容",
@@ -656,11 +640,20 @@ export default {
       this.searchOption = [];
       this.gradeId = null;
       this.hospitalName = null;
+      this.searchStatus = null;
       this.getListData();
     },
     // 下载
     downLoad() {
-      console.log("下载");
+      let parmas = {
+        province_code: this.searchOption[0],
+        city_code: this.searchOption[1],
+        hospital_name: this.hospitalName,
+        hospital_level: this.gradeId,
+        status: this.searchStatus,
+        is_export: 1
+      };
+      this.$api.downHospitalManagerExcel(parmas);
     },
     // 查看详情
     handleDetail(index, row) {

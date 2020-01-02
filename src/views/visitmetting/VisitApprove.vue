@@ -440,7 +440,7 @@ export default {
           this.$api
             .visitDel(params)
             .then(res => {
-              console.log(res);
+              // console.log(res);
               if (res.code == 200) {
                 this.$message({
                   message: "操作成功!",
