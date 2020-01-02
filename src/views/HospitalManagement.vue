@@ -16,7 +16,11 @@
         </div>
         <div class="main_header_item">
           <span>医院：</span>
-          <el-input size="small" v-model="hospitalName" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="hospitalName"
+            placeholder="请输入"
+          ></el-input>
         </div>
         <div class="main_header_item">
           <span>等级：</span>
@@ -32,14 +36,20 @@
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
+        <el-button size="small" type="primary" @click="resetSearch" plain
+          >重置</el-button
+        >
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate">新增医院</el-button>
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
+        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate"
+          >新增医院</el-button
+        >
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
+          >下载</el-button
+        >
       </div>
       <el-table
         :data="tableData"
@@ -48,8 +58,16 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="id" label="医院编号" min-width="80"></el-table-column>
-        <el-table-column prop="hospital_name" label="医院名称" min-width="180"></el-table-column>
+        <el-table-column
+          prop="id"
+          label="医院编号"
+          min-width="80"
+        ></el-table-column>
+        <el-table-column
+          prop="hospital_name"
+          label="医院名称"
+          min-width="180"
+        ></el-table-column>
         <el-table-column
           prop="hospital_level"
           :formatter="levelFormatter"
@@ -69,8 +87,21 @@
           min-width="110"
         ></el-table-column>
 
-        <el-table-column prop="hospital_mobile" label="联系方式" min-width="110"></el-table-column>
-        <el-table-column prop="hospital_url" label="医院网址" min-width="150"></el-table-column>
+        <el-table-column
+          prop="hospital_mobile"
+          label="联系方式"
+          min-width="110"
+        ></el-table-column>
+        <el-table-column prop="hospital_url" label="医院网址" min-width="150">
+          <template scope="scope"
+            ><a
+              class="hospital_link"
+              :href="scope.row.hospital_url"
+              target="_blank"
+              >{{ scope.row.hospital_url }}</a
+            ></template
+          >
+        </el-table-column>
         <el-table-column
           prop="status"
           label="状态"
@@ -89,8 +120,16 @@
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="120">
           <template scope="scope">
-            <el-tooltip class="item" effect="dark" content="查看" placement="top">
-              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看"
+              placement="top"
+            >
+              <i
+                class="el-icon-view"
+                @click="handleDetail(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
             <el-tooltip
               class="item"
@@ -99,7 +138,10 @@
               placement="top"
               v-if="scope.row.status == 1"
             >
-              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+              <i
+                class="el-icon-edit"
+                @click="handleEdit(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
             <el-tooltip
               class="item"
@@ -108,7 +150,10 @@
               placement="top"
               v-if="scope.row.status == 1"
             >
-              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+              <i
+                class="el-icon-delete"
+                @click="handleDelete(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -125,8 +170,15 @@
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
-      <div class="dialog_title" slot="title"><span class="line"></span>医院信息</div>
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="detailVisble"
+      :append-to-body="true"
+      width="30%"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>医院信息
+      </div>
       <ul class="dialog_detail">
         <li>
           <label>医院编号：</label>
@@ -150,7 +202,12 @@
         </li>
         <li>
           <label>医院网址：</label>
-          {{ singleData.hospital_url }}
+          <a
+            class="hospital_link"
+            :href="singleData.hospital_url"
+            target="_blank"
+            >{{ singleData.hospital_url }}</a
+          >
         </li>
         <li>
           <label>联系方式：</label>
@@ -177,24 +234,54 @@
         </li>
       </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
-        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="detailVisble = false"
+          >确 定</el-button
+        >
+        <el-button size="small" type="info" plain @click="detailVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
     <!-- 新增 -->
-    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
-      <div class="dialog_title" slot="title" v-if="!isEdit"><span class="line"></span>新增医院</div>
-      <div class="dialog_title" slot="title" v-else><span class="line"></span>编辑医院</div>
-      <el-form v-if="addVisble" :model="addData" :rules="rules" ref="ruleForm" label-width="100px">
-        <el-form-item label="医院名称：" prop="hospital_name" class="width_full">
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="addVisble"
+      :append-to-body="true"
+    >
+      <div class="dialog_title" slot="title" v-if="!isEdit">
+        <span class="line"></span>新增医院
+      </div>
+      <div class="dialog_title" slot="title" v-else>
+        <span class="line"></span>编辑医院
+      </div>
+      <el-form
+        v-if="addVisble"
+        :model="addData"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="100px"
+      >
+        <el-form-item
+          label="医院名称："
+          prop="hospital_name"
+          class="width_full"
+        >
           <el-input
             size="small"
             v-model="addData.hospital_name"
             placeholder="请输入医院名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="医院等级：" prop="hospital_rank" class="width_full">
-          <el-select size="small" v-model="addData.hospital_rank" placeholder="请选择医院等级">
+        <el-form-item
+          label="医院等级："
+          prop="hospital_rank"
+          class="width_full"
+        >
+          <el-select
+            size="small"
+            v-model="addData.hospital_rank"
+            placeholder="请选择医院等级"
+          >
             <el-option
               v-for="item in gradeArr"
               :label="item.grade_name"
@@ -203,8 +290,16 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="医院类型：" prop="hospital_type" class="width_full">
-          <el-select size="small" v-model="addData.hospital_type" placeholder="请选择医院类型">
+        <el-form-item
+          label="医院类型："
+          prop="hospital_type"
+          class="width_full"
+        >
+          <el-select
+            size="small"
+            v-model="addData.hospital_type"
+            placeholder="请选择医院类型"
+          >
             <el-option
               v-for="item in hospitalType"
               :label="item.type"
@@ -214,7 +309,11 @@
           </el-select>
         </el-form-item>
         <el-form-item label="经营方式：" prop="business" class="width_full">
-          <el-select size="small" v-model="addData.business" placeholder="请选择经营方式">
+          <el-select
+            size="small"
+            v-model="addData.business"
+            placeholder="请选择经营方式"
+          >
             <el-option
               v-for="item in runType"
               :label="item.type"
@@ -224,10 +323,18 @@
           </el-select>
         </el-form-item>
         <el-form-item label="医院网址：" prop="net">
-          <el-input size="small" v-model="addData.net" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.net"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="联系方式：">
-          <el-input size="small" v-model="addData.phone" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.phone"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="省/市/区：" prop="option">
           <el-cascader
@@ -240,7 +347,11 @@
           ></el-cascader>
         </el-form-item>
         <el-form-item label="详细地址：" prop="address">
-          <el-input size="small" v-model="addData.address" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.address"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="12">
@@ -265,15 +376,27 @@
           </el-col>
         </el-row>
         <el-form-item label="邮编：">
-          <el-input size="small" v-model="addData.postcode" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.postcode"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="Email：">
-          <el-input size="small" v-model="addData.hospital_email" placeholder="请输入"></el-input>
+          <el-input
+            size="small"
+            v-model="addData.hospital_email"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="addhospital('ruleForm')">确 定</el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="addhospital('ruleForm')"
+          >确 定</el-button
+        >
+        <el-button size="small" type="info" plain @click="addVisble = false"
+          >取 消</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -395,9 +518,13 @@ export default {
     handleManagerChange(arr) {
       this.addData.option = arr;
       this.$messageBox
-        .confirm("医院省市区数据非常重要，数据提交后将无法更改，请确认省市区信息无误！", "提示", {
-          type: "warning"
-        })
+        .confirm(
+          "医院省市区数据非常重要，数据提交后将无法更改，请确认省市区信息无误！",
+          "提示",
+          {
+            type: "warning"
+          }
+        )
         .then(() => {
           console.log("确认！");
         })
@@ -510,7 +637,11 @@ export default {
     },
     // 搜索
     search() {
-      if (this.hospitalId == null && !this.searchOption.length && this.gradeId == null) {
+      if (
+        this.hospitalId == null &&
+        !this.searchOption.length &&
+        this.gradeId == null
+      ) {
         this.$message({
           message: "请输入或选择搜索内容",
           type: "error"
@@ -592,7 +723,11 @@ export default {
         business: row.hospital_run_type,
         net: row.hospital_url,
         phone: row.hospital_mobile,
-        option: [String(row.province_code), String(row.city_code), String(row.area_code)],
+        option: [
+          String(row.province_code),
+          String(row.city_code),
+          String(row.area_code)
+        ],
         address: row.detail_address,
         lng: row.hospital_longtude,
         lat: row.hospital_latitude,
@@ -729,5 +864,13 @@ export default {
 }
 .main_list table .el-table__column-filter-trigger i {
   color: #333 !important;
+}
+.hospital_link {
+  color: #606266;
+  text-decoration: none;
+}
+.hospital_link:hover {
+  color: #409eff;
+  text-decoration: underline;
 }
 </style>

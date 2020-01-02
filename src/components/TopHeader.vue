@@ -5,7 +5,9 @@
         <img src="https://img.yzcdn.cn/vant/cat.jpeg" />
         <i class="el-icon-arrow-down"></i>
       </span>
-      <span class="logout_btn" @click="logout"> <i class="el-icon-setting"></i>退出 </span>
+      <span class="logout_btn" @click="logout" title="退出登录">
+        <i class="el-icon-setting"></i>退出
+      </span>
     </el-row>
   </el-row>
 </template>
@@ -76,5 +78,8 @@ export default {
 }
 .logout_btn {
   cursor: pointer;
+}
+.logout_btn:hover {
+  color: #409eff;
 }
 </style>
