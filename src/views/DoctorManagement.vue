@@ -7,11 +7,7 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>医生姓名：</span>
-          <el-input
-            size="small"
-            v-model="doctorName"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="doctorName" placeholder="请输入"></el-input>
         </div>
         <div class="main_header_item">
           <span>医生状态：</span>
@@ -24,23 +20,17 @@
             ></el-option>
           </el-select>
         </div>
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate"
-          >新增医生</el-button
-        >
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
-          >下载</el-button
-        >
+        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate">新增医生</el-button>
       </div>
       <el-table
         :data="list"
@@ -49,27 +39,15 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column
-          prop="doctor_name"
-          label="医生名"
-          min-width="100"
-        ></el-table-column>
+        <el-table-column prop="doctor_name" label="医生名" min-width="100"></el-table-column>
         <el-table-column
           prop="sex"
           label="性别"
           min-width="60"
           :formatter="formatSex"
         ></el-table-column>
-        <el-table-column
-          prop="hospital_name"
-          label="医院名"
-          min-width="260"
-        ></el-table-column>
-        <el-table-column
-          prop="section_name"
-          label="科室"
-          min-width="140"
-        ></el-table-column>
+        <el-table-column prop="hospital_name" label="医院名" min-width="260"></el-table-column>
+        <el-table-column prop="section_name" label="科室" min-width="140"></el-table-column>
         <el-table-column
           prop="position"
           label="职务"
@@ -78,47 +56,21 @@
         ></el-table-column>
         <el-table-column prop="doctor_status" label="医生状态" min-width="100">
           <template scope="scope">
-            <span v-if="scope.row.doctor_status == 1">
-              <b class="dot approved"></b>在职
-            </span>
+            <span v-if="scope.row.doctor_status == 1"> <b class="dot approved"></b>在职 </span>
             <span v-else> <b class="dot refuse"></b>离职 </span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看"
-              placement="top"
-            >
-              <i
-                class="el-icon-view"
-                @click="handleDetail(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="查看" placement="top">
+              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
             <template v-if="scope.row.status == 1">
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="编辑"
-                placement="top"
-              >
-                <i
-                  class="el-icon-edit"
-                  @click="handleEdit(scope.$index, scope.row)"
-                ></i>
+              <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+                <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="删除"
-                placement="top"
-              >
-                <i
-                  class="el-icon-delete"
-                  @click="handleDelete(scope.$index, scope.row)"
-                ></i>
+              <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
               </el-tooltip>
             </template>
           </template>
@@ -136,15 +88,8 @@
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="detailVisble"
-      :append-to-body="true"
-      width="30%"
-    >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>医生信息
-      </div>
+    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
+      <div class="dialog_title" slot="title"><span class="line"></span>医生信息</div>
       <ul class="dialog_detail">
         <li>
           <label>医生名：</label>
@@ -194,36 +139,16 @@
         </li>
       </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false"
-          >确 定</el-button
-        >
-        <el-button size="small" type="info" plain @click="detailVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
+        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 新增/修改 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="addVisble"
-      :append-to-body="true"
-    >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>医生信息
-      </div>
-      <el-form
-        v-if="addVisble"
-        :model="addData"
-        :rules="rules"
-        ref="ruleForm"
-        label-width="140px"
-      >
+    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
+      <div class="dialog_title" slot="title"><span class="line"></span>医生信息</div>
+      <el-form v-if="addVisble" :model="addData" :rules="rules" ref="ruleForm" label-width="140px">
         <el-form-item label="医生名：" prop="doctor_name">
-          <el-input
-            size="small"
-            v-model="addData.doctor_name"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="addData.doctor_name" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item class="width_full" size="small" label="性别：" prop="sex">
           <el-select v-model="addData.sex" placeholder="请选择性别">
@@ -231,12 +156,7 @@
             <el-option label="女" :value="2"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          class="width_full"
-          size="small"
-          label="所属医院："
-          prop="hospital_id"
-        >
+        <el-form-item class="width_full" size="small" label="所属医院：" prop="hospital_id">
           <el-select
             v-model="addData.hospital_id"
             filterable
@@ -251,12 +171,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          class="width_full"
-          size="small"
-          label="科室："
-          prop="section_id"
-        >
+        <el-form-item class="width_full" size="small" label="科室：" prop="section_id">
           <el-select
             v-model="addData.section_id"
             filterable
@@ -271,12 +186,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          class="width_full"
-          size="small"
-          label="职务："
-          prop="position"
-        >
+        <el-form-item class="width_full" size="small" label="职务：" prop="position">
           <el-select v-model="addData.position" placeholder="请选择职务">
             <el-option
               v-for="(item, index) in doctorPostList"
@@ -286,12 +196,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          class="width_full"
-          size="small"
-          label="职务头衔："
-          prop="job_title"
-        >
+        <el-form-item class="width_full" size="small" label="职务头衔：" prop="job_title">
           <el-select v-model="addData.job_title" placeholder="请选择职务头衔">
             <el-option
               v-for="(item, index) in jobList"
@@ -301,16 +206,8 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          class="width_full"
-          size="small"
-          label="学术头衔："
-          prop="academic_title"
-        >
-          <el-select
-            v-model="addData.academic_title"
-            placeholder="请选择学术头衔"
-          >
+        <el-form-item class="width_full" size="small" label="学术头衔：" prop="academic_title">
+          <el-select v-model="addData.academic_title" placeholder="请选择学术头衔">
             <el-option
               v-for="(item, index) in academicList"
               :label="item.academic_name"
@@ -319,12 +216,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          class="width_full"
-          size="small"
-          label="学历："
-          prop="educate"
-        >
+        <el-form-item class="width_full" size="small" label="学历：" prop="educate">
           <el-select v-model="addData.educate" placeholder="请选择学历">
             <el-option
               v-for="(item, index) in EducateList"
@@ -334,16 +226,8 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          class="width_full"
-          size="small"
-          label="专业人士分类："
-          prop="doctor_type"
-        >
-          <el-select
-            v-model="addData.doctor_type"
-            placeholder="请选择专业人士分类"
-          >
+        <el-form-item class="width_full" size="small" label="专业人士分类：" prop="doctor_type">
+          <el-select v-model="addData.doctor_type" placeholder="请选择专业人士分类">
             <el-option
               v-for="(item, index) in doctorTypeList"
               :label="item.doctor_type_name"
@@ -352,16 +236,8 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          class="width_full"
-          size="small"
-          label="医生状态："
-          prop="doctor_status"
-        >
-          <el-select
-            v-model="addData.doctor_status"
-            placeholder="请选择医生状态"
-          >
+        <el-form-item class="width_full" size="small" label="医生状态：" prop="doctor_status">
+          <el-select v-model="addData.doctor_status" placeholder="请选择医生状态">
             <el-option label="在职" :value="1"></el-option>
             <el-option label="离职" :value="2"></el-option>
           </el-select>
@@ -374,9 +250,7 @@
           </span>
           <span v-show="!submitLoading">确 定</span>
         </el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -804,7 +678,12 @@ export default {
 
     // 下载
     downLoad() {
-      console.log("下载");
+      let parmas = {
+        doctor_name: this.doctorName,
+        doctor_status: this.doctorStatus,
+        is_export: 1
+      };
+      this.$api.downDoctorListExcel(parmas);
     },
 
     // 查看详情

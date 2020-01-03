@@ -43,7 +43,7 @@
     <div class="main_list">
       <div class="toolbar">
         <el-button size="small" plain icon="el-icon-plus" @click="handleCreate">新增产品</el-button>
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
+        <!-- <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button> -->
       </div>
       <el-table
         :data="list"

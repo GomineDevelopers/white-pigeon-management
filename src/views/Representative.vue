@@ -9,6 +9,18 @@
           <span>姓名：</span>
           <el-input size="small" v-model="managerName" placeholder="请输入"></el-input>
         </div>
+        <div class="main_header_item">
+          <span>省：</span>
+          <el-select size="small" v-model="provinceCode" placeholder="请选择">
+            <el-option
+              v-for="(item, index) in provinceList"
+              :label="item.name"
+              :value="item.code"
+              :key="index"
+            ></el-option>
+          </el-select>
+        </div>
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
@@ -17,9 +29,6 @@
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
-      <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
-      </div>
       <el-table
         :data="list"
         v-loading="listLoading"
@@ -29,7 +38,7 @@
       >
         <el-table-column prop="province_name" label="省/市" min-width="140"></el-table-column>
         <el-table-column prop="id" label="代表编号" min-width="140"></el-table-column>
-        <el-table-column prop="name" label="姓名" minwidth="140"></el-table-column>
+        <el-table-column prop="name" label="姓名" min-width="140"></el-table-column>
         <el-table-column prop="phone" label="手机号" min-width="140"></el-table-column>
         <el-table-column prop="id_card" label="身份证号" min-width="140"></el-table-column>
         <el-table-column
@@ -117,6 +126,43 @@ export default {
   name: "representative",
   data() {
     return {
+      provinceCode: null, //工具条地区省市
+      provinceList: [
+        { code: 110000, name: "北京市" },
+        { code: 120000, name: "天津市" },
+        { code: 130000, name: "河北省" },
+        { code: 140000, name: "山西省" },
+        { code: 150000, name: "内蒙古自治区" },
+        { code: 210000, name: "辽宁省" },
+        { code: 220000, name: "吉林省" },
+        { code: 230000, name: "黑龙江省" },
+        { code: 310000, name: "上海市" },
+        { code: 320000, name: "江苏省" },
+        { code: 330000, name: "浙江省" },
+        { code: 340000, name: "安徽省" },
+        { code: 350000, name: "福建省" },
+        { code: 360000, name: "江西省" },
+        { code: 370000, name: "山东省" },
+        { code: 410000, name: "河南省" },
+        { code: 420000, name: "湖北省" },
+        { code: 430000, name: "湖南省" },
+        { code: 440000, name: "广东省" },
+        { code: 450000, name: "广西壮族自治区" },
+        { code: 460000, name: "海南省" },
+        { code: 500000, name: "重庆市" },
+        { code: 510000, name: "四川省" },
+        { code: 520000, name: "贵州省" },
+        { code: 530000, name: "云南省" },
+        { code: 540000, name: "西藏自治区" },
+        { code: 610000, name: "陕西省" },
+        { code: 620000, name: "甘肃省" },
+        { code: 630000, name: "青海省" },
+        { code: 640000, name: "宁夏回族自治区" },
+        { code: 650000, name: "新疆维吾尔自治区" },
+        { code: 710000, name: "台湾省" },
+        { code: 810000, name: "香港特别行政区" },
+        { code: 820000, name: "澳门特别行政区" }
+      ],
       listLoading: false, //加载数据中
       addVisble: false, //新增
       detailVisble: false, //详情弹窗
@@ -138,6 +184,10 @@ export default {
     });
   },
   methods: {
+    //地区省市搜索操作
+    headerProvinceChange(arr) {
+      this.province = arr;
+    },
     //地区省市操作
     handleChange(arr) {
       this.searchOption = arr;
@@ -150,6 +200,7 @@ export default {
       if (this.isSearch) {
         params = {
           name: this.managerName,
+          province_code: this.provinceCode,
           page: this.page,
           row: this.row
         };
@@ -189,7 +240,7 @@ export default {
 
     // 搜索
     search() {
-      if (this.managerName == null) {
+      if (this.managerName == null && this.provinceCode == null) {
         this.$message({
           message: "请输入或选择搜索内容",
           type: "error"
@@ -211,7 +262,12 @@ export default {
 
     // 下载
     downLoad() {
-      console.log("下载");
+      let parmas = {
+        name: this.managerName,
+        province_code: this.provinceCode,
+        is_export: 1
+      };
+      this.$api.downUserManagerListExcel(parmas);
     },
 
     // 查看详情

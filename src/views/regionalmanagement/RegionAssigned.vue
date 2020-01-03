@@ -7,11 +7,7 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>姓名：</span>
-          <el-input
-            size="small"
-            v-model="managerName"
-            placeholder="请输入区域经理姓名"
-          ></el-input>
+          <el-input size="small" v-model="managerName" placeholder="请输入区域经理姓名"></el-input>
         </div>
         <div class="main_header_item">
           <span>省/市：</span>
@@ -23,26 +19,18 @@
           >
           </el-cascader>
         </div>
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button
-          size="small"
-          plain
-          icon="el-icon-plus"
-          @click="addVisble = true"
+        <el-button size="small" plain icon="el-icon-plus" @click="addVisble = true"
           >新增区域</el-button
-        >
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
-          >下载</el-button
         >
       </div>
       <el-table
@@ -52,36 +40,12 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column
-          prop="province_name"
-          label="省"
-          width="160"
-        ></el-table-column>
-        <el-table-column
-          prop="city_name"
-          label="市/区"
-          width="160"
-        ></el-table-column>
-        <el-table-column
-          prop="hospital_name"
-          label="医院名称"
-          min-width="260"
-        ></el-table-column>
-        <el-table-column
-          prop="id"
-          label="医院编号"
-          min-width="120"
-        ></el-table-column>
-        <el-table-column
-          prop="product_name"
-          label="产品名"
-          min-width="140"
-        ></el-table-column>
-        <el-table-column
-          prop="user_name"
-          label="区域经理"
-          min-width="100"
-        ></el-table-column>
+        <el-table-column prop="province_name" label="省" width="160"></el-table-column>
+        <el-table-column prop="city_name" label="市/区" width="160"></el-table-column>
+        <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
+        <el-table-column prop="id" label="医院编号" min-width="120"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
+        <el-table-column prop="user_name" label="区域经理" min-width="100"></el-table-column>
         <!-- <el-table-column prop="status" label="状态" width="80">
           <template scope="scope">
             <span v-if="scope.row.status == 1">正常</span>
@@ -90,16 +54,8 @@
         </el-table-column> -->
         <el-table-column label="操作" width="60" fixed="right">
           <template scope="scope">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看"
-              placement="top"
-            >
-              <i
-                class="el-icon-view"
-                @click="handleDetail(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="查看" placement="top">
+              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
             <!-- <el-tooltip v-if="scope.row.status == 1" class="item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -122,12 +78,7 @@
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="detailVisble"
-      :append-to-body="true"
-      width="30%"
-    >
+    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
       <ul class="dialog_detail">
         <li><label>省：</label>{{ singleData.province_name }}</li>
         <li><label>市：</label>{{ singleData.city_name }}</li>
@@ -141,27 +92,15 @@
           <span v-else class="logout">注销</span>
         </li>
       </ul>
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>区域信息
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>区域信息</div>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false"
-          >确 定</el-button
-        >
-        <el-button size="small" type="info" plain @click="detailVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
+        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 新增 -->
-    <el-dialog
-      class="dialog_wrap width_full"
-      :visible.sync="addVisble"
-      :append-to-body="true"
-    >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>区域信息
-      </div>
+    <el-dialog class="dialog_wrap width_full" :visible.sync="addVisble" :append-to-body="true">
+      <div class="dialog_title" slot="title"><span class="line"></span>区域信息</div>
       <el-form
         :model="regionData"
         :rules="rules"
@@ -231,18 +170,13 @@
           >
           <span v-show="!submitLoading">确 定</span>
         </el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-import {
-  provinceAndCityDataPlus,
-  provinceAndCityData
-} from "element-china-area-data";
+import { provinceAndCityDataPlus, provinceAndCityData } from "element-china-area-data";
 export default {
   name: "RegionalManager",
   data() {
@@ -273,15 +207,9 @@ export default {
       list: [],
       rules: {
         option: [{ required: true, message: "请选择省市", trigger: "change" }],
-        hospitalId: [
-          { required: true, message: "请选择医院名称", trigger: "change" }
-        ],
-        productId: [
-          { required: true, message: "请选择产品名", trigger: "change" }
-        ],
-        managerId: [
-          { required: true, message: "请选择区域经理", trigger: "change" }
-        ]
+        hospitalId: [{ required: true, message: "请选择医院名称", trigger: "change" }],
+        productId: [{ required: true, message: "请选择产品名", trigger: "change" }],
+        managerId: [{ required: true, message: "请选择区域经理", trigger: "change" }]
       }
     };
   },
@@ -368,7 +296,13 @@ export default {
 
     // 下载
     downLoad() {
-      console.log("下载");
+      let params = {
+        regional_manager_name: this.managerName,
+        province_code: this.searchOption[0],
+        city_code: this.searchOption[1],
+        is_export: 1
+      };
+      this.$api.downRegionManagerListExcel(params);
     },
 
     // 查看详情

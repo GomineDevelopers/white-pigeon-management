@@ -52,10 +52,23 @@
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
-            <el-tooltip class="item" :enterable="false" effect="dark" content="查看" placement="top">
+            <el-tooltip
+              class="item"
+              :enterable="false"
+              effect="dark"
+              content="查看"
+              placement="top"
+            >
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip v-if="scope.row.status == 1" class="item" :enterable="false" effect="dark" content="注销" placement="top">
+            <el-tooltip
+              v-if="scope.row.status == 1"
+              class="item"
+              :enterable="false"
+              effect="dark"
+              content="注销"
+              placement="top"
+            >
               <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>
@@ -182,7 +195,6 @@ export default {
     });
   },
   methods: {
-
     //地区省市操作
     handleChange(arr) {
       this.searchOption = arr;
@@ -211,13 +223,14 @@ export default {
           row: this.row
         };
       }
-      this.$api.regionList(params)
-        .then( res => {
-          if(res.code == 200){
+      this.$api
+        .regionList(params)
+        .then(res => {
+          if (res.code == 200) {
             this.total = res.regional_info_count;
-            this.list = res.regional_info_list
+            this.list = res.regional_info_list;
           } else {
-             this.$message({
+            this.$message({
               message: res.message,
               type: "error"
             });
@@ -226,8 +239,8 @@ export default {
         })
         .catch(err => {
           this.listLoading = false;
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
     // 搜索
@@ -254,9 +267,7 @@ export default {
     },
 
     // 下载
-    downLoad() {
-      console.log("下载");
-    },
+    downLoad() {},
 
     // 查看详情
     handleDetail(index, row) {
@@ -304,8 +315,9 @@ export default {
 
     // 注销区域经理
     delRegion(params) {
-      this.$api.delRegion(params)
-        .then( res => {
+      this.$api
+        .delRegion(params)
+        .then(res => {
           if (res.code == 200) {
             this.$message({
               message: "删除成功",
@@ -319,9 +331,9 @@ export default {
             });
           }
         })
-        .catch( err => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     // 提交数据
@@ -343,11 +355,11 @@ export default {
         .catch(() => {
           console.log("取消");
         });
-      
     },
     addRegion(params) {
-      this.$api.addRegion(params)
-        .then( res => {
+      this.$api
+        .addRegion(params)
+        .then(res => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
@@ -368,9 +380,9 @@ export default {
           }
           this.addVisble = false;
         })
-        .catch( err => {
+        .catch(err => {
           this.addVisble = false;
-          console.log(err)
+          console.log(err);
         })
         .catch(err => {
           console.log(err);
