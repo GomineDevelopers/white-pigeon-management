@@ -52,7 +52,7 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="product_name" label="产品名" min-width="200"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="180"></el-table-column>
         <el-table-column prop="generic_name" label="通用名" min-width="160"></el-table-column>
         <el-table-column prop="dosage_form" label="剂型" width="100"></el-table-column>
         <el-table-column prop="specification" label="规格" width="120"></el-table-column>

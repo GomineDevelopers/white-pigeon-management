@@ -28,7 +28,8 @@ import {
   Progress,
   Image,
   Link,
-  OptionGroup
+  OptionGroup,
+  Upload
 } from "element-ui";
 
 Vue.use(Button);
@@ -58,5 +59,6 @@ Vue.use(Progress);
 Vue.use(Image);
 Vue.use(Link);
 Vue.use(OptionGroup);
+Vue.use(Upload);
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$message = Message;
