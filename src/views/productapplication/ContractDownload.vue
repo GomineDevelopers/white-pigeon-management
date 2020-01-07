@@ -56,11 +56,11 @@
           label="代表姓名"
           min-width="120"
         ></el-table-column>
-        <el-table-column prop="modify_time" label="签约日期" min-width="140">
-          <template scope="scope">
-            {{ scope.row.modify_time.substring(0, 10) }}
-          </template>
-        </el-table-column>
+        <el-table-column
+          prop="province_name"
+          label="所属省份"
+          min-width="140"
+        ></el-table-column>
         <el-table-column
           prop="hospital_name"
           label="医院名称"
@@ -71,6 +71,11 @@
           label="产品名"
           min-width="140"
         ></el-table-column>
+        <el-table-column prop="modify_time" label="签约日期" min-width="140">
+          <template scope="scope">
+            {{ scope.row.modify_time.substring(0, 10) }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="region_promise_sales"
           label="区域经理定销量"
@@ -107,7 +112,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="下载PDF"
+              content="下载合同"
               placement="top"
             >
               <i
