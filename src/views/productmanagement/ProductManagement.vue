@@ -15,9 +15,7 @@
                 :value="item.product_name"
                 :key="index"
               >
-                <span :class="{ logout: item.status != 1 }">
-                  {{ item.product_name }}
-                </span>
+                <span :class="{ logout: item.status != 1 }">{{ item.product_name }}</span>
               </el-option>
             </el-option-group>
           </el-select>
@@ -98,7 +96,9 @@
       :append-to-body="true"
       width="30%"
     >
-      <div class="dialog_title" slot="title"><span class="line"></span>产品信息</div>
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>产品信息
+      </div>
       <ul class="dialog_detail">
         <li>
           <label>产品名：</label>
@@ -180,7 +180,8 @@
       :append-to-body="true"
     >
       <div class="dialog_title" slot="title">
-        <span class="line"></span>{{ isEdit ? "修改" : "新增" }}产品信息
+        <span class="line"></span>
+        {{ isEdit ? "修改" : "新增" }}产品信息
       </div>
       <el-form v-if="addVisble" :model="addData" :rules="rules" ref="ruleForm" label-width="130px">
         <el-form-item label="产品名：" prop="product_name">
@@ -221,12 +222,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="主要适应症：" prop="indications">
-          <el-input
-            type="textarea"
-            size="small"
-            v-model="addData.indications"
-            placeholder="请输入"
-          ></el-input>
+          <el-input type="textarea" size="small" v-model="addData.indications" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="中标价：" prop="bidding_price">
           <el-input size="small" v-model="addData.bidding_price" placeholder="请输入"></el-input>
@@ -255,11 +251,7 @@
         </el-form-item>
         <el-form-item label="产品图片：" prop="product_image">
           <div class="upload_img">
-            <el-image
-              class="img"
-              v-if="addData.product_image"
-              :src="addData.product_image"
-            ></el-image>
+            <el-image class="img" v-if="addData.product_image" :src="addData.product_image"></el-image>
             <i
               class="el-icon-plus"
               v-show="!product_image_percent || addData.product_image == null"
@@ -448,7 +440,11 @@ export default {
 
     // 搜索
     search() {
-      if (this.commonName == null && this.productName == null && this.searchStatus == null) {
+      if (
+        this.commonName == null &&
+        this.productName == null &&
+        this.searchStatus == null
+      ) {
         this.$message({
           message: "请输入或选择搜索内容",
           type: "error"
@@ -673,7 +669,10 @@ export default {
         region: qiniu.region.z2
       };
       let api = `http://${domain}/`;
-      let fileName = _this.fileNumber == 1 ? `company_stamp_${file.name}` : `product_${file.name}`;
+      let fileName =
+        _this.fileNumber == 1
+          ? `company_stamp_${file.name}`
+          : `product_${file.name}`;
       let putExtra = {
         mimeType: null
       };

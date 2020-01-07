@@ -198,17 +198,28 @@ export function downFile(url, params) {
       responseType: "blob"
     })
     .then(res => {
-      const blob = new Blob([res.data], {
-        type: "application/vnd.ms-excel"
-      });
+      const blob = res.data;
+      // new Blob([res.data], {
+      //   type: "application/vnd.ms-excel"
+      // });
       let date = new Date();
       let time =
-        date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        date.getFullYear() +
+        "-" +
+        (date.getMonth() + 1) +
+        "-" +
+        date.getDate() +
+        "-" +
+        date.getTime();
       let src = window.URL.createObjectURL(blob);
       let aLink = document.createElement("a");
       aLink.style.display = "none";
       aLink.href = src;
-      aLink.setAttribute("download", "数据下载" + time + ".xls");
+      if (blob.type == "application/pdf") {
+        aLink.setAttribute("download", "PDF下载" + time + ".pdf");
+      } else {
+        aLink.setAttribute("download", "数据下载" + time + ".xls");
+      }
       document.body.appendChild(aLink);
       aLink.click();
       document.body.removeChild(aLink);

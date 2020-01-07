@@ -50,11 +50,16 @@
         <img src="../assets/image/qyjl1.png" v-if="$route.path != '/regionalManager'" />
         <span slot="title">区域经理</span>
       </el-menu-item>
-      <el-menu-item index="/biddingManagement">
-        <img v-if="$route.path === '/biddingManagement'" src="../assets/image/zbgl.png" />
-        <img v-else src="../assets/image/zbgl1.png" />
-        <span slot="title">产品申请</span>
-      </el-menu-item>
+      <el-submenu index="/biddingManagement">
+        <template slot="title">
+          <img src="../assets/image/zbgl1.png" />
+          <span>产品申请</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/biddingManagement">申请记录</el-menu-item>
+          <el-menu-item index="/contract">合同下载</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <!-- <el-submenu index="8">
         <template slot="title">
           <img src="../assets/image/qy.png" />
@@ -65,7 +70,7 @@
           <el-menu-item index="8-1">签约审批</el-menu-item>
           <el-menu-item index="8-2">签约档案</el-menu-item>
         </el-menu-item-group>
-      </el-submenu> -->
+      </el-submenu>-->
       <el-submenu index="/purposetopical">
         <template slot="title">
           <img src="../assets/image/bfhy1.png" />
@@ -87,22 +92,22 @@
         <img src="../assets/image/yjbg.png" />
         <img src="../assets/image/yjbg1.png" />
         <span slot="title">业绩报告</span>
-      </el-menu-item> -->
+      </el-menu-item>-->
       <el-menu-item index="/dataCenter">
         <img src="../assets/image/zlzx.png" v-if="$route.path === '/dataCenter'" />
         <img src="../assets/image/zlzx1.png" v-if="$route.path != '/dataCenter'" />
         <span slot="title">资料中心</span>
       </el-menu-item>
-      <!-- <el-menu-item index="13">
-        <img src="../assets/image/qx.png" />
-        <img src="../assets/image/qx1.png" />
+      <el-menu-item index="/propertymanagement">
+        <img src="../assets/image/qx.png" v-if="$route.path === '/propertymanagement'" />
+        <img src="../assets/image/qx1.png" v-else />
         <span slot="title">权限管理</span>
       </el-menu-item>
-      <el-menu-item index="14">
+      <!-- <el-menu-item index="14">
         <img src="../assets/image/sz.png" />
         <img src="../assets/image/sz1.png" />
         <span slot="title">系统设置</span>
-      </el-menu-item> -->
+      </el-menu-item>-->
     </el-menu>
   </el-row>
 </template>

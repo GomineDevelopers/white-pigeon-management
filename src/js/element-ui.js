@@ -29,7 +29,9 @@ import {
   Image,
   Link,
   OptionGroup,
-  Upload
+  Upload,
+  CheckboxGroup,
+  Checkbox
 } from "element-ui";
 
 Vue.use(Button);
@@ -60,5 +62,7 @@ Vue.use(Image);
 Vue.use(Link);
 Vue.use(OptionGroup);
 Vue.use(Upload);
+Vue.use(CheckboxGroup);
+Vue.use(Checkbox);
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$message = Message;

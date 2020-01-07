@@ -7,7 +7,11 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>代表姓名：</span>
-          <el-input size="small" v-model="deputyName" placeholder="请输入医药代表姓名"></el-input>
+          <el-input
+            size="small"
+            v-model="deputyName"
+            placeholder="请输入医药代表姓名"
+          ></el-input>
         </div>
         <div class="main_header_item">
           <span>省：</span>
@@ -20,11 +24,15 @@
             ></el-option>
           </el-select>
         </div>
-        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
+        <el-button size="small" plain icon="el-icon-bottom" @click="downLoad"
+          >下载</el-button
+        >
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
+        <el-button size="small" type="primary" @click="resetSearch" plain
+          >重置</el-button
+        >
       </el-col>
     </el-row>
     <!-- 列表 -->
@@ -36,11 +44,31 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="user_name" label="代表姓名" min-width="120"></el-table-column>
-        <el-table-column prop="province_name" label="所属省份" min-width="140"></el-table-column>
-        <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
-        <el-table-column prop="promise_sales" label="承诺销量" min-width="100"></el-table-column>
+        <el-table-column
+          prop="user_name"
+          label="代表姓名"
+          min-width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="province_name"
+          label="所属省份"
+          min-width="140"
+        ></el-table-column>
+        <el-table-column
+          prop="hospital_name"
+          label="医院名称"
+          min-width="260"
+        ></el-table-column>
+        <el-table-column
+          prop="product_name"
+          label="产品名"
+          min-width="140"
+        ></el-table-column>
+        <el-table-column
+          prop="promise_sales"
+          label="承诺销量"
+          min-width="100"
+        ></el-table-column>
         <el-table-column
           prop="complete_time"
           label="承诺完成时间"
@@ -48,15 +76,25 @@
         ></el-table-column>
         <el-table-column prop="status" label="状态" min-width="80">
           <template scope="scope">
-            <span v-if="scope.row.status == 1" class="status_success">通过</span>
+            <span v-if="scope.row.status == 1" class="status_success"
+              >通过</span
+            >
             <span v-else-if="scope.row.status == 2" class="logout">拒绝</span>
             <span v-else class="status_waiting">待审核</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="60" fixed="right">
           <template scope="scope">
-            <el-tooltip class="item" effect="dark" content="查看" placement="top">
-              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看"
+              placement="top"
+            >
+              <i
+                class="el-icon-view"
+                @click="handleDetail(scope.$index, scope.row)"
+              ></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -71,20 +109,44 @@
           :page-sizes="[10, 20, 30, 40]"
           :current-page.sync="page"
           :total="total"
-        >
-        </el-pagination>
+        ></el-pagination>
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
-      <div class="dialog_title" slot="title"><span class="line"></span>中标信息</div>
+    <el-dialog
+      class="dialog_wrap"
+      :visible.sync="detailVisble"
+      :append-to-body="true"
+      width="30%"
+    >
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>申请信息
+      </div>
       <ul class="dialog_detail">
-        <li><label>医药代表姓名：</label>{{ singleData.user_name }}</li>
-        <li><label>所属省份：</label>{{ singleData.province_name }}</li>
-        <li><label>医院名称：</label>{{ singleData.hospital_name }}</li>
-        <li><label>产品名称：</label>{{ singleData.product_name }}</li>
-        <li><label>承诺销量：</label>{{ singleData.promise_sales }}</li>
-        <li><label>承诺完成时间：</label>{{ singleData.complete_time }}</li>
+        <li>
+          <label>医药代表姓名：</label>
+          {{ singleData.user_name }}
+        </li>
+        <li>
+          <label>所属省份：</label>
+          {{ singleData.province_name }}
+        </li>
+        <li>
+          <label>医院名称：</label>
+          {{ singleData.hospital_name }}
+        </li>
+        <li>
+          <label>产品名称：</label>
+          {{ singleData.product_name }}
+        </li>
+        <li>
+          <label>承诺销量：</label>
+          {{ singleData.promise_sales }}
+        </li>
+        <li>
+          <label>承诺完成时间：</label>
+          {{ singleData.complete_time }}
+        </li>
         <li>
           <label>代表对医院了解：</label>
           <p>{{ singleData.hospital_know }}</p>
@@ -100,7 +162,8 @@
           <span v-else class="status_waiting">待审核</span>
         </li>
         <li v-show="singleData.status == 2">
-          <label>被拒绝理由：</label>{{ singleData.no_pass_reason }}
+          <label>被拒绝理由：</label>
+          {{ singleData.no_pass_reason }}
         </li>
         <li>
           <label>签名图：</label>
@@ -113,7 +176,9 @@
         </li>
       </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false">关 闭</el-button>
+        <el-button size="small" type="primary" @click="detailVisble = false"
+          >关 闭</el-button
+        >
       </div>
     </el-dialog>
   </div>

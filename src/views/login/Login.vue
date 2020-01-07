@@ -3,7 +3,10 @@
     <el-row class="login_content">
       <div class="main_input">
         <div class="login_title">朱鹊医访后台管理</div>
-        <div><el-input placeholder="用户名" v-model="userName" clearable> </el-input></div>
+        <div>
+          <el-input placeholder="用户名" v-model="userName" clearable>
+          </el-input>
+        </div>
         <div>
           <el-input
             placeholder="密码"

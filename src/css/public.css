@@ -82,11 +82,16 @@ ul {
   cursor: pointer;
   outline: none;
 }
-.main_list table i.el-icon-delete {
+.main_list table i.el-icon-delete,
+.main_list table .el-icon-download {
   color: #409eff;
+}
+.main_list table .el-icon-download {
+  font-size: 18px;
 }
 .main_list table .el-icon-view,
 .main_list table .el-icon-document-copy,
+.main_list table .el-icon-circle-check,
 .status_success {
   color: #4ccea5;
 }
