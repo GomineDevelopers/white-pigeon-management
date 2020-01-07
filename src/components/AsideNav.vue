@@ -98,11 +98,11 @@
         <img src="../assets/image/zlzx1.png" v-if="$route.path != '/dataCenter'" />
         <span slot="title">资料中心</span>
       </el-menu-item>
-      <el-menu-item index="/propertymanagement">
+      <!-- <el-menu-item index="/propertymanagement">
         <img src="../assets/image/qx.png" v-if="$route.path === '/propertymanagement'" />
         <img src="../assets/image/qx1.png" v-else />
         <span slot="title">权限管理</span>
-      </el-menu-item>
+      </el-menu-item> -->
       <!-- <el-menu-item index="14">
         <img src="../assets/image/sz.png" />
         <img src="../assets/image/sz1.png" />
