@@ -1,4 +1,4 @@
-import { get, post, downFile } from "./http";
+import { get, post, downFile, del, put } from "./http";
 let api = {
   login: params => post("/login", params), //登录
   logout: params => post("/logout", params), //退出登录
@@ -78,9 +78,11 @@ let api = {
     get("/contractManager/contractManagerList", params), //产申请合同列表
   downContractPdf: params =>
     downFile("/contractManager/downContractPdf", params), //产申请合同PDF下载
-
-  // 权限测试
-  property: params => post("/admin/login", params),
-  userInfo: params => get("/admin/userinfo", params)
+  userInfoList: params => get("/users", params), //权限管理用户列表
+  userRulesList: params => get("/rules", params), //权限管理用户授权列表
+  userCreate: params => post("/users/store", params), //权限管理添加用户
+  userUpdate: params => put("/users/update", params), //权限管理修改用户
+  userDel: params => del("/users", params), //权限管理删除用户
+  userAuthUpdate: params => post("/auth/update", params) //权限管理添加、修改用户授权
 };
 export default api;

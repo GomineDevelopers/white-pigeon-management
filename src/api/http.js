@@ -97,21 +97,16 @@ axios.interceptors.response.use(
           break;
         case 403:
           Message({
-            message: "未登录，请登录",
+            message: "未授权，无法访问",
             type: "warning"
           });
           // 清除token
-          localStorage.removeItem("adminToken");
-          store.commit("setToken", null);
+          // localStorage.removeItem("adminToken");
+          // store.commit("setToken", null);
 
           // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
           setTimeout(() => {
-            router.replace({
-              path: "/login",
-              query: {
-                redirect: router.currentRoute.fullPath
-              }
-            });
+            router.back();
           }, 2000);
           break;
         case 500:
@@ -177,6 +172,42 @@ export function post(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .post(url, QS.stringify(params))
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      });
+  });
+}
+
+/**
+ * delete方法
+ * @param {String} url [请求地址]
+ * @param {Object} params [请求时携带的参数]
+ */
+export function del(url, params) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(`${url}/${params}`)
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      });
+  });
+}
+
+/**
+ * put方法
+ * @param {String} url [请求地址]
+ * @param {Object} params [请求时携带的参数]
+ */
+export function put(url, params) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(url, QS.stringify(params))
       .then(res => {
         resolve(res.data);
       })

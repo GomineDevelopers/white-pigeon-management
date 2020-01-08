@@ -2,6 +2,25 @@
   <div class="RegionalManager">
     <!-- 面包屑 -->
     <span class="breadcrumb">权限管理</span>
+    <!--工具条-->
+    <el-row class="main_header">
+      <el-col :span="20">
+        <div class="main_header_item">
+          <span>姓名：</span>
+          <el-input
+            size="small"
+            v-model="searchName"
+            placeholder="请输入"
+          ></el-input>
+        </div>
+      </el-col>
+      <el-col :span="4" class="main_header_btns">
+        <el-button size="small" type="primary" @click="search">搜索</el-button>
+        <el-button size="small" type="primary" @click="resetSearch" plain
+          >重置</el-button
+        >
+      </el-col>
+    </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
@@ -16,18 +35,14 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
+        <el-table-column prop="id" label="用户ID" width="300"></el-table-column>
         <el-table-column
-          prop="product_name"
-          label="用户ID"
-          width="300"
-        ></el-table-column>
-        <el-table-column
-          prop="visit_goal"
+          prop="name"
           label="用户名"
           min-width="200"
         ></el-table-column>
         <el-table-column
-          prop="visit_goal"
+          prop="role_name"
           label="工作角色"
           min-width="200"
         ></el-table-column>
@@ -45,7 +60,7 @@
                 @click="handleDetail(scope.$index, scope.row)"
               ></i>
             </el-tooltip>
-            <template v-if="scope.row.status == 1">
+            <template>
               <el-tooltip
                 class="item"
                 :enterable="false"
@@ -59,7 +74,6 @@
                 ></i>
               </el-tooltip>
               <el-tooltip
-                v-if="scope.row.status == 1"
                 class="item"
                 :enterable="false"
                 effect="dark"
@@ -88,7 +102,7 @@
         ></el-pagination>
       </div>
     </div>
-    <!-- 详情弹窗 -->
+    <!-- 授权弹窗 -->
     <el-dialog
       class="dialog_wrap property_wrap"
       :visible.sync="detailVisble"
@@ -99,18 +113,26 @@
         <span class="line"></span>用户授权
       </div>
       <el-checkbox-group v-model="checkList">
-        <el-checkbox label="复选框 A"></el-checkbox>
-        <el-checkbox label="复选框 B"></el-checkbox>
-        <el-checkbox label="复选框 C"></el-checkbox>
-        <el-checkbox label="禁用"></el-checkbox>
-        <el-checkbox label="选中且禁用"></el-checkbox>
+        <el-checkbox
+          v-for="(item, index) in rulesList"
+          :label="item.id"
+          :key="index"
+          >{{ item.name }}</el-checkbox
+        >
       </el-checkbox-group>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="editProperty">
-          <span v-show="empowerLoading" class="submit_loading">
+        <el-button v-show="empowerLoading" size="small" type="primary">
+          <span class="submit_loading">
             <i class="el-icon-loading"></i>数据提交中...
           </span>
-          <span v-show="!empowerLoading">确 定</span>
+        </el-button>
+        <el-button
+          v-show="!empowerLoading"
+          size="small"
+          type="primary"
+          @click="editProperty"
+        >
+          <span>确 定</span>
         </el-button>
         <el-button size="small" type="info" plain @click="detailVisble = false"
           >取 消</el-button
@@ -124,24 +146,25 @@
       :append-to-body="true"
     >
       <div class="dialog_title" slot="title">
-        <span class="line"></span>添加用户
+        <span class="line"></span>添加/修改用户
       </div>
       <el-form
+        v-if="addVisble"
         :model="addAndEditData"
         :rules="rules"
         ref="ruleForm"
         label-width="100px"
       >
-        <el-form-item label="用户名：" prop="product_id" class="width_full">
-          <el-input v-model="addAndEditData.product_id"></el-input>
+        <el-form-item label="用户名：" prop="name" class="width_full">
+          <el-input v-model="addAndEditData.name"></el-input>
         </el-form-item>
-        <el-form-item label="工作角色：" prop="visit_goal">
-          <el-input v-model="addAndEditData.visit_goal"></el-input>
+        <el-form-item label="工作角色：" prop="role_name">
+          <el-input v-model="addAndEditData.role_name"></el-input>
         </el-form-item>
-        <el-form-item label="密码：" prop="visit_goal">
+        <el-form-item label="密码：" prop="password">
           <el-input
             type="password"
-            v-model="addAndEditData.visit_goal"
+            v-model="addAndEditData.password"
           ></el-input>
         </el-form-item>
       </el-form>
@@ -163,57 +186,79 @@
 export default {
   name: "PropertyManagement",
   data() {
+    // 密码长度验证
+    let checkPasswordLength = (rule, value, callback) => {
+      if (this.isEdit) {
+        if (!value) {
+          callback();
+        } else {
+          const passwordLength = value.length;
+          if (passwordLength < 6 || passwordLength > 20) {
+            return callback(new Error("密码长度在6到20之间"));
+          } else {
+            callback();
+          }
+        }
+      } else {
+        if (!value) {
+          return callback(new Error("请输入密码"));
+        } else {
+          const passwordLength = value.length;
+          if (passwordLength < 6 || passwordLength > 20) {
+            return callback(new Error("密码长度在6到20之间"));
+          } else {
+            callback();
+          }
+        }
+      }
+    };
     return {
       listLoading: false, //加载数据中
       addVisble: false, //新增
       detailVisble: false, //详情弹窗
       isEdit: false, // 是否是修改数据
+      isSearch: false, //是否是搜索请求
+      searchName: null, //搜索姓名
       submitLoading: false, //新增修改数据加载
       empowerLoading: false, //授权提交数据加载
-      singleData: {}, //单条数据
-      checkList: ["选中且禁用", "复选框 A"],
-      addAndEditData: {
-        product_id: null,
-        visit_goal: null
-      }, //新增数据
+      addAndEditData: {}, //新增数据
       page: 1,
-      row: 10,
+      size: 10,
       total: 0,
       list: [],
-      product: [],
+      rulesId: null, //授权Id
+      rulesList: [], //授权列表
+      checkList: [], //授权选择数据
       rules: {
-        visit_goal: [{ required: true, message: "请输入权限" }],
-        product_id: [{ required: true, message: "请选择产品名" }]
+        name: { required: true, message: "请输入用户名" },
+        role_name: { required: true, message: "请输入工作角色" },
+        password: {
+          required: true,
+          validator: checkPasswordLength
+        }
       }
     };
   },
   mounted() {
     this.$nextTick(() => {
-      this.getListData();
-      // this.getproductList();
+      this.getUserInfoList();
+      this.getUserRulesList();
     });
   },
   methods: {
     // 获取列表数据
-    getListData() {
+    getUserInfoList() {
       this.listLoading = true;
       let params = {
+        name: this.searchName,
         page: this.page,
-        row: this.row
+        size: this.size
       };
       this.$api
-        .userInfo()
+        .userInfoList(params)
         .then(res => {
-          console.log(res);
-          if (res.code == 200) {
-            this.total = res.visit_goal_count;
-            this.list = res.visit_goal_list;
-          } else {
-            this.$message({
-              message: res.message,
-              type: "error"
-            });
-          }
+          this.total = res.total;
+          this.list = res.data;
           this.listLoading = false;
         })
         .catch(err => {
@@ -222,47 +267,67 @@ export default {
         });
     },
 
-    // 获取产品
-    getproductList() {
+    // 获取授权列表数据
+    getUserRulesList() {
       this.$api
-        .productList()
+        .userRulesList()
         .then(res => {
-          if (res.code == 200) {
-            res.product_list.forEach(item => {
-              if (item.status == 1) {
-                this.product.push({
-                  id: item.id,
-                  product_name: item.product_name
-                });
-              }
-            });
-          }
+          this.rulesList = res.data;
         })
         .catch(err => {
           console.log(err);
         });
     },
+    // 搜索
+    search() {
+      if (this.searchName == null) {
+        this.$message({
+          message: "请输入或选择搜索内容",
+          type: "error"
+        });
+        return false;
+      }
+      this.isSearch = true;
+      this.getUserInfoList();
+    },
 
-    // 查看详情
+    // 重置搜索内容
+    resetSearch() {
+      this.searchName = null;
+      this.isSearch = false;
+      this.getUserInfoList();
+    },
+    // 弹出授权窗口
     handleDetail(index, row) {
       this.detailVisble = true;
-      this.singleData = row;
+      this.checkList = [];
+      this.rulesId = row.id;
+      row.auth_data.forEach(item => {
+        this.checkList.push(Number(item.id));
+      });
     },
 
     // 新增
     handleCreate() {
       this.isEdit = false;
       this.addVisble = true;
-      this.addAndEditData.product_id = null;
-      this.addAndEditData.visit_goal = null;
+      this.addAndEditData = {
+        name: null,
+        role_name: null,
+        password: null
+      };
     },
 
     // 编辑
     handleEdit(index, row) {
       this.isEdit = true;
       this.addVisble = true;
-      this.visit_goal_id = row.id;
-      this.addAndEditData = JSON.parse(JSON.stringify(row));
+      this.addAndEditData = {
+        id: row.id,
+        name: row.name,
+        role_name: row.role_name,
+        password: null
+      };
     },
 
     // 删除
@@ -272,7 +337,7 @@ export default {
           type: "warning"
         })
         .then(() => {
-          let params = { visit_goal_id: row.id };
+          let params = row.id;
           this.delUser(params);
         })
         .catch(() => {
@@ -283,42 +348,42 @@ export default {
     // 点击分页当前页数
     currentChange(val) {
       this.page = val;
-      this.getListData();
+      this.getUserInfoList();
     },
 
     // 切换每页条数
     sizeChange(val) {
-      this.row = val;
-      this.getListData();
+      this.size = val;
+      this.getUserInfoList();
     },
 
     // 授权
     editProperty() {
-      let params = this.checkList;
+      let params = {
+        id: this.rulesId,
+        auth: this.checkList.join()
+      };
       this.empowerLoading = true;
-      console.log(params);
-      return false;
       this.$api
-        .createUser(params)
+        .userAuthUpdate(params)
         .then(res => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
               type: "success"
             });
-            this.page = 1;
-            this.getListData();
+            this.getUserInfoList();
           } else {
             this.$message({
               message: res.message,
               type: "error"
             });
           }
-          this.addVisble = false;
+          this.detailVisble = false;
           this.empowerLoading = false;
         })
         .catch(err => {
-          this.addVisble = false;
+          this.detailVisble = false;
           this.empowerLoading = false;
           console.log(err);
         })
@@ -341,14 +406,14 @@ export default {
     // 注销用户
     delUser(params) {
       this.$api
-        .delUser(params)
+        .userDel(params)
         .then(res => {
           if (res.code == 200) {
             this.$message({
               message: "删除成功",
               type: "success"
             });
-            this.getListData();
+            this.getUserInfoList();
           } else {
             this.$message({
               message: res.message,
@@ -363,23 +428,19 @@ export default {
 
     // 新增提交数据
     createUser() {
-      let params = {
-        product_id: this.addAndEditData.product_id,
-        visit_goal: this.addAndEditData.visit_goal
-      };
+      let params = this.addAndEditData;
       this.submitLoading = true;
       this.$api
-        .createUser(params)
+        .userCreate(params)
         .then(res => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
               type: "success"
             });
-            this.addAndEditData.product_id = null;
-            this.addAndEditData.visit_goal = null;
+            this.isSearch = false;
             this.page = 1;
-            this.getListData();
+            this.getUserInfoList();
           } else {
             this.$message({
               message: res.message,
@@ -401,13 +462,24 @@ export default {
 
     //提交修改用户数据
     updateUser() {
-      let params = {
-        visit_goal_id: this.visit_goal_id,
-        visit_goal: this.addAndEditData.visit_goal
-      };
+      let params = {};
+      if (!this.addAndEditData.password) {
+        params = {
+          id: this.addAndEditData.id,
+          name: this.addAndEditData.name,
+          role_name: this.addAndEditData.role_name
+        };
+      } else {
+        params = {
+          id: this.addAndEditData.id,
+          name: this.addAndEditData.name,
+          role_name: this.addAndEditData.role_name,
+          password: this.addAndEditData.password
+        };
+      }
       this.submitLoading = true;
       this.$api
-        .updateUser(params)
+        .userUpdate(params)
         .then(res => {
           if (res.code == 200) {
             this.$message({
@@ -415,9 +487,7 @@ export default {
               type: "success"
             });
             this.isEdit = false;
-            this.addAndEditData.product_id = null;
-            this.addAndEditData.visit_goal = null;
-            this.getListData();
+            this.getUserInfoList();
           } else {
             this.$message({
               message: res.message,
