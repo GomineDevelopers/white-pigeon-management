@@ -337,7 +337,7 @@ export default {
           type: "warning"
         })
         .then(() => {
-          let params = row.id;
+          let params = { id: row.id };
           this.delUser(params);
         })
         .catch(() => {

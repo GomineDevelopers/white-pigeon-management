@@ -189,7 +189,9 @@ export function post(url, params) {
 export function del(url, params) {
   return new Promise((resolve, reject) => {
     axios
-      .delete(`${url}/${params}`)
+      .delete(url, {
+        params: params
+      })
       .then(res => {
         resolve(res.data);
       })
