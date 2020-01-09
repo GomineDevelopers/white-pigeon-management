@@ -31,7 +31,8 @@ import {
   OptionGroup,
   Upload,
   CheckboxGroup,
-  Checkbox
+  Checkbox,
+  DatePicker
 } from "element-ui";
 
 Vue.use(Button);
@@ -64,5 +65,6 @@ Vue.use(OptionGroup);
 Vue.use(Upload);
 Vue.use(CheckboxGroup);
 Vue.use(Checkbox);
+Vue.use(DatePicker);
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$message = Message;

@@ -10,6 +10,18 @@ export function timeFormat(time) {
   return year + "-" + month + "-" + day;
 }
 
+//时间格式转换 年/月
+export function monthFormat(time) {
+  // 时间格式化 2020-09
+  var datetime = new Date();
+  datetime.setTime(time);
+  var year = datetime.getFullYear();
+  var month =
+    datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+  var day = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+  return year + "-" + month;
+}
+
 //时间格式转换  2019-09-08 14：50：00
 export function minutesTimeFormat(time) {
   var datetime = new Date();
