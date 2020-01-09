@@ -3,7 +3,7 @@
     <!-- 面包屑 -->
     <span class="breadcrumb">
       <router-link to="/historyflowdirectory">流向目录</router-link> /
-      <router-link :to="{ path: '/bonusplan', query: { id: menuId } }">奖金计算</router-link> /
+      <router-link :to="{ path: '/bonusplan', query: { id: menuId } }">核销列表</router-link> /
       <span>会议核销</span>- <i>{{ userName }}</i></span
     >
     <!-- 列表 -->

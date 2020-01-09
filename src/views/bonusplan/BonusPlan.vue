@@ -2,7 +2,7 @@
   <div class="RegionalManager">
     <!-- 面包屑 -->
     <span class="breadcrumb">
-      <router-link to="/historyflowdirectory">流向目录</router-link> / 奖金计算
+      <router-link to="/historyflowdirectory">流向目录</router-link> / 核销列表
     </span>
     <!-- 列表 -->
     <div class="main_list">
@@ -99,7 +99,7 @@ export default {
             this.listLoading = false;
             this.total = res.flows_count;
             this.$message({
-              message: "匹配成功",
+              message: "查询成功",
               type: "success"
             });
             this.list = res.flows_list;
