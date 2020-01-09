@@ -23,7 +23,7 @@
         <el-table-column prop="metting" label="会议" min-width="140">
           <template scope="scope">
             <span class="detail_link" @click="goMettingDetail(scope.row)">{{ scope.row.ms }}</span
-            >条
+            >人
           </template>
         </el-table-column>
         <el-table-column prop="theory" label="理论奖金（元）" min-width="140"></el-table-column>
@@ -42,9 +42,6 @@
               type="primary"
               @click="handleList(scope.$index, scope.row)"
               >核销</el-button
-            >
-            <el-button size="small" type="success" @click="handleList(scope.$index, scope.row)"
-              >奖金明细</el-button
             >
           </template>
         </el-table-column>

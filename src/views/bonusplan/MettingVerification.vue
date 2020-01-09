@@ -18,7 +18,7 @@
         <el-table-column prop="hospital_name" label="医院" min-width="140"></el-table-column>
         <el-table-column prop="product_name" label="产品" min-width="140"></el-table-column>
         <el-table-column label="数量" min-width="140">
-          <template scope="scope"> {{ scope.row.metting_times }}人 </template>
+          <template scope="scope"> {{ scope.row.meeting_times }}人 </template>
         </el-table-column>
         <el-table-column label="核销日期" min-width="140">
           <template scope="scope"> {{ scope.row.modify_time }} </template>
