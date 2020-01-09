@@ -76,7 +76,7 @@ export default {
         row: this.row
       };
       this.$api
-        .visitList(params)
+        .visitList2(params)
         .then(res => {
           console.log(res);
           if (res.code == 200) {
