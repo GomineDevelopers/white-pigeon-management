@@ -6,8 +6,8 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "home",
     component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
+    redirect: "/hospitalManagement",
     children: [
       {
         path: "/regionalManager",
@@ -129,8 +129,7 @@ const routes = [
         path: "/propertymanagement",
         name: "PropertyManagement",
         component: () => import(/* webpackChunkName: "login" */ "../views/PropertyManagement.vue")
-      },
-      { path: "/", redirect: "/hospitalManagement" } //二级路由默认首页为数据总览页
+      }
     ]
   },
   {
