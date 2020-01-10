@@ -105,7 +105,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/historyflowdirectory">核销</el-menu-item>
-          <el-menu-item index="/visitapprove">奖金明细</el-menu-item>
+          <el-menu-item index="/incomedetail">奖金明细</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
