@@ -6,8 +6,8 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "home",
     component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
+    redirect: "/hospitalManagement",
     children: [
       {
         path: "/regionalManager",

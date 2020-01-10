@@ -14,8 +14,6 @@
               :limit="1"
               action=""
               name="file"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
               :file-list="fileList"
               :auto-upload="false"
               :http-request="uploadSectionFile"
@@ -141,6 +139,7 @@ export default {
     });
   },
   methods: {
+    //上传文件到服务器
     submitUpload() {
       let list = document.getElementsByClassName("el-upload-list__item is-ready");
       if (list.length == 0) {
@@ -179,17 +178,12 @@ export default {
               message: "文件上传成功",
               type: "success"
             });
+            this.getListData();
           }
         })
         .catch(error => {
           console.log(error);
         });
-    },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
     },
 
     //搜索流向目录
@@ -205,7 +199,6 @@ export default {
     },
     getListData() {
       this.listLoading = true;
-      console.log(this.date);
       let params = {
         year: this.date ? monthFormat(this.date).split("-")[0] : "",
         month: this.date ? monthFormat(this.date).split("-")[1] : "",
