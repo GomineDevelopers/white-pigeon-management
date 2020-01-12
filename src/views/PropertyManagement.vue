@@ -7,26 +7,18 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>姓名：</span>
-          <el-input
-            size="small"
-            v-model="searchName"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="searchName" placeholder="请输入"></el-input>
         </div>
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate"
-          >新增用户</el-button
-        >
+        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate">新增用户</el-button>
       </div>
       <el-table
         :data="list"
@@ -36,16 +28,8 @@
         style="width: 100%"
       >
         <el-table-column prop="id" label="用户ID" width="300"></el-table-column>
-        <el-table-column
-          prop="name"
-          label="用户名"
-          min-width="200"
-        ></el-table-column>
-        <el-table-column
-          prop="role_name"
-          label="工作角色"
-          min-width="200"
-        ></el-table-column>
+        <el-table-column prop="name" label="用户名" min-width="200"></el-table-column>
+        <el-table-column prop="role_name" label="工作角色" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template scope="scope">
             <el-tooltip
@@ -55,10 +39,7 @@
               content="授权"
               placement="top"
             >
-              <i
-                class="el-icon-circle-check"
-                @click="handleDetail(scope.$index, scope.row)"
-              ></i>
+              <i class="el-icon-circle-check" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
             <template>
               <el-tooltip
@@ -68,10 +49,7 @@
                 content="编辑"
                 placement="top"
               >
-                <i
-                  class="el-icon-edit"
-                  @click="handleEdit(scope.$index, scope.row)"
-                ></i>
+                <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
               </el-tooltip>
               <el-tooltip
                 class="item"
@@ -80,10 +58,7 @@
                 content="注销"
                 placement="top"
               >
-                <i
-                  class="el-icon-delete"
-                  @click="handleDelete(scope.$index, scope.row)"
-                ></i>
+                <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
               </el-tooltip>
             </template>
           </template>
@@ -109,45 +84,25 @@
       :append-to-body="true"
       width="30%"
     >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>用户授权
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>用户授权</div>
       <el-checkbox-group v-model="checkList">
-        <el-checkbox
-          v-for="(item, index) in rulesList"
-          :label="item.id"
-          :key="index"
-          >{{ item.name }}</el-checkbox
-        >
+        <el-checkbox v-for="(item, index) in rulesList" :label="item.id" :key="index">{{
+          item.name
+        }}</el-checkbox>
       </el-checkbox-group>
       <div slot="footer" class="dialog-footer">
         <el-button v-show="empowerLoading" size="small" type="primary">
-          <span class="submit_loading">
-            <i class="el-icon-loading"></i>数据提交中...
-          </span>
+          <span class="submit_loading"> <i class="el-icon-loading"></i>数据提交中... </span>
         </el-button>
-        <el-button
-          v-show="!empowerLoading"
-          size="small"
-          type="primary"
-          @click="editProperty"
-        >
+        <el-button v-show="!empowerLoading" size="small" type="primary" @click="editProperty">
           <span>确 定</span>
         </el-button>
-        <el-button size="small" type="info" plain @click="detailVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 新增/编辑用户 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="addVisble"
-      :append-to-body="true"
-    >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>添加/修改用户
-      </div>
+    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
+      <div class="dialog_title" slot="title"><span class="line"></span>添加/修改用户</div>
       <el-form
         v-if="addVisble"
         :model="addAndEditData"
@@ -162,10 +117,7 @@
           <el-input v-model="addAndEditData.role_name"></el-input>
         </el-form-item>
         <el-form-item label="密码：" prop="password">
-          <el-input
-            type="password"
-            v-model="addAndEditData.password"
-          ></el-input>
+          <el-input type="password" v-model="addAndEditData.password"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -175,9 +127,7 @@
           </span>
           <span v-show="!submitLoading">确 定</span>
         </el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -288,6 +238,7 @@ export default {
         return false;
       }
       this.isSearch = true;
+      this.page = 1;
       this.getUserInfoList();
     },
 

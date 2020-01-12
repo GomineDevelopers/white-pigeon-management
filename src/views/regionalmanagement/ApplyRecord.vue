@@ -23,9 +23,7 @@
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
@@ -37,42 +35,16 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column
-          prop="apply_name"
-          label="申请代表"
-          width="160"
-        ></el-table-column>
-        <el-table-column
-          prop="apply_time"
-          label="申请时间"
-          width="160"
-        ></el-table-column>
-        <el-table-column
-          prop="hospital_name"
-          label="医院"
-          min-width="260"
-        ></el-table-column>
-        <el-table-column
-          prop="product_name"
-          label="产品"
-          min-width="140"
-        ></el-table-column>
-        <el-table-column
-          prop="reason"
-          label="拒绝通过理由"
-          min-width="300"
-        ></el-table-column>
+        <el-table-column prop="apply_name" label="申请代表" width="160"></el-table-column>
+        <el-table-column prop="apply_time" label="申请时间" width="160"></el-table-column>
+        <el-table-column prop="hospital_name" label="医院" min-width="260"></el-table-column>
+        <el-table-column prop="product_name" label="产品" min-width="140"></el-table-column>
+        <el-table-column prop="reason" label="拒绝通过理由" min-width="300"></el-table-column>
         <el-table-column prop="status" label="状态" width="120" fixed="right">
           <template scope="scope">
-            <span v-if="scope.row.status == 0"
-              ><b class="dot refuse"></b>拒绝</span
-            >
-            <span v-if="scope.row.status == 1"
-              ><b class="dot approved"></b>已审批</span
-            >
-            <span v-if="scope.row.status == 2"
-              ><b class="dot pending"></b>待审批</span
-            >
+            <span v-if="scope.row.status == 0"><b class="dot refuse"></b>拒绝</span>
+            <span v-if="scope.row.status == 1"><b class="dot approved"></b>已审批</span>
+            <span v-if="scope.row.status == 2"><b class="dot pending"></b>待审批</span>
           </template>
         </el-table-column>
       </el-table>
@@ -245,6 +217,7 @@ export default {
         });
         return false;
       }
+      this.page = 1;
       console.log(this.user, this.product_name);
     },
     // 重置搜索内容

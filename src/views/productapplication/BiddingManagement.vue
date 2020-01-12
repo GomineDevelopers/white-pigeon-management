@@ -260,6 +260,7 @@ export default {
       this.deputyName = null;
       this.searchOption = [];
       this.isSearch = false;
+      this.page = 1;
       this.getListData();
     },
 

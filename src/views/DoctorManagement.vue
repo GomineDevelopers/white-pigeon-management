@@ -673,6 +673,7 @@ export default {
       this.doctorName = null;
       this.doctorStatus = null;
       this.isSearch = false;
+      this.page = 1;
       this.getListData();
     },
 

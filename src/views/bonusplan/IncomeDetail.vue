@@ -7,18 +7,12 @@
       <el-col :span="20">
         <div class="main_header_item">
           <span>代表姓名：</span>
-          <el-input
-            size="small"
-            v-model="searchName"
-            placeholder="请输入"
-          ></el-input>
+          <el-input size="small" v-model="searchName" placeholder="请输入"></el-input>
         </div>
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
@@ -30,59 +24,40 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
+        <el-table-column prop="name" label="代表姓名" width="120"></el-table-column>
         <el-table-column
-          prop="id"
-          label="代表姓名"
-          width="120"
-        ></el-table-column>
-        <el-table-column
-          prop="name"
+          prop="extractable_bonus"
           label="本期可提奖金"
           min-width="120"
         ></el-table-column>
         <el-table-column
-          prop="name"
+          prop="develop_bonus"
           label="本期医院开发奖"
           min-width="120"
         ></el-table-column>
         <el-table-column
-          prop="name"
-          label="本期推荐奖"
+          prop="invite_bonus"
+          label="本期推荐奖（元）"
           min-width="120"
         ></el-table-column>
         <el-table-column
-          prop="name"
-          label="本期应扣押金"
+          prop="deposit"
+          label="本期应扣押金（元）"
           min-width="120"
         ></el-table-column>
         <el-table-column
-          prop="name"
-          label="本期总计奖金"
+          prop="total_bonus"
+          label="本期总计奖金（元）"
           min-width="120"
         ></el-table-column>
+        <!-- <el-table-column prop="role_name" label="累计已返奖金" min-width="120"></el-table-column>
+        <el-table-column prop="role_name" label="累计押金" min-width="120"></el-table-column>
+        <el-table-column prop="role_name" label="累计延迟奖金" min-width="120"></el-table-column>
+        <el-table-column prop="role_name" label="累计总金额" min-width="120"></el-table-column> -->
         <el-table-column
-          prop="role_name"
-          label="累计已返奖金"
-          min-width="120"
-        ></el-table-column>
-        <el-table-column
-          prop="role_name"
-          label="累计押金"
-          min-width="120"
-        ></el-table-column>
-        <el-table-column
-          prop="role_name"
-          label="累计延迟奖金"
-          min-width="120"
-        ></el-table-column>
-        <el-table-column
-          prop="role_name"
-          label="累计总金额"
-          min-width="120"
-        ></el-table-column>
-        <el-table-column
-          prop="name"
+          prop="create_time"
           label="核销日期"
+          :formatter="dateFormatter"
           min-width="120"
         ></el-table-column>
         <el-table-column label="操作" width="80" fixed="right">
@@ -111,19 +86,12 @@
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="detailVisble"
-      :append-to-body="true"
-      width="40%"
-    >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>代表奖金详情
-      </div>
+    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="40%">
+      <div class="dialog_title" slot="title"><span class="line"></span>代表奖金详情</div>
       <ul class="dialog_detail">
         <li>
           <label>代表姓名：</label>
-          {{ singleData.id }}
+          {{ singleData.name }}
         </li>
         <li class="detail_table">
           <label>开发医院产品：</label>
@@ -146,30 +114,30 @@
           </div>
         </li>
         <li>
-          <label>本期可提奖金：</label>
-          {{ singleData.id }}
+          <label>本期可提奖金（元）：</label>
+          {{ singleData.extractable_bonus }}
         </li>
         <li>
-          <label>本期业绩奖金：</label>
-          {{ singleData.id }}
+          <label>本期业绩奖金（元）：</label>
+          {{ singleData.achievement_bonus }}
         </li>
         <li>
-          <label>本期医院开发奖：</label>
-          {{ singleData.id }}
+          <label>本期医院开发奖（元）：</label>
+          {{ singleData.develop_bonus }}
         </li>
         <li>
-          <label>本期推荐奖：</label>
-          {{ singleData.id }}
+          <label>本期推荐奖（元）：</label>
+          {{ singleData.invite_bonus }}
         </li>
         <li>
-          <label>本期应扣押金：</label>
-          {{ singleData.id }}
+          <label>本期应扣押金（元）：</label>
+          {{ singleData.deposit }}
         </li>
         <li>
-          <label>本期总计奖金：</label>
-          {{ singleData.id }}
+          <label>本期总计奖金（元）：</label>
+          {{ singleData.total_bonus }}
         </li>
-        <li>
+        <!-- <li>
           <label>累计已返奖金：</label>
           {{ singleData.id }}
         </li>
@@ -184,16 +152,12 @@
         <li>
           <label>累计总金额：</label>
           {{ singleData.id }}
-        </li>
+        </li> -->
       </ul>
 
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false"
-          >确 定</el-button
-        >
-        <el-button size="small" type="info" plain @click="detailVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="primary" @click="detailVisble = false">确 定</el-button>
+        <el-button size="small" type="info" plain @click="detailVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -224,16 +188,25 @@ export default {
     getIncomeDetailList() {
       this.listLoading = true;
       let params = {
-        name: this.searchName,
+        info: this.searchName,
         page: this.page,
         size: this.size
       };
+      console.log("params", params);
       this.$api
-        .userInfoList(params)
+        .userBonusList(params)
         .then(res => {
-          this.total = res.total;
-          this.list = res.data;
+          console.log(res);
           this.listLoading = false;
+          if (res.code == 200) {
+            this.total = res.detailed_count;
+            this.list = res.detailed_list;
+          } else {
+            this.$message({
+              message: res.message,
+              type: "error"
+            });
+          }
         })
         .catch(err => {
           this.listLoading = false;
@@ -251,20 +224,37 @@ export default {
         return false;
       }
       this.isSearch = true;
-      this.getUserInfoList();
+      this.page = 1;
+      this.getIncomeDetailList();
     },
 
     // 重置搜索内容
     resetSearch() {
       this.searchName = null;
       this.isSearch = false;
+      this.page = 1;
       this.getUserInfoList();
     },
 
     // 弹出代表详情
     handleDetail(index, row) {
       this.detailVisble = true;
-      this.singleData = row;
+      // console.log(row);
+      let params = {
+        menu_id: row.menu_id,
+        user_id: row.user_id
+      };
+      this.$api
+        .bonusDetail(params)
+        .then(res => {
+          console.log(res);
+          if (res.code == 200) {
+            this.singleData = res.bonus_datiled[0];
+          }
+        })
+        .catch(error => {
+          console.log(res);
+        });
     },
 
     // 点击分页当前页数
@@ -277,6 +267,13 @@ export default {
     sizeChange(val) {
       this.size = val;
       this.getUserInfoList();
+    },
+    dateFormatter(row) {
+      if (row.create_time != null) {
+        return row.create_time.split(" ")[0];
+      } else {
+        return row.create_time;
+      }
     }
   }
 };
@@ -317,7 +314,8 @@ export default {
   padding-left: 0;
 }
 .dialog_detail li label {
-  width: 120px;
+  width: 160px;
+  white-space: nowrap;
 }
 
 .dialog_detail .detail_table .table {

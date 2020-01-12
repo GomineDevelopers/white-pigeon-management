@@ -509,6 +509,7 @@ export default {
         return false;
       }
       //console.log(this.hospitalName, this.searchOption, this.gradeId);
+      this.page = 1;
       this.getListData();
     },
     // 重置搜索内容
@@ -517,6 +518,7 @@ export default {
       this.gradeId = null;
       this.hospitalName = null;
       this.searchStatus = null;
+      this.page = 1;
       this.getListData();
     },
     // 下载

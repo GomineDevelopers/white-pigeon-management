@@ -299,6 +299,7 @@ export default {
     search() {
       //代表和产品输入一个即可查询
       if (this.representative || this.product) {
+        this.page = 1;
         this.getListData();
       } else {
         this.$message.error("请输入查询条件！");
