@@ -109,7 +109,7 @@
   </div>
 </template>
 <script>
-import { timeFormat, monthFormat } from "../../js/public.js";
+import { timeFormat2, monthFormat } from "../../js/public.js";
 export default {
   name: "HistoryFlowDirectory",
   data() {
@@ -117,7 +117,7 @@ export default {
       uploadLoading: false,
       fileList: [],
       date: "", //选择日期
-      monthValue: null, //工具条地区省市
+      monthValue: null, //工具月份选择
       monthList: [
         { label: "上半月", name: "上半月" },
         { label: "下半月", name: "下半月" }
@@ -153,7 +153,7 @@ export default {
     //在this.$refs.upload.submit()上传前做数据处理
     uploadSectionFile(param) {
       var fileObj = param.file;
-      let date = timeFormat(new Date());
+      let date = timeFormat2(new Date());
       let fileData = new FormData(); // FormData 对象
       fileData.append("file", fileObj); // 文件对象
       fileData.append("year", date.split("-")[0]); // 文件对象

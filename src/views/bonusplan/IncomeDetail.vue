@@ -9,6 +9,22 @@
           <span>代表姓名：</span>
           <el-input size="small" v-model="searchName" placeholder="请输入"></el-input>
         </div>
+        <div class="main_header_item">
+          <span>日期：</span>
+          <el-date-picker v-model="date" format="yyyy-MM" type="month" placeholder="选择月">
+          </el-date-picker>
+        </div>
+        <div class="main_header_item">
+          <span>月：</span>
+          <el-select size="small" v-model="monthValue" placeholder="请选择">
+            <el-option
+              v-for="(item, index) in monthList"
+              :label="item.name"
+              :value="item.label"
+              :key="index"
+            ></el-option>
+          </el-select>
+        </div>
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
@@ -163,6 +179,7 @@
   </div>
 </template>
 <script>
+import { timeFormat2, monthFormat } from "../../js/public.js";
 export default {
   name: "IncomeDetail",
   data() {
@@ -171,6 +188,12 @@ export default {
       detailVisble: false, //详情弹窗
       isSearch: false, //是否是搜索请求
       searchName: null, //搜索姓名
+      date: "", //选择日期
+      monthValue: null, //工具月份选择
+      monthList: [
+        { label: "上半月", name: "上半月" },
+        { label: "下半月", name: "下半月" }
+      ],
       singleData: {},
       page: 1,
       size: 10,
@@ -189,10 +212,12 @@ export default {
       this.listLoading = true;
       let params = {
         info: this.searchName,
+        year: this.date ? monthFormat(this.date).split("-")[0] : "",
+        month: this.date ? monthFormat(this.date).split("-")[1] : "",
+        type: this.monthValue,
         page: this.page,
         size: this.size
       };
-      console.log("params", params);
       this.$api
         .userBonusList(params)
         .then(res => {
@@ -216,13 +241,13 @@ export default {
 
     // 搜索
     search() {
-      if (this.searchName == null) {
-        this.$message({
-          message: "请输入搜索内容",
-          type: "error"
-        });
-        return false;
-      }
+      // if (this.searchName == null) {
+      //   this.$message({
+      //     message: "请输入搜索内容",
+      //     type: "error"
+      //   });
+      //   return false;
+      // }
       this.isSearch = true;
       this.page = 1;
       this.getIncomeDetailList();
@@ -233,7 +258,7 @@ export default {
       this.searchName = null;
       this.isSearch = false;
       this.page = 1;
-      this.getUserInfoList();
+      this.getIncomeDetailList();
     },
 
     // 弹出代表详情
