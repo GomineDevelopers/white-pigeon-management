@@ -42,11 +42,6 @@
         ></el-table-column>
         <el-table-column
           prop="name"
-          label="本期业绩奖金"
-          min-width="120"
-        ></el-table-column>
-        <el-table-column
-          prop="name"
           label="本期医院开发奖"
           min-width="120"
         ></el-table-column>
@@ -83,6 +78,11 @@
         <el-table-column
           prop="role_name"
           label="累计总金额"
+          min-width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="name"
+          label="核销日期"
           min-width="120"
         ></el-table-column>
         <el-table-column label="操作" width="80" fixed="right">
@@ -131,6 +131,7 @@
             <el-table
               :data="list"
               border
+              show-summary
               v-loading="listLoading"
               element-loading-text="数据拼命加载中..."
               element-loading-background="rgba(255, 255, 255, 0.8)"
@@ -138,6 +139,9 @@
             >
               <el-table-column prop="id" label="医院"></el-table-column>
               <el-table-column prop="name" label="产品"></el-table-column>
+              <el-table-column prop="id" label="理论奖金"></el-table-column>
+              <el-table-column prop="id" label="行为奖金"></el-table-column>
+              <el-table-column prop="id" label="业绩奖金"></el-table-column>
             </el-table>
           </div>
         </li>
@@ -315,11 +319,9 @@ export default {
 .dialog_detail li label {
   width: 120px;
 }
-.dialog_detail .detail_table label {
-  float: left;
-}
+
 .dialog_detail .detail_table .table {
-  margin-left: 140px;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 </style>
