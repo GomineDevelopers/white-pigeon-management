@@ -70,7 +70,6 @@ axios.interceptors.response.use(
             message: "token账号过期，请重新登录!",
             type: "warning"
           });
-          // 清除token
           setTimeout(() => {
             router.replace({
               path: "/login",
@@ -87,7 +86,7 @@ axios.interceptors.response.use(
           });
           setTimeout(() => {
             router.replace({
-              path: "/loginpassword",
+              path: "/login",
               query: {
                 redirect: router.currentRoute.fullPath
               }
@@ -99,11 +98,7 @@ axios.interceptors.response.use(
             message: "未授权，无法访问",
             type: "warning"
           });
-          // 清除token
-          // localStorage.removeItem("adminToken");
-          // store.commit("setToken", null);
-
-          // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
+          // 跳转上一个页面
           setTimeout(() => {
             router.back();
           }, 2000);

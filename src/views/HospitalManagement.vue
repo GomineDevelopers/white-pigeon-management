@@ -55,7 +55,12 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="id" label="医院编号" min-width="80"></el-table-column>
+        <el-table-column label="序号" type="index" width="60">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="id" label="医院编号" min-width="80"></el-table-column> -->
         <el-table-column prop="hospital_name" label="医院名称" min-width="180"></el-table-column>
         <el-table-column
           prop="hospital_level"
@@ -78,30 +83,20 @@
 
         <el-table-column prop="hospital_mobile" label="联系方式" min-width="110"></el-table-column>
         <el-table-column prop="hospital_url" label="医院网址" min-width="150">
-          <template scope="scope"
+          <template slot-scope="scope"
             ><a class="hospital_link" :href="scope.row.hospital_url" target="_blank">{{
               scope.row.hospital_url
             }}</a></template
           >
         </el-table-column>
-        <el-table-column
-          prop="status"
-          label="状态"
-          :filters="[
-            { text: '正常', value: 1 },
-            { text: '删除', value: 2 }
-          ]"
-          :filter-method="filterStatus"
-          filter-placement="bottom-end"
-          width="90"
-        >
-          <template scope="scope">
+        <el-table-column prop="status" label="状态" width="90">
+          <template slot-scope="scope">
             <span class="normal" v-if="scope.row.status == 1">正常</span>
             <span class="abnormal" v-if="scope.row.status == 2">删除</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="120">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
@@ -133,6 +128,7 @@
           layout="prev, pager, next, sizes, jumper"
           @current-change="currentChange"
           @size-change="sizeChange"
+          :current-page.sync="page"
           :total="total"
         ></el-pagination>
       </div>
@@ -611,6 +607,7 @@ export default {
     // 切换每页条数
     sizeChange(val) {
       this.row = val;
+      this.getListData();
       // console.log(val);
     },
     // 新增医院确认按钮
@@ -699,17 +696,22 @@ export default {
               hospital_email: this.addData.hospital_email
             };
             this.$api
-              .hospitalEdit(params)
+              .hospitalAdd(params)
               .then(res => {
                 console.log(res);
                 if (res.code == 200) {
                   this.$message({
-                    message: "编辑信息成功！",
+                    message: "添加医院成功！",
                     type: "success"
                   });
                   this.addVisble = false;
                   this.page = 1;
                   this.getListData();
+                }else{
+                  this.$message({
+                    message: res.message,
+                    type: "error"
+                  });
                 }
               })
               .catch(error => {

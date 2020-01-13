@@ -14,10 +14,15 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="product_name" label="产品名" width="300"></el-table-column>
+        <el-table-column label="序号" type="index" width="120">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
         <el-table-column prop="product_topic" label="会议主题" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip
               class="item"
               :enterable="false"

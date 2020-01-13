@@ -44,6 +44,7 @@
         @selection-change="selectionChange"
         style="width: 100%"
       >
+        <el-table-column prop="medical_id" label="代表编号" min-width="120"></el-table-column>
         <el-table-column prop="user_name" label="代表名" width="80"></el-table-column>
         <el-table-column prop="hospital_name" label="拜访医院" min-width="110"></el-table-column>
         <el-table-column prop="doctor_name" label="拜访医生" min-width="90"></el-table-column>
@@ -52,7 +53,7 @@
         <el-table-column prop="visit_position" label="位置" min-width="110"></el-table-column>
         <el-table-column prop="start_time" label="开始时间" min-width="110"></el-table-column>
         <el-table-column prop="scope" label="拜访照片" min-width="110">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-image
               class="visit_img"
               :src="scope.row.visit_image"
@@ -66,7 +67,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="status" label="状态" min-width="100">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span class="status1" v-if="scope.row.status == 1">通过</span>
             <span class="status2" v-if="scope.row.status == 2">不合格</span>
             <span class="status3" v-if="scope.row.status == 3">待审核</span>
@@ -78,7 +79,7 @@
           </template>
         </el-table-column>
         <el-table-column label="审核" min-width="110">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip
               v-if="scope.row.status == 3"
               class="item approved_pass"
@@ -100,7 +101,7 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-document-copy" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>

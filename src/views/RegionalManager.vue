@@ -40,18 +40,23 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="province_name" label="省" width="160"></el-table-column>
-        <el-table-column prop="city_name" label="市/区" width="160"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="130"></el-table-column>
+        <el-table-column label="序号" type="index" width="100">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="province_name" label="省" min-width="120"></el-table-column>
+        <el-table-column prop="city_name" label="市/区" min-width="160"></el-table-column>
+        <el-table-column prop="name" label="姓名" min-width="130"></el-table-column>
         <el-table-column prop="phone" label="手机号" min-width="200"></el-table-column>
         <el-table-column prop="status" label="状态" width="80">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.status == 1">正常</span>
             <span v-else class="logout">注销</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip
               class="item"
               :enterable="false"

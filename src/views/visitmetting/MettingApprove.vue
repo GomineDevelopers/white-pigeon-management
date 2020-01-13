@@ -45,6 +45,11 @@
         @selection-change="selectionChange"
         style="width: 100%"
       >
+        <el-table-column label="序号" type="index" width="80">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="name" label="代表" min-width="90"></el-table-column>
         <el-table-column prop="product_name" label="产品" min-width="100"></el-table-column>
         <el-table-column prop="product_topic" label="会议主题" min-width="100"></el-table-column>
@@ -54,7 +59,7 @@
         <el-table-column prop="start_time" label="开始时间" min-width="100"></el-table-column>
         <el-table-column prop="end_time" label="结束时间" min-width="100"></el-table-column>
         <el-table-column prop="status" label="状态" min-width="100">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span class="status1" v-if="scope.row.status == 1">通过</span>
             <span class="status2" v-if="scope.row.status == 2">不合格</span>
             <span class="status3" v-if="scope.row.status == 3">待审核</span>
@@ -66,7 +71,7 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-document-copy" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>

@@ -4,8 +4,7 @@
       <div class="main_input">
         <div class="login_title">朱鹊医访后台管理</div>
         <div>
-          <el-input placeholder="用户名" v-model="userName" clearable>
-          </el-input>
+          <el-input placeholder="用户名" v-model="userName" clearable> </el-input>
         </div>
         <div>
           <el-input
@@ -55,6 +54,7 @@ export default {
             this.$store.commit("setToken", res.access_token); //设置store中adminToken
             localStorage.setItem("adminToken", res.access_token); //本地存放access_token
             localStorage.setItem("validTime", expiresDate); //本地存放access_token有效时间validTime
+            localStorage.setItem("access", res.access); //本地存放access(是否是管理员 true/false)
             this.$message({
               message: "登录成功",
               type: "success"

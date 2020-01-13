@@ -50,14 +50,19 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="product_name" label="产品名" min-width="180"></el-table-column>
+        <el-table-column label="序号" type="index" width="60">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
         <el-table-column prop="generic_name" label="通用名" min-width="160"></el-table-column>
         <el-table-column prop="dosage_form" label="剂型" width="100"></el-table-column>
         <el-table-column prop="specification" label="规格" width="120"></el-table-column>
-        <el-table-column prop="package" label="包装" width="200"></el-table-column>
+        <el-table-column prop="package" label="包装" min-width="120"></el-table-column>
         <el-table-column prop="factory" label="厂家" min-width="280"></el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
-          <template scope="scope">
+        <el-table-column prop="status" label="状态" width="80">
+          <template slot-scope="scope">
             <span v-if="scope.row.status == 1">正常</span>
             <span v-else class="logout">注销</span>
           </template>
@@ -96,9 +101,7 @@
       :append-to-body="true"
       width="30%"
     >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>产品信息
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>产品信息</div>
       <ul class="dialog_detail">
         <li>
           <label>产品名：</label>
@@ -222,7 +225,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="主要适应症：" prop="indications">
-          <el-input type="textarea" size="small" v-model="addData.indications" placeholder="请输入"></el-input>
+          <el-input
+            type="textarea"
+            size="small"
+            v-model="addData.indications"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="中标价：" prop="bidding_price">
           <el-input size="small" v-model="addData.bidding_price" placeholder="请输入"></el-input>
@@ -251,7 +259,11 @@
         </el-form-item>
         <el-form-item label="产品图片：" prop="product_image">
           <div class="upload_img">
-            <el-image class="img" v-if="addData.product_image" :src="addData.product_image"></el-image>
+            <el-image
+              class="img"
+              v-if="addData.product_image"
+              :src="addData.product_image"
+            ></el-image>
             <i
               class="el-icon-plus"
               v-show="!product_image_percent || addData.product_image == null"
@@ -440,11 +452,7 @@ export default {
 
     // 搜索
     search() {
-      if (
-        this.commonName == null &&
-        this.productName == null &&
-        this.searchStatus == null
-      ) {
+      if (this.commonName == null && this.productName == null && this.searchStatus == null) {
         this.$message({
           message: "请输入或选择搜索内容",
           type: "error"
@@ -669,10 +677,7 @@ export default {
         region: qiniu.region.z2
       };
       let api = `http://${domain}/`;
-      let fileName =
-        _this.fileNumber == 1
-          ? `company_stamp_${file.name}`
-          : `product_${file.name}`;
+      let fileName = _this.fileNumber == 1 ? `company_stamp_${file.name}` : `product_${file.name}`;
       let putExtra = {
         mimeType: null
       };

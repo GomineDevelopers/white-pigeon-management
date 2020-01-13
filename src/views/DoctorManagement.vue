@@ -39,6 +39,11 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
+        <el-table-column label="序号" type="index" width="60">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="doctor_name" label="医生名" min-width="100"></el-table-column>
         <el-table-column
           prop="sex"
@@ -54,14 +59,14 @@
           width="160"
           :formatter="formatPost"
         ></el-table-column>
-        <el-table-column prop="doctor_status" label="医生状态" min-width="100">
-          <template scope="scope">
+        <el-table-column prop="doctor_status" label="医生状态" min-width="80">
+          <template slot-scope="scope">
             <span v-if="scope.row.doctor_status == 1"> <b class="dot approved"></b>在职 </span>
             <span v-else> <b class="dot refuse"></b>离职 </span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>

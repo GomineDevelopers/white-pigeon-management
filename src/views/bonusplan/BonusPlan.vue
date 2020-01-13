@@ -13,29 +13,34 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
+        <el-table-column label="序号" type="index" width="100">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="name" label="姓名" min-width="140"></el-table-column>
         <el-table-column label="拜访" min-width="140">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span class="detail_link" @click="goVisitDetail(scope.row)">{{ scope.row.vs }}</span
             >条
           </template>
         </el-table-column>
         <el-table-column prop="metting" label="会议" min-width="140">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span class="detail_link" @click="goMettingDetail(scope.row)">{{ scope.row.ms }}</span
             >人
           </template>
         </el-table-column>
-        <el-table-column prop="theory" label="理论奖金（元）" min-width="140"></el-table-column>
-        <el-table-column prop="action" label="行为奖金（元）" min-width="140"></el-table-column>
+        <!-- <el-table-column prop="theory" label="理论奖金（元）" min-width="140"></el-table-column>
+        <el-table-column prop="action" label="行为奖金（元）" min-width="140"></el-table-column> -->
         <el-table-column prop="status" label="状态" min-width="140">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.status == 1">已通过、未核销</span>
             <span v-if="scope.row.status == 4">已核销</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button
               v-if="scope.row.status == 1"
               size="small"

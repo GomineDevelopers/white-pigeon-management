@@ -16,9 +16,7 @@
                 :key="index"
               >
                 <span :class="{ logout: item.status != 1 }">
-                  {{
-                  item.product_name
-                  }}
+                  {{ item.product_name }}
                 </span>
               </el-option>
             </el-option-group>
@@ -44,7 +42,9 @@
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="addVisble = true">新增资料</el-button>
+        <el-button size="small" plain icon="el-icon-plus" @click="addVisble = true"
+          >新增资料</el-button
+        >
       </div>
       <el-table
         :data="list"
@@ -53,8 +53,13 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="product_name" label="产品名" width="200"></el-table-column>
-        <el-table-column prop="product_data_type" label="类型" width="140">
+        <el-table-column label="序号" type="index" width="100">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
+        <el-table-column prop="product_data_type" label="类型" min-width="120">
           <template scope="scope">
             <span v-if="scope.row.product_data_type == 1">科室会议</span>
             <span v-if="scope.row.product_data_type == 2">代表培训</span>
@@ -62,21 +67,25 @@
           </template>
         </el-table-column>
         <el-table-column prop="title" label="PDF名称" min-width="140">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-link type="primary" @click="readPDF(scope.row)">
-              {{
-              scope.row.title
-              }}
+              {{ scope.row.title }}
             </el-link>
           </template>
         </el-table-column>
         <el-table-column prop="create_time" label="日期" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip v-if="scope.row.status == 1" class="item" effect="dark" content="删除" placement="top">
+            <el-tooltip
+              v-if="scope.row.status == 1"
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+            >
               <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>
@@ -95,9 +104,7 @@
     </div>
     <!-- 详情弹窗 -->
     <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>产品信息
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>产品信息</div>
       <ul class="dialog_detail">
         <li>
           <label>产品名：</label>
@@ -115,7 +122,9 @@
         </li>
         <li>
           <label>上传PDF：</label>
-          <el-link type="primary" @click="readPDF(singleData)">{{ singleData.company_policy_name }}</el-link>
+          <el-link type="primary" @click="readPDF(singleData)">{{
+            singleData.company_policy_name
+          }}</el-link>
         </li>
         <li>
           <label>上传时间：</label>
@@ -134,9 +143,7 @@
     </el-dialog>
     <!-- 新增 -->
     <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>产品信息
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>产品信息</div>
       <el-form :model="addData" :rules="rules" ref="ruleForm" label-width="120px">
         <el-form-item label="产品名" prop="productId" class="width_full">
           <el-select

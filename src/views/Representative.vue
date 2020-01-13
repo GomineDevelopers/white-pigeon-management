@@ -36,8 +36,8 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
+        <el-table-column prop="medical_id" label="代表编号" min-width="140"></el-table-column>
         <el-table-column prop="province_name" label="省/市" min-width="140"></el-table-column>
-        <el-table-column prop="id" label="代表编号" min-width="140"></el-table-column>
         <el-table-column prop="name" label="姓名" min-width="140"></el-table-column>
         <el-table-column prop="phone" label="手机号" min-width="140"></el-table-column>
         <el-table-column prop="id_card" label="身份证号" min-width="140"></el-table-column>
@@ -48,7 +48,7 @@
           min-width="140"
         ></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip
               class="item"
               :enterable="false"

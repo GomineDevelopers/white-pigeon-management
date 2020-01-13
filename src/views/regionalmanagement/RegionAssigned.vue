@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 面包屑 -->
-    <span class="breadcrumb">区域管理</span>
+    <span class="breadcrumb">区域分配</span>
     <!--工具条-->
     <el-row class="main_header">
       <el-col :span="20">
@@ -40,20 +40,25 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="province_name" label="省" width="160"></el-table-column>
-        <el-table-column prop="city_name" label="市/区" width="160"></el-table-column>
+        <el-table-column label="序号" type="index" width="80">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="province_name" label="省" min-width="120"></el-table-column>
+        <el-table-column prop="city_name" label="市/区" min-width="120"></el-table-column>
         <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
         <el-table-column prop="id" label="医院编号" min-width="120"></el-table-column>
         <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
         <el-table-column prop="user_name" label="区域经理" min-width="100"></el-table-column>
         <!-- <el-table-column prop="status" label="状态" width="80">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.status == 1">正常</span>
             <span v-else class="logout">注销</span>
           </template>
         </el-table-column> -->
         <el-table-column label="操作" width="60" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>

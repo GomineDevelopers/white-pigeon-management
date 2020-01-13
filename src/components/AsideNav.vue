@@ -1,6 +1,9 @@
 <template>
   <el-row class="left_aside">
-    <el-row class="header_logo">LOGO</el-row>
+    <el-row class="header_logo">
+      <img src="../assets/image/app_icon.png" />
+      <span>朱鹊医访</span>
+    </el-row>
     <el-menu
       :default-active="$route.path"
       class="el-menu-vertical-demo"
@@ -9,10 +12,7 @@
       unique-opened
     >
       <el-menu-item index="/hospitalManagement">
-        <img
-          v-if="$route.path == '/hospitalManagement'"
-          src="../assets/image/yy.png"
-        />
+        <img v-if="$route.path == '/hospitalManagement'" src="../assets/image/yy.png" />
         <img v-else src="../assets/image/yy1.png" />
         <span slot="title">医院管理</span>
       </el-menu-item>
@@ -28,18 +28,12 @@
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="/doctorManagement">
-        <img
-          v-if="$route.path == '/doctorManagement'"
-          src="../assets/image/ys.png"
-        />
+        <img v-if="$route.path == '/doctorManagement'" src="../assets/image/ys.png" />
         <img v-else src="../assets/image/ys1.png" />
         <span slot="title">医生管理</span>
       </el-menu-item>
       <el-menu-item index="/representative">
-        <img
-          src="../assets/image/db.png"
-          v-if="$route.path == '/representative'"
-        />
+        <img src="../assets/image/db.png" v-if="$route.path == '/representative'" />
         <img src="../assets/image/db1.png" v-else />
         <span slot="title">代表管理</span>
       </el-menu-item>
@@ -55,14 +49,8 @@
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="/regionalManager">
-        <img
-          src="../assets/image/qyjl.png"
-          v-if="$route.path === '/regionalManager'"
-        />
-        <img
-          src="../assets/image/qyjl1.png"
-          v-if="$route.path != '/regionalManager'"
-        />
+        <img src="../assets/image/qyjl.png" v-if="$route.path === '/regionalManager'" />
+        <img src="../assets/image/qyjl1.png" v-if="$route.path != '/regionalManager'" />
         <span slot="title">区域经理</span>
       </el-menu-item>
       <el-submenu index="/biddingManagement">
@@ -115,24 +103,15 @@
         <span slot="title">业绩报告</span>
       </el-menu-item>-->
       <el-menu-item index="/dataCenter">
-        <img
-          src="../assets/image/zlzx.png"
-          v-if="$route.path === '/dataCenter'"
-        />
-        <img
-          src="../assets/image/zlzx1.png"
-          v-if="$route.path != '/dataCenter'"
-        />
+        <img src="../assets/image/zlzx.png" v-if="$route.path === '/dataCenter'" />
+        <img src="../assets/image/zlzx1.png" v-if="$route.path != '/dataCenter'" />
         <span slot="title">资料中心</span>
       </el-menu-item>
-      <!-- <el-menu-item index="/propertymanagement">
-        <img
-          src="../assets/image/qx.png"
-          v-if="$route.path === '/propertymanagement'"
-        />
+      <el-menu-item index="/propertymanagement" v-if="access == 'true'">
+        <img src="../assets/image/qx.png" v-if="$route.path === '/propertymanagement'" />
         <img src="../assets/image/qx1.png" v-else />
         <span slot="title">权限管理</span>
-      </el-menu-item> -->
+      </el-menu-item>
       <!-- <el-menu-item index="14">
         <img src="../assets/image/sz.png" />
         <img src="../assets/image/sz1.png" />
@@ -145,10 +124,13 @@
 export default {
   name: "asideNav",
   data() {
-    return {};
+    return {
+      access: null
+    };
   },
   created() {
-    // console.log(this.$route.path);
+    this.access = localStorage.getItem("access");
+    console.log(this.access);
   },
   methods: {
     handleOpen() {
@@ -183,10 +165,17 @@ export default {
 }
 .header_logo {
   font-weight: bold;
-  font-size: 30px;
-  text-align: center;
+  font-size: 22px;
   height: 60px;
   line-height: 60px;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header_logo img {
+  height: 45px;
+  margin-right: 15px;
 }
 .el-menu-vertical-demo {
   overflow-y: auto;

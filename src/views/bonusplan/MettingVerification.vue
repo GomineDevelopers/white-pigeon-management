@@ -15,13 +15,18 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
+        <el-table-column label="序号" type="index" width="100">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="hospital_name" label="医院" min-width="140"></el-table-column>
         <el-table-column prop="product_name" label="产品" min-width="140"></el-table-column>
         <el-table-column label="数量" min-width="140">
-          <template scope="scope"> {{ scope.row.meeting_times }}人 </template>
+          <template slot-scope="scope"> {{ scope.row.meeting_times }}人 </template>
         </el-table-column>
         <el-table-column label="核销日期" min-width="140">
-          <template scope="scope"> {{ scope.row.modify_time }} </template>
+          <template slot-scope="scope"> {{ scope.row.modify_time }} </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->

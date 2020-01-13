@@ -27,11 +27,16 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
+        <el-table-column label="序号" type="index" width="120">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * size + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="id" label="用户ID" width="300"></el-table-column>
         <el-table-column prop="name" label="用户名" min-width="200"></el-table-column>
         <el-table-column prop="role_name" label="工作角色" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-tooltip
               class="item"
               :enterable="false"

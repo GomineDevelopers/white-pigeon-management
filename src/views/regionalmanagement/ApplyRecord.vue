@@ -41,7 +41,7 @@
         <el-table-column prop="product_name" label="产品" min-width="140"></el-table-column>
         <el-table-column prop="reason" label="拒绝通过理由" min-width="300"></el-table-column>
         <el-table-column prop="status" label="状态" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.status == 0"><b class="dot refuse"></b>拒绝</span>
             <span v-if="scope.row.status == 1"><b class="dot approved"></b>已审批</span>
             <span v-if="scope.row.status == 2"><b class="dot pending"></b>待审批</span>

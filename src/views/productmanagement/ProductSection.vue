@@ -8,11 +8,7 @@
         <div class="main_header_item">
           <span>产品名：</span>
           <el-select size="small" v-model="productId" placeholder="请选择">
-            <el-option-group
-              v-for="group in product"
-              :key="group.label"
-              :label="group.label"
-            >
+            <el-option-group v-for="group in product" :key="group.label" :label="group.label">
               <el-option
                 v-for="(item, index) in group.options"
                 :label="item.product_name"
@@ -45,17 +41,13 @@
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
       <div class="toolbar">
-        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate"
-          >新增</el-button
-        >
+        <el-button size="small" plain icon="el-icon-plus" @click="handleCreate">新增</el-button>
       </div>
       <el-table
         :data="list"
@@ -64,44 +56,21 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column
-          prop="product_name"
-          label="产品名"
-          min-width="200"
-        ></el-table-column>
-        <el-table-column
-          prop="section_name"
-          label="科室名"
-          min-width="200"
-        ></el-table-column>
-        <el-table-column
-          prop="create_time"
-          label="创建日期"
-          min-width="200"
-        ></el-table-column>
+        <el-table-column label="序号" type="index" width="120">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="150"></el-table-column>
+        <el-table-column prop="section_name" label="科室名" min-width="200"></el-table-column>
+        <el-table-column prop="create_time" label="创建日期" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope" v-show="scope.row.status == 1">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="编辑"
-              placement="top"
-            >
-              <i
-                class="el-icon-edit"
-                @click="handleEdit(scope.$index, scope.row)"
-              ></i>
+          <template slot-scope="scope" v-show="scope.row.status == 1">
+            <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="删除"
-              placement="top"
-            >
-              <i
-                class="el-icon-delete"
-                @click="handleDelete(scope.$index, scope.row)"
-              ></i>
+            <el-tooltip class="item" effect="dark" content="删除" placement="top">
+              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -118,21 +87,9 @@
       </div>
     </div>
     <!-- 新增 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="addVisble"
-      :append-to-body="true"
-    >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>科室信息
-      </div>
-      <el-form
-        v-if="addVisble"
-        :model="addData"
-        :rules="rules"
-        ref="ruleForm"
-        label-width="140px"
-      >
+    <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
+      <div class="dialog_title" slot="title"><span class="line"></span>科室信息</div>
+      <el-form v-if="addVisble" :model="addData" :rules="rules" ref="ruleForm" label-width="140px">
         <el-form-item label="产品名" prop="product_id" class="width_full">
           <el-select
             size="small"
@@ -148,12 +105,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          class="width_full"
-          size="small"
-          label="科室："
-          prop="section_id"
-        >
+        <el-form-item class="width_full" size="small" label="科室：" prop="section_id">
           <el-select
             v-model="addData.section_id"
             filterable
@@ -176,9 +128,7 @@
           </span>
           <span v-show="!submitLoading">确 定</span>
         </el-button>
-        <el-button size="small" type="info" plain @click="addVisble = false"
-          >取 消</el-button
-        >
+        <el-button size="small" type="info" plain @click="addVisble = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>

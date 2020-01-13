@@ -40,6 +40,11 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
+        <el-table-column label="序号" type="index" width="60">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * size + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="name" label="代表姓名" width="120"></el-table-column>
         <el-table-column
           prop="extractable_bonus"
@@ -77,7 +82,7 @@
           min-width="120"
         ></el-table-column>
         <el-table-column label="操作" width="80" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button
               size="mini"
               type="primary"
@@ -104,7 +109,11 @@
     <!-- 详情弹窗 -->
     <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="40%">
       <div class="dialog_title" slot="title"><span class="line"></span>代表奖金详情</div>
-      <ul class="dialog_detail">
+      <ul
+        class="dialog_detail"
+        v-loading="singleDataLoading"
+        element-loading-text="数据拼命加载中..."
+      >
         <li>
           <label>代表姓名：</label>
           {{ singleData.name }}
@@ -113,19 +122,17 @@
           <label>开发医院产品：</label>
           <div class="table">
             <el-table
-              :data="list"
+              :data="singleData.bonus_list"
               border
+              :summary-method="getSummaries"
               show-summary
-              v-loading="listLoading"
-              element-loading-text="数据拼命加载中..."
-              element-loading-background="rgba(255, 255, 255, 0.8)"
               style="width: 100%"
             >
-              <el-table-column prop="id" label="医院"></el-table-column>
-              <el-table-column prop="name" label="产品"></el-table-column>
-              <el-table-column prop="id" label="理论奖金"></el-table-column>
-              <el-table-column prop="id" label="行为奖金"></el-table-column>
-              <el-table-column prop="id" label="业绩奖金"></el-table-column>
+              <el-table-column prop="hospital_name" label="医院"></el-table-column>
+              <el-table-column prop="product_name" label="产品"></el-table-column>
+              <el-table-column prop="theory_bonus" label="理论奖金（元）"></el-table-column>
+              <el-table-column prop="action_bonus" label="行为奖金（元）"></el-table-column>
+              <el-table-column prop="achievement_bonus" label="业绩奖金（元）"></el-table-column>
             </el-table>
           </div>
         </li>
@@ -195,6 +202,7 @@ export default {
         { label: "下半月", name: "下半月" }
       ],
       singleData: {},
+      singleDataLoading: true, //加载数据中
       page: 1,
       size: 10,
       total: 0,
@@ -221,7 +229,7 @@ export default {
       this.$api
         .userBonusList(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.listLoading = false;
           if (res.code == 200) {
             this.total = res.detailed_count;
@@ -237,6 +245,32 @@ export default {
           this.listLoading = false;
           console.log(err);
         });
+    },
+    //实现业绩奖金列合并,其余列显示‘--’
+    getSummaries(param) {
+      const { columns, data } = param;
+      const sums = [];
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = "合计";
+          return;
+        }
+        const values = data.map(item => Number(item[column.property]));
+        if (column.property === "achievement_bonus") {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr);
+            if (!isNaN(value)) {
+              return prev + curr;
+            } else {
+              return prev;
+            }
+          }, 0);
+          sums[index] += "";
+        } else {
+          sums[index] = "--";
+        }
+      });
+      return sums;
     },
 
     // 搜索
@@ -256,6 +290,8 @@ export default {
     // 重置搜索内容
     resetSearch() {
       this.searchName = null;
+      this.date = "";
+      this.monthValue = "";
       this.isSearch = false;
       this.page = 1;
       this.getIncomeDetailList();
@@ -264,6 +300,7 @@ export default {
     // 弹出代表详情
     handleDetail(index, row) {
       this.detailVisble = true;
+      this.singleDataLoading = true;
       // console.log(row);
       let params = {
         menu_id: row.menu_id,
@@ -274,10 +311,12 @@ export default {
         .then(res => {
           console.log(res);
           if (res.code == 200) {
-            this.singleData = res.bonus_datiled[0];
+            this.singleDataLoading = false;
+            this.singleData = res.bonus_datiled;
           }
         })
         .catch(error => {
+          this.singleDataLoading = false;
           console.log(res);
         });
     },
@@ -285,13 +324,13 @@ export default {
     // 点击分页当前页数
     currentChange(val) {
       this.page = val;
-      this.getUserInfoList();
+      this.getIncomeDetailList();
     },
 
     // 切换每页条数
     sizeChange(val) {
       this.size = val;
-      this.getUserInfoList();
+      this.getIncomeDetailList();
     },
     dateFormatter(row) {
       if (row.create_time != null) {

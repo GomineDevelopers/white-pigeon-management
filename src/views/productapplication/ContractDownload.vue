@@ -1,26 +1,18 @@
 <template>
   <div>
     <!-- 面包屑 -->
-    <span class="breadcrumb">产品申请</span>
+    <span class="breadcrumb">合同下载</span>
     <!--工具条-->
     <el-row class="main_header">
       <el-col :span="20">
         <div class="main_header_item">
           <span>代表姓名：</span>
-          <el-input
-            size="small"
-            v-model="deputyName"
-            placeholder="请输入医药代表姓名"
-          ></el-input>
+          <el-input size="small" v-model="deputyName" placeholder="请输入医药代表姓名"></el-input>
         </div>
         <div class="main_header_item">
           <span>产品名：</span>
           <el-select size="small" v-model="productId" placeholder="请选择">
-            <el-option-group
-              v-for="group in product"
-              :key="group.label"
-              :label="group.label"
-            >
+            <el-option-group v-for="group in product" :key="group.label" :label="group.label">
               <el-option
                 v-for="(item, index) in group.options"
                 :label="item.product_name"
@@ -37,9 +29,7 @@
       </el-col>
       <el-col :span="4" class="main_header_btns">
         <el-button size="small" type="primary" @click="search">搜索</el-button>
-        <el-button size="small" type="primary" @click="resetSearch" plain
-          >重置</el-button
-        >
+        <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
     <!-- 列表 -->
@@ -51,28 +41,17 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column
-          prop="user_name"
-          label="代表姓名"
-          min-width="120"
-        ></el-table-column>
-        <el-table-column
-          prop="province_name"
-          label="所属省份"
-          min-width="140"
-        ></el-table-column>
-        <el-table-column
-          prop="hospital_name"
-          label="医院名称"
-          min-width="260"
-        ></el-table-column>
-        <el-table-column
-          prop="product_name"
-          label="产品名"
-          min-width="140"
-        ></el-table-column>
+        <el-table-column label="序号" type="index" min-width="50">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="user_name" label="代表姓名" min-width="120"></el-table-column>
+        <el-table-column prop="province_name" label="所属省份" min-width="140"></el-table-column>
+        <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
         <el-table-column prop="modify_time" label="签约日期" min-width="140">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.modify_time.substring(0, 10) }}
           </template>
         </el-table-column>
@@ -87,34 +66,17 @@
           min-width="140"
         ></el-table-column>
         <el-table-column prop="status" label="状态" min-width="120">
-          <template scope="scope">
-            <span v-if="scope.row.is_sign == 2" class="status_waiting"
-              >已通过，未签约</span
-            >
-            <span v-if="scope.row.is_sign == 1" class="status_success"
-              >已签约</span
-            >
+          <template slot-scope="scope">
+            <span v-if="scope.row.is_sign == 2" class="status_waiting">已通过，未签约</span>
+            <span v-if="scope.row.is_sign == 1" class="status_success">已签约</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="100" fixed="right">
-          <template scope="scope">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看"
-              placement="top"
-            >
-              <i
-                class="el-icon-view"
-                @click="handleDetail(scope.$index, scope.row)"
-              ></i>
+          <template slot-scope="scope">
+            <el-tooltip class="item" effect="dark" content="查看" placement="top">
+              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="下载合同"
-              placement="top"
-            >
+            <el-tooltip class="item" effect="dark" content="下载合同" placement="top">
               <i
                 v-if="scope.row.is_sign == 1"
                 class="el-icon-download"
@@ -138,15 +100,8 @@
       </div>
     </div>
     <!-- 详情弹窗 -->
-    <el-dialog
-      class="dialog_wrap"
-      :visible.sync="detailVisble"
-      :append-to-body="true"
-      width="30%"
-    >
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>申请信息
-      </div>
+    <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
+      <div class="dialog_title" slot="title"><span class="line"></span>申请信息</div>
       <ul class="dialog_detail">
         <li>
           <label>医药代表姓名：</label>
@@ -182,12 +137,8 @@
         </li>
         <li>
           <label>状态：</label>
-          <span v-if="singleData.is_sign == 2" class="status_waiting"
-            >已通过，未签约</span
-          >
-          <span v-else-if="singleData.is_sign == 1" class="status_success"
-            >已签约</span
-          >
+          <span v-if="singleData.is_sign == 2" class="status_waiting">已通过，未签约</span>
+          <span v-else-if="singleData.is_sign == 1" class="status_success">已签约</span>
         </li>
         <li v-if="singleData.is_sign == 1">
           <label>合同：</label>
@@ -197,9 +148,7 @@
         </li>
       </ul>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="detailVisble = false"
-          >关 闭</el-button
-        >
+        <el-button size="small" type="primary" @click="detailVisble = false">关 闭</el-button>
       </div>
     </el-dialog>
   </div>

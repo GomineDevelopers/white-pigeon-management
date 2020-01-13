@@ -74,18 +74,22 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="id" label="id" min-width="140"></el-table-column>
+        <el-table-column label="序号" type="index" width="100">
+          <template slot-scope="scope">
+            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="year" label="年" min-width="140"></el-table-column>
         <el-table-column prop="month" label="月" min-width="140"></el-table-column>
         <el-table-column prop="type" label="日" min-width="140"></el-table-column>
         <el-table-column prop="create_time" label="创建时间" min-width="140"></el-table-column>
         <el-table-column prop="status" label="状态" min-width="140">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.status == 1">正常</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button size="small" type="primary" @click="handleList(scope.$index, scope.row)"
               >匹配</el-button
             >

@@ -24,6 +24,7 @@ export default new Vuex.Store({
       state.token = "";
       localStorage.removeItem("adminToken");
       localStorage.removeItem("validTime");
+      localStorage.removeItem("access");
     }
   },
   actions: {
