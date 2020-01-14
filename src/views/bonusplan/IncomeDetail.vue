@@ -71,10 +71,7 @@
           label="本期总计奖金（元）"
           min-width="120"
         ></el-table-column>
-        <!-- <el-table-column prop="role_name" label="累计已返奖金" min-width="120"></el-table-column>
-        <el-table-column prop="role_name" label="累计押金" min-width="120"></el-table-column>
-        <el-table-column prop="role_name" label="累计延迟奖金" min-width="120"></el-table-column>
-        <el-table-column prop="role_name" label="累计总金额" min-width="120"></el-table-column> -->
+
         <el-table-column
           prop="create_time"
           label="核销日期"
@@ -108,7 +105,7 @@
     </div>
     <!-- 详情弹窗 -->
     <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="40%">
-      <div class="dialog_title" slot="title"><span class="line"></span>代表奖金详情</div>
+      <div class="dialog_title" slot="title"><span class="line"></span>代表奖金详细</div>
       <ul
         class="dialog_detail"
         v-loading="singleDataLoading"
@@ -160,22 +157,22 @@
           <label>本期总计奖金（元）：</label>
           {{ singleData.total_bonus }}
         </li>
-        <!-- <li>
-          <label>累计已返奖金：</label>
-          {{ singleData.id }}
+        <li>
+          <label>累计已返奖金（元）：</label>
+          {{ singleData.total_extractable_bonus }}
         </li>
         <li>
-          <label>累计押金：</label>
-          {{ singleData.id }}
+          <label>累计押金（元）：</label>
+          {{ singleData.total_deposit }}
         </li>
         <li>
-          <label>累计延迟奖金：</label>
-          {{ singleData.id }}
+          <label>累计延迟奖金（元）：</label>
+          {{ singleData.total_delay_bonus }}
         </li>
         <li>
-          <label>累计总金额：</label>
-          {{ singleData.id }}
-        </li> -->
+          <label>累计总金额（元）：</label>
+          {{ singleData.total }}
+        </li>
       </ul>
 
       <div slot="footer" class="dialog-footer">
