@@ -44,6 +44,7 @@
         @selection-change="selectionChange"
         style="width: 100%"
       >
+        <el-table-column prop="id" label="拜访编号" min-width="130"></el-table-column>
         <el-table-column prop="medical_id" label="代表编号" min-width="120"></el-table-column>
         <el-table-column prop="user_name" label="代表名" width="80"></el-table-column>
         <el-table-column prop="hospital_name" label="拜访医院" min-width="110"></el-table-column>
@@ -301,15 +302,10 @@ export default {
         page: this.page,
         row: this.row
       };
-      // let data = new FormData(); // FormData 对象
-      // data.append("user_name", this.representative);
-      // data.append("product_id", this.product);
-      // data.append("page", this.page);
-      // data.append("row", this.row);
-      // console.log("拜访审核");
       this.$api
         .visitList(parmas)
         .then(res => {
+          console.log(res);
           if (res.code == 200) {
             this.total = res.visit_count;
             this.tableData = res.visit_list;

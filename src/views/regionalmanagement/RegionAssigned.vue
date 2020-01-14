@@ -355,9 +355,11 @@ export default {
     // 通过省市获取医院信息
     getInfoByProvince(params) {
       this.addLoading = true;
+      console.log("params", params);
       this.$api
         .getInfoByProvince(params)
         .then(res => {
+          console.log("res-----", res);
           if (res.code == 200) {
             this.hosptalList = res.hospital_product;
             this.regionList = res.region_list;

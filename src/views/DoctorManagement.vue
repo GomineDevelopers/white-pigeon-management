@@ -39,7 +39,7 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column label="序号" type="index" width="60">
+        <el-table-column label="序号" type="index" width="80">
           <template slot-scope="scope">
             <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
           </template>
