@@ -47,12 +47,12 @@
           </template>
         </el-table-column>
         <el-table-column prop="user_name" label="代表姓名" min-width="120"></el-table-column>
-        <el-table-column prop="province_name" label="所属省份" min-width="140"></el-table-column>
+        <el-table-column prop="province_name" label="所属省份" min-width="120"></el-table-column>
         <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="120"></el-table-column>
         <el-table-column prop="modify_time" label="签约日期" min-width="140">
           <template slot-scope="scope">
-            {{ scope.row.modify_time.substring(0, 10) }}
+            {{ scope.row.modify_time ? scope.row.modify_time.split(" ")[0] : "" }}
           </template>
         </el-table-column>
         <el-table-column
@@ -62,8 +62,8 @@
         ></el-table-column>
         <el-table-column
           prop="region_bidding_price"
-          label="区域经理定单价"
-          min-width="140"
+          label="区域经理定单价（元）"
+          min-width="160"
         ></el-table-column>
         <el-table-column prop="status" label="状态" min-width="120">
           <template slot-scope="scope">

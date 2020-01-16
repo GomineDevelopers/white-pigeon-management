@@ -41,13 +41,15 @@
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template slot-scope="scope">
-            <el-button
+            <el-tooltip
               v-if="scope.row.status == 1"
-              size="small"
-              type="primary"
-              @click="handleList(scope.$index, scope.row)"
-              >核销</el-button
+              class="item"
+              effect="dark"
+              content="核销"
+              placement="top"
             >
+              <i class="el-icon-folder-checked" @click="handleList(scope.$index, scope.row)"></i>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>

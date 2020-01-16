@@ -46,11 +46,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="name" label="代表姓名" width="120"></el-table-column>
-        <el-table-column
-          prop="extractable_bonus"
-          label="本期可提奖金"
-          min-width="120"
-        ></el-table-column>
+        <el-table-column prop="extractable_bonus" label="本期可提奖金" min-width="120">
+        </el-table-column>
         <el-table-column
           prop="develop_bonus"
           label="本期医院开发奖"
@@ -78,15 +75,14 @@
           :formatter="dateFormatter"
           min-width="120"
         ></el-table-column>
-        <el-table-column label="操作" width="80" fixed="right">
+        <el-table-column label="操作" min-width="160" fixed="right">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="primary"
-              plain
-              @click="handleDetail(scope.$index, scope.row)"
-              >详细</el-button
-            >
+            <el-tooltip class="item" effect="dark" content="明细" placement="top">
+              <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" content="下载" placement="top">
+              <i class="el-icon-download" @click="downFile(scope.row)"></i>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -139,7 +135,7 @@
         </li>
         <li>
           <label>本期业绩奖金（元）：</label>
-          {{ singleData.achievement_bonus }}
+          {{ singleData.total_achievement }}
         </li>
         <li>
           <label>本期医院开发奖（元）：</label>
@@ -335,6 +331,16 @@ export default {
       } else {
         return row.create_time;
       }
+    },
+    //下载
+    downFile(row) {
+      // 下载表格数据
+      let parmas = {
+        menu_id: row.menu_id,
+        user_id: row.user_id,
+        is_export: 1
+      };
+      this.$api.downBonusDetailExcel(parmas);
     }
   }
 };

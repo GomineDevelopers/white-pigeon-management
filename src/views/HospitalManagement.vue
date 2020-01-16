@@ -55,12 +55,7 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column label="序号" type="index" width="60">
-          <template slot-scope="scope">
-            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
-          </template>
-        </el-table-column>
-        <!-- <el-table-column prop="id" label="医院编号" min-width="80"></el-table-column> -->
+        <el-table-column label="医院编号" prop="id" min-width="80"></el-table-column>
         <el-table-column prop="hospital_name" label="医院名称" min-width="180"></el-table-column>
         <el-table-column
           prop="hospital_level"
@@ -707,7 +702,7 @@ export default {
                   this.addVisble = false;
                   this.page = 1;
                   this.getListData();
-                }else{
+                } else {
                   this.$message({
                     message: res.message,
                     type: "error"

@@ -76,7 +76,7 @@ ul {
 .main_list .toolbar i {
   font-weight: bold;
 }
-.main_list table i {
+.main_list table td i {
   font-size: 16px;
   padding: 3px 8px;
   cursor: pointer;
@@ -92,6 +92,8 @@ ul {
 .main_list table .el-icon-view,
 .main_list table .el-icon-document-copy,
 .main_list table .el-icon-circle-check,
+.main_list table .el-icon-notebook-1,
+.main_list table .el-icon-folder-checked,
 .status_success {
   color: #4ccea5;
 }

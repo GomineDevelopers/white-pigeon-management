@@ -63,7 +63,7 @@
             <span class="status1" v-if="scope.row.status == 1">通过</span>
             <span class="status2" v-if="scope.row.status == 2">不合格</span>
             <span class="status3" v-if="scope.row.status == 3">待审核</span>
-            <span class="status4" v-if="scope.row.status == 4">已经核销</span>
+            <span class="status4" v-if="scope.row.status == 4">已核销</span>
             <span class="status5" v-if="scope.row.status == 5">已经失效</span>
             <span class="status6" v-if="scope.row.status == 6">创建</span>
             <span class="status7" v-if="scope.row.status == 7">隐藏</span>
@@ -118,8 +118,8 @@
           <span v-if="singleData.status == 1">通过</span>
           <span v-if="singleData.status == 2">不合格</span>
           <span v-if="singleData.status == 3">待审核</span>
-          <span v-if="singleData.status == 4">已经核销</span>
-          <span v-if="singleData.status == 5">已经失效</span>
+          <span v-if="singleData.status == 4">已核销</span>
+          <span v-if="singleData.status == 5">已失效</span>
           <span v-if="singleData.status == 6">创建</span>
           <span v-if="singleData.status == 7">隐藏</span>
           <span v-if="singleData.status == 8">删除</span>

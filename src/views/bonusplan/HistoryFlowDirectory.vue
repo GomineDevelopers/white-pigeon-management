@@ -23,7 +23,7 @@
         </div>
       </el-col>
       <el-col :span="4" class="main_header_btns">
-        <el-button size="small" type="primary" @click="search">搜索</el-button>
+        <el-button size="small" type="success" @click="search">搜索</el-button>
         <el-button size="small" type="primary" @click="resetSearch" plain>重置</el-button>
       </el-col>
     </el-row>
@@ -90,9 +90,9 @@
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template slot-scope="scope">
-            <el-button size="small" type="primary" @click="handleList(scope.$index, scope.row)"
-              >匹配</el-button
-            >
+            <el-tooltip class="item" effect="dark" content="匹配" placement="top">
+              <i class="el-icon-notebook-1" @click="handleList(scope.$index, scope.row)"></i>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>

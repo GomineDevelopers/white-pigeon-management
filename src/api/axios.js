@@ -76,6 +76,7 @@ let api = {
   visitList2: params => get("/flows/visitlist", params), //匹配的拜访详情（医院，产品）
   meetinglist: params => get("/flows/meetinglist", params), //匹配的会议详情（医院，产品）
   userBonusList: params => get("/bonus/detailedlist", params), //代表奖金列表
-  bonusDetail: params => get("/bonus/detailed", params) //代表奖金明细列表
+  bonusDetail: params => get("/bonus/detailed", params), //代表奖金明细列表
+  downBonusDetailExcel: params => downFile("/bonus/detailed", params) //代表奖金明细列表
 };
 export default api;

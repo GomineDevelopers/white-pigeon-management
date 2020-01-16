@@ -50,11 +50,7 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column label="序号" type="index" width="60">
-          <template slot-scope="scope">
-            <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column prop="id" label="产品编号" min-width="80"></el-table-column>
         <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
         <el-table-column prop="generic_name" label="通用名" min-width="160"></el-table-column>
         <el-table-column prop="dosage_form" label="剂型" width="100"></el-table-column>
