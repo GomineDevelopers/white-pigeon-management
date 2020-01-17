@@ -28,6 +28,11 @@
         <el-table-column label="核销日期" min-width="140">
           <template slot-scope="scope"> {{ scope.row.modify_time }} </template>
         </el-table-column>
+        <template>
+          <el-tooltip class="item" effect="dark" content="下载" placement="top">
+            <i class="el-icon-download" @click="downFile()"></i>
+          </el-tooltip>
+        </template>
       </el-table>
       <!-- 分页 -->
       <div class="pagination">
@@ -105,6 +110,15 @@ export default {
     sizeChange(val) {
       this.row = val;
       this.getListData();
+    },
+    downFile() {
+      // 下载表格数据
+      let parmas = {
+        action: "meeting",
+        menu_id: this.menuId,
+        user_id: this.userId
+      };
+      this.$api.downFlowslistExcel(parmas);
     }
   }
 };

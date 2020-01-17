@@ -119,7 +119,7 @@
               content="通过"
               placement="top"
             >
-              <i class="el-icon-circle-check" @click="approve(1, scope.row.id)"></i>
+              <i class="el-icon-circle-check" @click="approve(1, scope.row)"></i>
             </el-tooltip>
             <el-tooltip
               v-if="scope.row.status == 3"
@@ -128,7 +128,7 @@
               content="拒绝"
               placement="top"
             >
-              <i class="el-icon-circle-close" @click="approve(2, scope.row.id)"></i>
+              <i class="el-icon-circle-close" @click="approve(2, scope.row)"></i>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -365,6 +365,8 @@ export default {
       let parmas = {
         user_name: this.representative,
         product_id: this.product,
+        hospital_name: this.hospitalName,
+        status: this.status,
         page: this.page,
         row: this.row
       };
@@ -402,7 +404,7 @@ export default {
     //搜索
     search() {
       //代表和产品输入一个即可查询
-      if (this.representative || this.product) {
+      if (this.representative || this.product || this.hospitalName || this.status) {
         this.page = 1;
         this.getListData();
       } else {
@@ -414,6 +416,8 @@ export default {
     reset() {
       this.product = "";
       this.representative = "";
+      this.hospitalName = "";
+      this.status = "";
       this.getListData();
     },
 
@@ -455,7 +459,7 @@ export default {
         });
     },
     //通过审核
-    approve(type, id) {
+    approve(type, row) {
       let message;
       let messageType;
       if (type == 1) {
@@ -471,7 +475,7 @@ export default {
           closeOnClickModal: false
         })
         .then(() => {
-          let params = { visit_id: id, is_pass: type };
+          let params = { visit_id: row.id, is_pass: type, start_date: row.start_date };
           this.$api
             .visitOperate(params)
             .then(res => {
