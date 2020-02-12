@@ -49,7 +49,9 @@
         <el-table-column prop="city_name" label="市/区" min-width="120"></el-table-column>
         <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
         <el-table-column prop="id" label="医院编号" min-width="120"></el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="140">
+          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+        </el-table-column>
         <el-table-column prop="user_name" label="区域经理" min-width="100"></el-table-column>
         <!-- <el-table-column prop="status" label="状态" width="80">
           <template slot-scope="scope">
@@ -89,7 +91,7 @@
         <li><label>市：</label>{{ singleData.city_name }}</li>
         <li><label>医院名称：</label>{{ singleData.hospital_name }}</li>
         <li><label>医院编号：</label>{{ singleData.id }}</li>
-        <li><label>产品名：</label>{{ singleData.product_name }}</li>
+        <li><label>产品名：</label>{{ singleData.product_name+'-'+ singleData.specification}}</li>
         <li><label>区域经理：</label>{{ singleData.user_name }}</li>
         <li>
           <label>状态：</label>
@@ -147,7 +149,7 @@
           >
             <el-option
               v-for="(item, index) in productList"
-              :label="item.product_name"
+              :label="item.product_name+'-'+item.specification"
               :value="item.product_id"
               :key="index"
             ></el-option>

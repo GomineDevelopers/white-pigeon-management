@@ -61,7 +61,9 @@
             <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="150"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="150">
+          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+        </el-table-column>
         <el-table-column prop="section_name" label="科室名" min-width="200"></el-table-column>
         <el-table-column prop="create_time" label="创建日期" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
@@ -88,7 +90,7 @@
     </div>
     <!-- 新增 -->
     <el-dialog class="dialog_wrap" :visible.sync="addVisble" :append-to-body="true">
-      <div class="dialog_title" slot="title"><span class="line"></span>科室信息</div>
+      <div class="dialog_title" slot="title"><span class="line"></span>产品科室信息</div>
       <el-form v-if="addVisble" :model="addData" :rules="rules" ref="ruleForm" label-width="140px">
         <el-form-item label="产品名" prop="product_id" class="width_full">
           <el-select
@@ -226,13 +228,13 @@ export default {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               }

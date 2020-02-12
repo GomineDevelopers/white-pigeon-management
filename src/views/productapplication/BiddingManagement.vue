@@ -44,7 +44,9 @@
         <el-table-column prop="user_name" label="代表姓名" min-width="100"></el-table-column>
         <el-table-column prop="province_name" label="所属省份" min-width="100"></el-table-column>
         <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="100"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="100">
+           <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+        </el-table-column>
         <el-table-column prop="promise_sales" label="承诺销量" min-width="100"></el-table-column>
         <el-table-column
           prop="region_promise_sales"
@@ -107,7 +109,7 @@
         </li>
         <li>
           <label>产品名称：</label>
-          {{ singleData.product_name }}
+          {{ singleData.product_name +'-'+singleData.specification}}
         </li>
         <li>
           <label>承诺销量：</label>

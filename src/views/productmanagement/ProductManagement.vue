@@ -12,7 +12,7 @@
               <el-option
                 v-for="(item, index) in group.options"
                 :label="item.product_name"
-                :value="item.product_name"
+                :value="item.id"
                 :key="index"
               >
                 <span :class="{ logout: item.status != 1 }">{{ item.product_name }}</span>
@@ -51,7 +51,9 @@
         style="width: 100%"
       >
         <el-table-column prop="id" label="产品编号" min-width="80"></el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="140">
+          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+        </el-table-column>
         <el-table-column prop="generic_name" label="通用名" min-width="160"></el-table-column>
         <el-table-column prop="dosage_form" label="剂型" width="100"></el-table-column>
         <el-table-column prop="specification" label="规格" width="120"></el-table-column>
@@ -101,7 +103,7 @@
       <ul class="dialog_detail">
         <li>
           <label>产品名：</label>
-          {{ singleData.product_name }}
+          {{ singleData.product_name }}-{{ singleData.specification }}
         </li>
         <li>
           <label>通用名：</label>
@@ -136,7 +138,7 @@
           <p>{{ singleData.indications }}</p>
         </li>
         <li>
-          <label>中标价：</label>
+          <label>中标价（元）：</label>
           {{ singleData.bidding_price }}
         </li>
         <li>
@@ -386,12 +388,13 @@ export default {
       let params = null;
       if (this.isSearch) {
         params = {
-          product_name: this.productName,
+          product_id: this.productName,
           generic_name: this.commonName,
           status: this.searchStatus,
           page: this.page,
           row: this.row
         };
+        console.log(params)
       } else {
         params = {
           page: this.page,
@@ -401,6 +404,7 @@ export default {
       this.$api
         .productManagerList(params)
         .then(res => {
+          console.log(res)
           if (res.code == 200) {
             this.total = res.product_manager_list_count;
             this.list = res.product_manager_list;
@@ -428,14 +432,14 @@ export default {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
-                  product_name: item.product_name,
-                  status: item.status
+                  product_name: item.product_name+'-'+item.specification,
+                  status: item.status,
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
-                  product_name: item.product_name,
-                  status: item.status
+                  product_name: item.product_name+'-'+item.specification,
+                  status: item.status,
                 });
               }
             });

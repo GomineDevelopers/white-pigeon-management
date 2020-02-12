@@ -51,7 +51,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="name" label="代表" min-width="90"></el-table-column>
-        <el-table-column prop="product_name" label="产品" min-width="100"></el-table-column>
+        <el-table-column prop="product_name" label="产品" min-width="100">
+          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+        </el-table-column>
         <el-table-column prop="product_topic" label="会议主题" min-width="100"></el-table-column>
         <el-table-column prop="hospital_name" label="医院" min-width="120"></el-table-column>
         <!-- <el-table-column prop="section_name" label="科室"></el-table-column> -->
@@ -106,7 +108,7 @@
     <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
       <ul class="dialog_detail">
         <li><label>代表：</label>{{ singleData.name }}</li>
-        <li><label>产品：</label>{{ singleData.product_name }}</li>
+        <li><label>产品：</label>{{ singleData.product_name +'-'+singleData.specification }}</li>
         <li><label>会议主题：</label>{{ singleData.product_topic }}</li>
         <li><label>医院：</label>{{ singleData.hospital_name }}</li>
         <li><label>科室：</label>{{ singleData.section_name }}</li>
@@ -221,13 +223,13 @@ export default {
               if (item.status == 1) {
                 this.productOptions[0].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               } else {
                 this.productOptions[1].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               }
@@ -290,7 +292,7 @@ export default {
       this.$api
         .meetingDetail(params)
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.code == 200) {
             this.singleData = res.meeting_detail;
             this.detailVisble = true;

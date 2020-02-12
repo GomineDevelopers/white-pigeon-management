@@ -49,7 +49,9 @@
         <el-table-column prop="user_name" label="代表姓名" min-width="120"></el-table-column>
         <el-table-column prop="province_name" label="所属省份" min-width="120"></el-table-column>
         <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="120"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="130">
+          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+        </el-table-column>
         <el-table-column prop="modify_time" label="签约日期" min-width="140">
           <template slot-scope="scope">
             {{ scope.row.modify_time ? scope.row.modify_time.split(" ")[0] : "" }}
@@ -117,7 +119,7 @@
         </li>
         <li>
           <label>产品名称：</label>
-          {{ singleData.product_name }}
+          {{ singleData.product_name+'-'+singleData.specification }}
         </li>
         <li>
           <label>承诺销量：</label>
@@ -232,13 +234,13 @@ export default {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               }

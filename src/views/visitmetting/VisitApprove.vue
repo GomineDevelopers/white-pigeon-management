@@ -76,7 +76,9 @@
           min-width="100"
         ></el-table-column>
         <!-- <el-table-column prop="visit_goal" label="拜访目的"></el-table-column> -->
-        <el-table-column prop="product_name" label="产品" min-width="80"></el-table-column>
+        <el-table-column prop="product_name" label="产品" min-width="120">
+          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+        </el-table-column>
         <el-table-column prop="visit_position" label="位置" min-width="120"></el-table-column>
         <el-table-column
           prop="start_time"
@@ -184,7 +186,7 @@
         </li>
         <li>
           <label>产品：</label>
-          {{ singleData.product_name }}
+          {{ singleData.product_name+'-'+singleData.specification }}
         </li>
         <li>
           <label>位置：</label>
@@ -332,13 +334,13 @@ export default {
               if (item.status == 1) {
                 this.productOptions[0].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               } else {
                 this.productOptions[1].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               }

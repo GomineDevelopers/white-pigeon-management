@@ -58,7 +58,9 @@
             <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="140"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="140">
+          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+        </el-table-column>
         <el-table-column prop="product_data_type" label="类型" min-width="120">
           <template scope="scope">
             <span v-if="scope.row.product_data_type == 1">科室会议</span>
@@ -108,7 +110,7 @@
       <ul class="dialog_detail">
         <li>
           <label>产品名：</label>
-          {{ singleData.product_name }}
+          {{ singleData.product_name+'-'+singleData.specification}}
         </li>
         <li>
           <label>类型：</label>
@@ -323,13 +325,13 @@ export default {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
-                  product_name: item.product_name,
+                  product_name: item.product_name+'-'+item.specification,
                   status: item.status
                 });
               }
