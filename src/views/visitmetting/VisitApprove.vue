@@ -39,8 +39,7 @@
               :label="item.value"
               :value="item.id"
               :key="index"
-            >
-            </el-option>
+            ></el-option>
           </el-select>
         </div>
         <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
@@ -61,31 +60,17 @@
         :default-sort="{ prop: 'start_time', order: 'descending' }"
         style="width: 100%"
       >
+        <el-table-column type="selection" width="55" :selectable="checkSelectable"></el-table-column>
         <el-table-column prop="visit_id" label="拜访编号" min-width="130"></el-table-column>
         <el-table-column prop="user_name" label="代表名" min-width="80"></el-table-column>
-        <el-table-column
-          prop="hospital_name"
-          label="拜访医院"
-          sortable
-          min-width="150"
-        ></el-table-column>
-        <el-table-column
-          prop="doctor_name"
-          label="拜访医生"
-          sortable
-          min-width="100"
-        ></el-table-column>
+        <el-table-column prop="hospital_name" label="拜访医院" sortable min-width="150"></el-table-column>
+        <el-table-column prop="doctor_name" label="拜访医生" sortable min-width="100"></el-table-column>
         <!-- <el-table-column prop="visit_goal" label="拜访目的"></el-table-column> -->
         <el-table-column prop="product_name" label="产品" min-width="120">
           <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
         </el-table-column>
         <el-table-column prop="visit_position" label="位置" min-width="120"></el-table-column>
-        <el-table-column
-          prop="start_time"
-          sortable
-          label="开始时间"
-          min-width="150"
-        ></el-table-column>
+        <el-table-column prop="start_time" sortable label="开始时间" min-width="150"></el-table-column>
         <el-table-column prop="scope" label="拜访照片" min-width="110">
           <template slot-scope="scope">
             <el-image
@@ -151,6 +136,11 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-row class="batch_approve">
+        批量审核：
+        <el-button type="success" size="mini" @click="visitmultipleOperate(1)">通过</el-button>
+        <el-button type="danger" size="mini" @click="visitmultipleOperate(2)">拒绝</el-button>
+      </el-row>
       <!-- 分页 -->
       <div class="pagination">
         <el-pagination
@@ -232,7 +222,9 @@
           </span>
         </li>
       </ul>
-      <div class="dialog_title" slot="title"><span class="line"></span>拜访审核</div>
+      <div class="dialog_title" slot="title">
+        <span class="line"></span>拜访审核
+      </div>
       <div slot="footer" class="dialog-footer" v-if="singleData.status == 3">
         <el-button size="small" type="primary" @click="approve(1, singleData.id)">通 过</el-button>
         <el-button size="small" type="warning" @click="approve(2, singleData.id)">拒 绝</el-button>
@@ -245,6 +237,7 @@ export default {
   name: "VisitApprove",
   data() {
     return {
+      selected: [],
       listLoading: true, //加载数据中
       representative: "", //代表
       product: "",
@@ -324,6 +317,16 @@ export default {
     });
   },
   methods: {
+    cellcb(row) {
+      console.log(row);
+      if (row.row.status != 3 && row.columnIndex === 0) {
+        // console.log(row.row.status,"----",row.row)
+        return "myCell";
+      }
+    },
+    checkSelectable(row) {
+      return row.status === 3;
+    },
     //获取产品列表填入下拉框
     productList() {
       this.$api
@@ -334,13 +337,13 @@ export default {
               if (item.status == 1) {
                 this.productOptions[0].options.push({
                   id: item.id,
-                  product_name: item.product_name+'-'+item.specification,
+                  product_name: item.product_name + "-" + item.specification,
                   status: item.status
                 });
               } else {
                 this.productOptions[1].options.push({
                   id: item.id,
-                  product_name: item.product_name+'-'+item.specification,
+                  product_name: item.product_name + "-" + item.specification,
                   status: item.status
                 });
               }
@@ -351,9 +354,10 @@ export default {
           console.log(error);
         });
     },
-    // 选择框选择
-    selectionChange(sels) {
-      this.selected = sels;
+    // 多选选择框选择
+    selectionChange(val) {
+      this.selected = val;
+      console.log(this.selected);
     },
     // 点击分页当前页数page
     currentChange(val) {
@@ -406,7 +410,12 @@ export default {
     //搜索
     search() {
       //代表和产品输入一个即可查询
-      if (this.representative || this.product || this.hospitalName || this.status) {
+      if (
+        this.representative ||
+        this.product ||
+        this.hospitalName ||
+        this.status
+      ) {
         this.page = 1;
         this.getListData();
       } else {
@@ -477,9 +486,68 @@ export default {
           closeOnClickModal: false
         })
         .then(() => {
-          let params = { visit_id: row.id, is_pass: type, start_date: row.start_date };
+          let params = {
+            visit_id: row.id,
+            is_pass: type,
+            start_date: row.start_date
+          };
           this.$api
             .visitOperate(params)
+            .then(res => {
+              // console.log(res);
+              if (res.code == 200) {
+                this.detailVisble = false;
+                this.$message({
+                  message: "操作成功!",
+                  type: "success"
+                });
+                this.getListData(); //重新获取审核列表
+              } else {
+                this.$message.error("操作失败，请重试！");
+              }
+            })
+            .catch(error => {
+              this.$message.error("操作失败，请重试！");
+              console.log(error);
+            });
+        })
+        .catch(() => {
+          console.log("取消");
+        });
+    },
+    //批量审核拜访
+    visitmultipleOperate(type) {
+      console.log(type);
+      console.log(this.selected);
+      if (this.selected.length == 0) {
+        this.$message.error("当前未选择审核数据！");
+        return false;
+      }
+      let message;
+      let messageType;
+      if (type == 1) {
+        message = `确认修改当前 ${this.selected.length} 条拜访状态为‘通过’吗?`;
+        messageType = "info";
+      } else {
+        message = `确认拒绝当前 ${this.selected.length} 条拜访吗？状态提交后不可更改！`;
+        messageType = "warning";
+      }
+      this.$messageBox
+        .confirm(message, {
+          type: messageType,
+          closeOnClickModal: false
+        })
+        .then(() => {
+          let visitList = [];
+          this.selected.forEach(value => {
+            visitList.push(value.id);
+          });
+          let postData = {
+            visit_id_list: visitList,
+            is_pass: type
+          };
+          this.$api
+            .visitmultipleOperate(postData)
             .then(res => {
               console.log(res);
               if (res.code == 200) {
@@ -494,7 +562,6 @@ export default {
               }
             })
             .catch(error => {
-              this.$message.error("操作失败，请重试！");
               console.log(error);
             });
         })
@@ -544,5 +611,14 @@ export default {
 }
 .approved_nopass {
   color: #f56c6c;
+}
+.batch_approve {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: right;
+  height: 60px;
+  /* padding-right:20px; */
 }
 </style>

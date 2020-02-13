@@ -17,6 +17,7 @@ let api = {
   regionManagerSubmit: params => post("/RegionManager/regionManagerSubmit", params), //绑定医院产品
   visitList: params => get("/visitManager/visitList", params), //拜访审核列表
   visitOperate: params => post("/visitManager/visitOperate", params), //拜访审核
+  visitmultipleOperate: params => post("/visitManager/visitmultipleOperate", params), //批量拜访审核
   visitDel: params => post("/visitManager/visitDel", params), //拜访删除
   productList: params => post("/productManager/productList", params), //产品
   meetingList: params => post("/meetingManager/meetingList", params), //会议列表
