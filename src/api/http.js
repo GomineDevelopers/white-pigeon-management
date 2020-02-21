@@ -11,12 +11,13 @@ import { Message } from "element-ui";
 // } else if (process.env.NODE_ENV == "production") {
 //   axios.defaults.baseURL = "http://swj.edgrng.com/admin";
 // }
-if (process.env.NODE_ENV == "production") {
-  axios.defaults.baseURL = "http://back.zidata.cn/admin";
-}
+// if (process.env.NODE_ENV == "production") {
+//   axios.defaults.baseURL = "http://back.zidata.cn/admin";
+// }
 
 axios.defaults.timeout = 10000; //设置请求超时
-axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8"; //设置post请求头
+axios.defaults.headers.post["Content-Type"] =
+  "application/x-www-form-urlencoded;charset=UTF-8"; //设置post请求头
 
 // 请求拦截
 axios.interceptors.request.use(
@@ -142,7 +143,18 @@ axios.interceptors.response.use(
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get(url, params) {
+export function get(url, params, type) {
+  if (process.env.NODE_ENV == "production") {
+    switch (type) {
+      case 1:
+        axios.defaults.baseURL = "http://back.zidata.cn/admin";
+        break;
+      case 2:
+        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        break;
+    }
+  }
+  console.log(axios.defaults.baseURL);
   return new Promise((resolve, reject) => {
     axios
       .get(url, {
@@ -162,7 +174,17 @@ export function get(url, params) {
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function post(url, params) {
+export function post(url, params, type) {
+  if (process.env.NODE_ENV == "production") {
+    switch (type) {
+      case 1:
+        axios.defaults.baseURL = "http://back.zidata.cn/admin";
+        break;
+      case 2:
+        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        break;
+    }
+  }
   return new Promise((resolve, reject) => {
     axios
       .post(url, QS.stringify(params))
@@ -176,7 +198,17 @@ export function post(url, params) {
 }
 
 //文件上传
-export function postUpload(url, params) {
+export function postUpload(url, params, type) {
+  if (process.env.NODE_ENV == "production") {
+    switch (type) {
+      case 1:
+        axios.defaults.baseURL = "http://back.zidata.cn/admin";
+        break;
+      case 2:
+        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        break;
+    }
+  }
   return new Promise((resolve, reject) => {
     axios
       .post(url, params)
@@ -194,7 +226,17 @@ export function postUpload(url, params) {
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function del(url, params) {
+export function del(url, params, type) {
+  if (process.env.NODE_ENV == "production") {
+    switch (type) {
+      case 1:
+        axios.defaults.baseURL = "http://back.zidata.cn/admin";
+        break;
+      case 2:
+        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        break;
+    }
+  }
   return new Promise((resolve, reject) => {
     axios
       .delete(url, {
@@ -214,7 +256,17 @@ export function del(url, params) {
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function put(url, params) {
+export function put(url, params, type) {
+  if (process.env.NODE_ENV == "production") {
+    switch (type) {
+      case 1:
+        axios.defaults.baseURL = "http://back.zidata.cn/admin";
+        break;
+      case 2:
+        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        break;
+    }
+  }
   return new Promise((resolve, reject) => {
     axios
       .put(url, QS.stringify(params))
@@ -232,7 +284,17 @@ export function put(url, params) {
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function downFile(url, params) {
+export function downFile(url, params, type) {
+  if (process.env.NODE_ENV == "production") {
+    switch (type) {
+      case 1:
+        axios.defaults.baseURL = "http://back.zidata.cn/admin";
+        break;
+      case 2:
+        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        break;
+    }
+  }
   axios
     .get(url, {
       params: params,
