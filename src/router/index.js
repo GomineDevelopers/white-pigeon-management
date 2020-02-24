@@ -3,29 +3,28 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
+    component: () => import( /* webpackChunkName: "home" */ "../views/Home.vue"),
     redirect: "/hospitalManagement",
-    children: [
-      {
+    children: [{
         path: "/test",
         name: "test",
-        component: () => import(/* webpackChunkName: "home" */ "../views/Test")
+        component: () => import( /* webpackChunkName: "home" */ "../views/Test")
       },
       {
         path: "/regionalManager",
         name: "regionalManager",
         component: () =>
-          import(/* webpackChunkName: "home" */ "../views/RegionalManager.vue")
+          import( /* webpackChunkName: "home" */ "../views/RegionalManager.vue")
       },
       {
         path: "/regionAssigned",
         name: "regionAssigned",
         component: () =>
           import(
-            /* webpackChunkName: "home" */ "../views/regionalmanagement/RegionAssigned.vue"
+            /* webpackChunkName: "home" */
+            "../views/regionalmanagement/RegionAssigned.vue"
           )
       },
       {
@@ -33,7 +32,8 @@ const routes = [
         name: "applyRecord",
         component: () =>
           import(
-            /* webpackChunkName: "home" */ "../views/regionalmanagement/ApplyRecord.vue"
+            /* webpackChunkName: "home" */
+            "../views/regionalmanagement/ApplyRecord.vue"
           )
       },
       {
@@ -41,7 +41,8 @@ const routes = [
         name: "hospitalManagement",
         component: () =>
           import(
-            /* webpackChunkName: "home" */ "../views/HospitalManagement.vue"
+            /* webpackChunkName: "home" */
+            "../views/HospitalManagement.vue"
           )
       },
       {
@@ -49,7 +50,8 @@ const routes = [
         name: "PurposeTopical",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/visitmetting/PurposeTopical.vue"
+            /* webpackChunkName: "login" */
+            "../views/visitmetting/PurposeTopical.vue"
           )
       },
       {
@@ -57,7 +59,8 @@ const routes = [
         name: "VisitApprove",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/visitmetting/VisitApprove.vue"
+            /* webpackChunkName: "login" */
+            "../views/visitmetting/VisitApprove.vue"
           )
       },
       {
@@ -65,7 +68,8 @@ const routes = [
         name: "ProductManagement",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/productmanagement/ProductManagement.vue"
+            /* webpackChunkName: "login" */
+            "../views/productmanagement/ProductManagement.vue"
           )
       },
       {
@@ -73,7 +77,8 @@ const routes = [
         name: "MettingApprove",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/visitmetting/MettingApprove.vue"
+            /* webpackChunkName: "login" */
+            "../views/visitmetting/MettingApprove.vue"
           )
       },
       {
@@ -81,35 +86,38 @@ const routes = [
         name: "MettingTheme",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/visitmetting/MettingTheme.vue"
+            /* webpackChunkName: "login" */
+            "../views/visitmetting/MettingTheme.vue"
           )
       },
       {
         path: "/dataCenter",
         name: "DataCenter",
         component: () =>
-          import(/* webpackChunkName: "login" */ "../views/DataCenter.vue")
+          import( /* webpackChunkName: "login" */ "../views/DataCenter.vue")
       },
       {
         path: "/doctorManagement",
         name: "DoctorManagement",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/DoctorManagement.vue"
+            /* webpackChunkName: "login" */
+            "../views/DoctorManagement.vue"
           )
       },
       {
         path: "/representative",
         name: "representative",
         component: () =>
-          import(/* webpackChunkName: "login" */ "../views/Representative.vue")
+          import( /* webpackChunkName: "login" */ "../views/Representative.vue")
       },
       {
         path: "/sectionManagement",
         name: "SectionManagement",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/productmanagement/SectionManagement.vue"
+            /* webpackChunkName: "login" */
+            "../views/productmanagement/SectionManagement.vue"
           )
       },
       {
@@ -117,7 +125,8 @@ const routes = [
         name: "ProductSection",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/productmanagement/ProductSection.vue"
+            /* webpackChunkName: "login" */
+            "../views/productmanagement/ProductSection.vue"
           )
       },
       {
@@ -125,7 +134,8 @@ const routes = [
         name: "BiddingManagement",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/productapplication/BiddingManagement.vue"
+            /* webpackChunkName: "login" */
+            "../views/productapplication/BiddingManagement.vue"
           )
       },
       {
@@ -133,7 +143,8 @@ const routes = [
         name: "Contract",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/productapplication/ContractDownload.vue"
+            /* webpackChunkName: "login" */
+            "../views/productapplication/ContractDownload.vue"
           )
       },
       {
@@ -141,7 +152,8 @@ const routes = [
         name: "HistoryFlowDirectory",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/bonusplan/HistoryFlowDirectory.vue"
+            /* webpackChunkName: "login" */
+            "../views/bonusplan/HistoryFlowDirectory.vue"
           )
       },
       {
@@ -149,7 +161,8 @@ const routes = [
         name: "BonusPlan",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/bonusplan/BonusPlan.vue"
+            /* webpackChunkName: "login" */
+            "../views/bonusplan/BonusPlan.vue"
           )
       },
       {
@@ -157,7 +170,8 @@ const routes = [
         name: "IncomeDetail",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/bonusplan/IncomeDetail.vue"
+            /* webpackChunkName: "login" */
+            "../views/bonusplan/IncomeDetail.vue"
           )
       },
       {
@@ -165,7 +179,8 @@ const routes = [
         name: "VerificationList",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/bonusplan/VerificationList.vue"
+            /* webpackChunkName: "login" */
+            "../views/bonusplan/VerificationList.vue"
           )
       },
       {
@@ -173,7 +188,8 @@ const routes = [
         name: "MettingVerification",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/bonusplan/MettingVerification.vue"
+            /* webpackChunkName: "login" */
+            "../views/bonusplan/MettingVerification.vue"
           )
       },
       {
@@ -181,17 +197,39 @@ const routes = [
         name: "PropertyManagement",
         component: () =>
           import(
-            /* webpackChunkName: "login" */ "../views/PropertyManagement.vue"
+            /* webpackChunkName: "login" */
+            "../views/PropertyManagement.vue"
           )
       },
-      { path: "/", redirect: "/hospitalManagement" } //二级路由默认首页为数据总览页
+      {
+        path: "/register",
+        name: "Register",
+        component: () =>
+          import(
+            /* webpackChunkName: "xiaoyuer" */
+            "../views/xiaoyuer/Register.vue"
+          )
+      },
+      {
+        path: "/postdemand",
+        name: "PostDemand",
+        component: () =>
+          import(
+            /* webpackChunkName: "xiaoyuer" */
+            "../views/xiaoyuer/PostDemand.vue"
+          )
+      },
+      {
+        path: "/",
+        redirect: "/hospitalManagement"
+      } //二级路由默认首页为数据总览页
     ]
   },
   {
     path: "/login",
     name: "login",
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/login/Login.vue")
+      import( /* webpackChunkName: "login" */ "../views/login/Login.vue")
   }
 ];
 

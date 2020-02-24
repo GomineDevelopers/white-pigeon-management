@@ -105,6 +105,16 @@
         <img src="../assets/image/yjbg1.png" />
         <span slot="title">业绩报告</span>
       </el-menu-item>-->
+      <el-submenu index="/register">
+        <template slot="title">
+          <img src="../assets/image/bfhy1.png" />
+          <span>小鱼儿平台</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/register">平台注册</el-menu-item>
+          <el-menu-item index="/postdemand">需求发布</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <el-menu-item index="/dataCenter">
         <img src="../assets/image/zlzx.png" v-if="$route.path === '/dataCenter'" />
         <img src="../assets/image/zlzx1.png" v-if="$route.path != '/dataCenter'" />
