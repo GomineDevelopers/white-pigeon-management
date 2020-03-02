@@ -50,7 +50,7 @@
               effect="dark"
               content="注册"
               placement="top"
-              v-if="scope.row.is_operate_register==2"
+              v-if="scope.row.is_operate_register == 2"
             >
               <i class="el-icon-document" @click="register(scope.row)"></i>
             </el-tooltip>
@@ -60,7 +60,7 @@
               effect="dark"
               content="已注册"
               placement="top"
-              v-if="scope.row.is_operate_register==1"
+              v-if="scope.row.is_operate_register == 1"
             >
               <i class="el-icon-document-checked"></i>
             </el-tooltip>
@@ -120,7 +120,7 @@ export default {
     },
     getListData() {
       this.listLoading = true;
-      let params = { is_operate_register: this.registerStatus };
+      let params = { is_operate_register: this.registerStatus, page: this.page, row: this.row };
       this.$api
         .getSignUser(params)
         .then(res => {
@@ -201,8 +201,7 @@ export default {
               certBack: row.id_back_img,
               signature: row.sign_image,
               type: 0,
-              callbackUrl:
-                "http://back.zidata.cn/admin/cooperate/getRegisterByXY"
+              callbackUrl: "http://back.zidata.cn/admin/cooperate/getRegisterByXY"
             };
             let sign = this.objKeySort(signParams).toUpperCase(); //处理sign
             let newParams = signParams;
@@ -212,7 +211,7 @@ export default {
               .register(newParams)
               .then(res => {
                 console.log(res);
-                if ((res.code = "00000")) {
+                if (res.code == "00000") {
                   this.$message({
                     message: "发送成功！",
                     type: "success"
@@ -220,7 +219,7 @@ export default {
                   this.getListData();
                 } else {
                   this.$message({
-                    message: res.message,
+                    message: res.msg,
                     type: "error"
                   });
                 }
@@ -249,14 +248,11 @@ export default {
         newObjString += Key + newObj[Key];
       }
       newObjString = this.$md5(
-        "87AC305F8EFB6AB2FA8BF194DA02D8A1" +
-          newObjString +
-          "87AC305F8EFB6AB2FA8BF194DA02D8A1"
+        "87AC305F8EFB6AB2FA8BF194DA02D8A1" + newObjString + "87AC305F8EFB6AB2FA8BF194DA02D8A1"
       );
       return newObjString; //返回排好序的新对象
     }
   }
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

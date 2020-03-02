@@ -11,6 +11,9 @@
       active-text-color="#3399FF"
       unique-opened
     >
+      <!-- <el-menu-item index="/test">
+        <span slot="title">测试</span>
+      </el-menu-item> -->
       <el-menu-item index="/hospitalManagement">
         <img v-if="$route.path == '/hospitalManagement'" src="../assets/image/yy.png" />
         <img v-else src="../assets/image/yy1.png" />
@@ -102,7 +105,7 @@
         <img src="../assets/image/yjbg1.png" />
         <span slot="title">业绩报告</span>
       </el-menu-item>-->
-      <el-submenu index="/register">
+      <!-- <el-submenu index="/register">
         <template slot="title">
           <img src="../assets/image/bfhy1.png" />
           <span>小鱼儿平台</span>
@@ -111,7 +114,7 @@
           <el-menu-item index="/register">平台注册</el-menu-item>
           <el-menu-item index="/postdemand">需求发布</el-menu-item>
         </el-menu-item-group>
-      </el-submenu>
+      </el-submenu> -->
       <el-menu-item index="/dataCenter">
         <img src="../assets/image/zlzx.png" v-if="$route.path === '/dataCenter'" />
         <img src="../assets/image/zlzx1.png" v-if="$route.path != '/dataCenter'" />

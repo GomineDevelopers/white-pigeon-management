@@ -3,15 +3,21 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-const routes = [{
+const routes = [
+  {
     path: "/",
-    component: () => import( /* webpackChunkName: "home" */ "../views/Home.vue"),
+    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
     redirect: "/hospitalManagement",
-    children: [{
+    children: [
+      {
+        path: "/test",
+        name: "test",
+        component: () => import(/* webpackChunkName: "home" */ "../views/test.vue")
+      },
+      {
         path: "/regionalManager",
         name: "regionalManager",
-        component: () =>
-          import( /* webpackChunkName: "home" */ "../views/RegionalManager.vue")
+        component: () => import(/* webpackChunkName: "home" */ "../views/RegionalManager.vue")
       },
       {
         path: "/regionAssigned",
@@ -88,8 +94,7 @@ const routes = [{
       {
         path: "/dataCenter",
         name: "DataCenter",
-        component: () =>
-          import( /* webpackChunkName: "login" */ "../views/DataCenter.vue")
+        component: () => import(/* webpackChunkName: "login" */ "../views/DataCenter.vue")
       },
       {
         path: "/doctorManagement",
@@ -103,8 +108,7 @@ const routes = [{
       {
         path: "/representative",
         name: "representative",
-        component: () =>
-          import( /* webpackChunkName: "login" */ "../views/Representative.vue")
+        component: () => import(/* webpackChunkName: "login" */ "../views/Representative.vue")
       },
       {
         path: "/sectionManagement",
@@ -223,8 +227,7 @@ const routes = [{
   {
     path: "/login",
     name: "login",
-    component: () =>
-      import( /* webpackChunkName: "login" */ "../views/login/Login.vue")
+    component: () => import(/* webpackChunkName: "login" */ "../views/login/Login.vue")
   }
 ];
 

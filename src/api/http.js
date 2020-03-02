@@ -2,9 +2,7 @@ import axios from "axios";
 import QS from "qs";
 import store from "@/store";
 import router from ".././router";
-import {
-  Message
-} from "element-ui";
+import { Message } from "element-ui";
 // console.log(store.state);
 
 // 环境的切换
@@ -18,15 +16,20 @@ import {
 // }
 
 axios.defaults.timeout = 10000; //设置请求超时
-axios.defaults.headers.post["Content-Type"] =
-  "application/x-www-form-urlencoded;charset=UTF-8"; //设置post请求头
+axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8"; //设置post请求头
 
 // 请求拦截
 axios.interceptors.request.use(
   config => {
     const token = store.state.token;
-    if (token) {
-      config.headers.Authorization = "Bearer " + token;
+    if (global.APITYPE == 1) {
+      if (token) {
+        config.headers.Authorization = "Bearer " + token;
+      }
+    } else if (global.APITYPE == 2) {
+      console.log("~~2");
+      // config.headers.Authorization = "";
+      delete config.headers.Authorization;
     }
     return config;
   },
@@ -35,16 +38,9 @@ axios.interceptors.request.use(
   }
 );
 
-// 响应拦截器
+// // 响应拦截器
 axios.interceptors.response.use(
   response => {
-    // 如果 header 中存在 token，那么触发 refreshToken 方法，替换本地的 token
-    // if (response.headers.authorization) {
-    //   let newToken = response.headers.authorization;
-    //   console.log("后端返回的newToken", newToken);
-    //   store.dispatch("refreshToken", newToken.split(" ")[1]);
-    // }
-
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
     // console.log(response);
@@ -112,14 +108,14 @@ axios.interceptors.response.use(
             type: "warning"
           });
           break;
-          // 404请求不存在
+        // 404请求不存在
         case 404:
           Message({
             message: "请求资源不存在",
             type: "warning"
           });
           break;
-          // 其他错误，直接抛出错误提示
+        // 其他错误，直接抛出错误提示
         case 101:
           Message({
             message: "用户不存在",
@@ -146,15 +142,12 @@ axios.interceptors.response.use(
  * @param {Object} params [请求时携带的参数]
  */
 export function get(url, params, type) {
-  if (process.env.NODE_ENV == "production") {
-    switch (type) {
-      case 1:
-        axios.defaults.baseURL = "http://back.zidata.cn/admin";
-        break;
-      case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.net";
-        break;
-    }
+  console.log(global.APITYPE);
+  console.log(type);
+  if (type == 1) {
+    global.APITYPE = 1;
+  } else if (type == 2) {
+    global.APITYPE = 2;
   }
   return new Promise((resolve, reject) => {
     axios
@@ -176,15 +169,10 @@ export function get(url, params, type) {
  * @param {Object} params [请求时携带的参数]
  */
 export function post(url, params, type) {
-  if (process.env.NODE_ENV == "production") {
-    switch (type) {
-      case 1:
-        axios.defaults.baseURL = "http://back.zidata.cn/admin";
-        break;
-      case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.net";
-        break;
-    }
+  if (type == 1) {
+    global.APITYPE = 1;
+  } else if (type == 2) {
+    global.APITYPE = 2;
   }
   return new Promise((resolve, reject) => {
     axios
@@ -200,15 +188,10 @@ export function post(url, params, type) {
 
 //文件上传
 export function postUpload(url, params, type) {
-  if (process.env.NODE_ENV == "production") {
-    switch (type) {
-      case 1:
-        axios.defaults.baseURL = "http://back.zidata.cn/admin";
-        break;
-      case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.net";
-        break;
-    }
+  if (type == 1) {
+    global.APITYPE = 1;
+  } else if (type == 2) {
+    global.APITYPE = 2;
   }
   return new Promise((resolve, reject) => {
     axios
@@ -228,15 +211,10 @@ export function postUpload(url, params, type) {
  * @param {Object} params [请求时携带的参数]
  */
 export function del(url, params, type) {
-  if (process.env.NODE_ENV == "production") {
-    switch (type) {
-      case 1:
-        axios.defaults.baseURL = "http://back.zidata.cn/admin";
-        break;
-      case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.net";
-        break;
-    }
+  if (type == 1) {
+    global.APITYPE = 1;
+  } else if (type == 2) {
+    global.APITYPE = 2;
   }
   return new Promise((resolve, reject) => {
     axios
@@ -258,15 +236,10 @@ export function del(url, params, type) {
  * @param {Object} params [请求时携带的参数]
  */
 export function put(url, params, type) {
-  if (process.env.NODE_ENV == "production") {
-    switch (type) {
-      case 1:
-        axios.defaults.baseURL = "http://back.zidata.cn/admin";
-        break;
-      case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.net";
-        break;
-    }
+  if (type == 1) {
+    global.APITYPE = 1;
+  } else if (type == 2) {
+    global.APITYPE = 2;
   }
   return new Promise((resolve, reject) => {
     axios
@@ -286,15 +259,10 @@ export function put(url, params, type) {
  * @param {Object} params [请求时携带的参数]
  */
 export function downFile(url, params, type) {
-  if (process.env.NODE_ENV == "production") {
-    switch (type) {
-      case 1:
-        axios.defaults.baseURL = "http://back.zidata.cn/admin";
-        break;
-      case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.net";
-        break;
-    }
+  if (type == 1) {
+    global.APITYPE = 1;
+  } else if (type == 2) {
+    global.APITYPE = 2;
   }
   axios
     .get(url, {

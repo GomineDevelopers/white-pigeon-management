@@ -4,17 +4,17 @@ import router from "./router";
 import store from "./store";
 
 //自己的配置
-import md5 from 'js-md5';
+import md5 from "js-md5";
 import api from "./api/axios";
 import "./js/element-ui";
 import "./css/public.css";
-import {
-  Message
-} from "element-ui";
+import { Message } from "element-ui";
 
 Vue.prototype.$api = api;
 Vue.prototype.$md5 = md5;
 Vue.config.productionTip = false;
+
+global.APITYPE = 1;
 
 // 检查用户登录状态
 router.beforeEach((to, from, next) => {
