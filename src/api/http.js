@@ -2,7 +2,9 @@ import axios from "axios";
 import QS from "qs";
 import store from "@/store";
 import router from ".././router";
-import { Message } from "element-ui";
+import {
+  Message
+} from "element-ui";
 // console.log(store.state);
 
 // 环境的切换
@@ -110,14 +112,14 @@ axios.interceptors.response.use(
             type: "warning"
           });
           break;
-        // 404请求不存在
+          // 404请求不存在
         case 404:
           Message({
             message: "请求资源不存在",
             type: "warning"
           });
           break;
-        // 其他错误，直接抛出错误提示
+          // 其他错误，直接抛出错误提示
         case 101:
           Message({
             message: "用户不存在",
@@ -150,11 +152,10 @@ export function get(url, params, type) {
         axios.defaults.baseURL = "http://back.zidata.cn/admin";
         break;
       case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        axios.defaults.baseURL = "https://www.xiaoyuer.net";
         break;
     }
   }
-  console.log(axios.defaults.baseURL);
   return new Promise((resolve, reject) => {
     axios
       .get(url, {
@@ -181,7 +182,7 @@ export function post(url, params, type) {
         axios.defaults.baseURL = "http://back.zidata.cn/admin";
         break;
       case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        axios.defaults.baseURL = "https://www.xiaoyuer.net";
         break;
     }
   }
@@ -205,7 +206,7 @@ export function postUpload(url, params, type) {
         axios.defaults.baseURL = "http://back.zidata.cn/admin";
         break;
       case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        axios.defaults.baseURL = "https://www.xiaoyuer.net";
         break;
     }
   }
@@ -233,7 +234,7 @@ export function del(url, params, type) {
         axios.defaults.baseURL = "http://back.zidata.cn/admin";
         break;
       case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        axios.defaults.baseURL = "https://www.xiaoyuer.net";
         break;
     }
   }
@@ -263,7 +264,7 @@ export function put(url, params, type) {
         axios.defaults.baseURL = "http://back.zidata.cn/admin";
         break;
       case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        axios.defaults.baseURL = "https://www.xiaoyuer.net";
         break;
     }
   }
@@ -291,7 +292,7 @@ export function downFile(url, params, type) {
         axios.defaults.baseURL = "http://back.zidata.cn/admin";
         break;
       case 2:
-        axios.defaults.baseURL = "https://www.xiaoyuer.com";
+        axios.defaults.baseURL = "https://www.xiaoyuer.net";
         break;
     }
   }

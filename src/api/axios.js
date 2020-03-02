@@ -1,4 +1,11 @@
-import { get, post, downFile, del, put, postUpload } from "./http";
+import {
+  get,
+  post,
+  downFile,
+  del,
+  put,
+  postUpload
+} from "./http";
 let api = {
   login: params => post("/login", params, 1), //登录
   logout: params => post("/logout", params, 1), //退出登录
@@ -101,9 +108,11 @@ let api = {
   meetinglist: params => get("/flows/meetinglist", params, 1), //匹配的会议详情（医院，产品）
   userBonusList: params => get("/bonus/detailedlist", params, 1), //代表奖金列表
   bonusDetail: params => get("/bonus/detailed", params, 1), //代表奖金明细列表
-  downBonusDetailExcel: params => downFile("/bonus/detailed", params, 1), //代表奖金明细列表
+  downBonusDetailExcel: params => downFile("/bonus/detailed", params, 1), //代表奖金明细列表下载
+  getSignUser: params => post("/cooperate/getSignUser", params, 1), //注册小鱼儿用到医药代表的信息
 
   //小鱼儿接口
-  getKey: params => get("/open-api/genKey", params, 2) //代表奖金明细列表
+  getKey: params => get("/open-api/genKey", params, 2), //获取口令
+  register: params => post("/open-api/register", params, 2), //注册服务者
 };
 export default api;

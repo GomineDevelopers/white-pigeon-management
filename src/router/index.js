@@ -8,11 +8,6 @@ const routes = [{
     component: () => import( /* webpackChunkName: "home" */ "../views/Home.vue"),
     redirect: "/hospitalManagement",
     children: [{
-        path: "/test",
-        name: "test",
-        component: () => import( /* webpackChunkName: "home" */ "../views/Test")
-      },
-      {
         path: "/regionalManager",
         name: "regionalManager",
         component: () =>

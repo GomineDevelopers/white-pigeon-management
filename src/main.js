@@ -4,12 +4,16 @@ import router from "./router";
 import store from "./store";
 
 //自己的配置
+import md5 from 'js-md5';
 import api from "./api/axios";
 import "./js/element-ui";
 import "./css/public.css";
-import { Message } from "element-ui";
+import {
+  Message
+} from "element-ui";
 
 Vue.prototype.$api = api;
+Vue.prototype.$md5 = md5;
 Vue.config.productionTip = false;
 
 // 检查用户登录状态
@@ -20,7 +24,7 @@ router.beforeEach((to, from, next) => {
   // console.log("newDate", newDate);
   // console.log("validTime", validTime);
   let time = validTime - newDate;
-  console.log("token有效时间剩余", time);
+  // console.log("token有效时间剩余", time);
   //登录路由无需token
   if (to.path == "/login") {
     next();
@@ -35,7 +39,6 @@ router.beforeEach((to, from, next) => {
         api
           .refresh()
           .then(res => {
-            console.log(res);
             if (res.code == 200) {
               let expires_in = parseInt(res.expires_in);
               let expiresDate = new Date().getTime() + expires_in * 1000; // 当前时间加上900秒

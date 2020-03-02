@@ -30,10 +30,22 @@
           <el-date-picker v-model="ruleForm.endTime" type="date" placeholder="选择日期"></el-date-picker>
         </el-form-item>
         <el-form-item label="分类" prop="classify">
-          <el-input v-model="ruleForm.classify"></el-input>
+          <!-- <el-input v-model="ruleForm.classify"></el-input> -->
+          <el-cascader
+            v-model="ruleForm.classify"
+            :options="classifyOptions"
+            :props="classifyOptionProps"
+            @change="handleChange"
+          ></el-cascader>
         </el-form-item>
         <el-form-item label="省市区" prop="city">
-          <el-input v-model="ruleForm.city"></el-input>
+          <!-- <el-input v-model="ruleForm.city"></el-input> -->
+          <el-cascader
+            v-model="ruleForm.city"
+            :options="options"
+            :props="optionProps"
+            @change="handleChange"
+          ></el-cascader>
         </el-form-item>
       </el-row>
       <el-row class="form_bottom">
@@ -51,6 +63,18 @@ export default {
   data() {
     return {
       labelPosition: "top",
+      classifyOptions: [], //分类的数据
+      classifyOptionProps: {
+        value: "id",
+        label: "name",
+        children: "items"
+      },
+      options: [], //省市区的数据
+      optionProps: {
+        value: "id",
+        label: "name",
+        children: "children"
+      },
       ruleForm: {
         platformId: "",
         title: "",
@@ -59,8 +83,8 @@ export default {
         number: "",
         startTime: "",
         endTime: "",
-        classify: "",
-        city: ""
+        classify: [],
+        city: []
       },
       rules: {
         platformId: [
@@ -87,7 +111,16 @@ export default {
       }
     };
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.options = areaArray;
+      this.classifyOptions = this.getTreeData(XYE.categoryData);
+    });
+  },
   methods: {
+    handleChange(value) {
+      console.log(value);
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -100,6 +133,25 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+
+    //处理分类为空的items
+    // 递归判断列表，把最后的items设为undefined
+    getTreeData(data) {
+      try {
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].items.length < 1) {
+            // children若为空数组，则将children设为undefined
+            data[i].items = undefined;
+          } else {
+            // children若不为空数组，则继续 递归调用 本方法
+            this.getTreeData(data[i].items);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return data;
     }
   }
 };

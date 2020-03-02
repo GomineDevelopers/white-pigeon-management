@@ -45,6 +45,19 @@ export function minutesTimeFormat(time) {
   return year + "-" + month + "-" + date + "  " + hour + ":" + minute + ":" + "00";
 }
 
+//时间格式转换  20190908145002
+export function minutesTimeFormat2() {
+  var datetime = new Date();
+  var year = datetime.getFullYear();
+  var month =
+    datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+  var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+  var hour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
+  var minute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+  var seconds = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+  return year + "" + month + "" + date + "" + hour + "" + minute + "" + seconds;
+}
+
 // 设置结束时间为当前时间的后5分钟
 export function endTime(time) {
   var startTime = new Date(time);
