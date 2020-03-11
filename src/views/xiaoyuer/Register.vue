@@ -161,7 +161,6 @@ export default {
         });
         return false;
       }
-      console.log(this.registerStatus);
       this.page = 1;
       this.getListData();
     },
