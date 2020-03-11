@@ -1,5 +1,6 @@
 import { get, post, downFile, del, put, postUpload } from "./http";
-let baseURL1 = "http://back.zidata.cn/admin";
+// let baseURL1 = "http://back.zidata.cn/admin";
+let baseURL1 = "/admin";
 let baseURL2 = "https://www.xiaoyuer.net";
 let api = {
   login: params => post(baseURL1 + "/login", params, 1), //登录

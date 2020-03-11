@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <!-- 面包屑 -->
-    <span class="breadcrumb">医生管理</span>
+    <span class="breadcrumb">注册服务者</span>
     <!--工具条-->
     <el-row class="main_header">
       <el-col :span="20">
@@ -52,7 +52,7 @@
               placement="top"
               v-if="scope.row.is_operate_register == 2"
             >
-              <i class="el-icon-document" @click="register(scope.row)"></i>
+              <i class="el-icon-position" @click="register(scope.row)"></i>
             </el-tooltip>
             <el-tooltip
               class="item"

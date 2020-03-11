@@ -24,10 +24,18 @@
           <el-input v-model="ruleForm.number"></el-input>
         </el-form-item>
         <el-form-item label="开始时间" prop="startTime">
-          <el-date-picker v-model="ruleForm.startTime" type="date" placeholder="选择日期"></el-date-picker>
+          <el-date-picker
+            v-model="ruleForm.startTime"
+            type="date"
+            placeholder="选择日期"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="结束时间" prop="endTime">
-          <el-date-picker v-model="ruleForm.endTime" type="date" placeholder="选择日期"></el-date-picker>
+          <el-date-picker
+            v-model="ruleForm.endTime"
+            type="date"
+            placeholder="选择日期"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="分类" prop="classify">
           <!-- <el-input v-model="ruleForm.classify"></el-input> -->
@@ -87,27 +95,15 @@ export default {
         city: []
       },
       rules: {
-        platformId: [
-          { required: true, message: "请输入平台id", trigger: "blur" }
-        ],
+        platformId: [{ required: true, message: "请输入平台id", trigger: "blur" }],
         title: [{ required: true, message: "请输入需求标题", trigger: "blur" }],
-        content: [
-          { required: true, message: "请输入需求内容", trigger: "blur" }
-        ],
-        finance: [
-          { required: true, message: "请输入需求金融", trigger: "blur" }
-        ],
-        number: [
-          { required: true, message: "请输入服务者人数", trigger: "blur" }
-        ],
-        startTime: [
-          { required: true, message: "请选择开始时间", trigger: "blur" }
-        ],
-        endTime: [
-          { required: true, message: "请选择结束时间", trigger: "blur" }
-        ],
-        classify: [{ required: true, message: "请输入分类", trigger: "blur" }],
-        city: [{ required: true, message: "请选择省市区", trigger: "blur" }]
+        content: [{ required: true, message: "请输入需求内容", trigger: "blur" }],
+        finance: [{ required: true, message: "请输入需求金融", trigger: "blur" }],
+        number: [{ required: true, message: "请输入服务者人数", trigger: "blur" }],
+        startTime: [{ required: true, message: "请选择开始时间", trigger: "change" }],
+        endTime: [{ required: true, message: "请选择结束时间", trigger: "change" }],
+        classify: [{ required: true, message: "请选择分类", trigger: "change" }],
+        city: [{ required: true, message: "请选择省市区", trigger: "change" }]
       }
     };
   },
@@ -188,5 +184,9 @@ export default {
   display: flex;
   align-items: center;
   margin-bottom: 0px !important;
+}
+.post_demand .el-form .el-form-item__content .el-cascader,
+.post_demand .el-form .el-form-item__content .el-date-editor--date {
+  width: 100%;
 }
 </style>
