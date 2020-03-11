@@ -60,17 +60,38 @@
         :default-sort="{ prop: 'start_time', order: 'descending' }"
         style="width: 100%"
       >
-        <el-table-column type="selection" width="55" :selectable="checkSelectable"></el-table-column>
+        <el-table-column
+          type="selection"
+          width="55"
+          :selectable="checkSelectable"
+        ></el-table-column>
         <el-table-column prop="visit_id" label="拜访编号" min-width="130"></el-table-column>
         <el-table-column prop="user_name" label="代表名" min-width="80"></el-table-column>
-        <el-table-column prop="hospital_name" label="拜访医院" sortable min-width="150"></el-table-column>
-        <el-table-column prop="doctor_name" label="拜访医生" sortable min-width="100"></el-table-column>
+        <el-table-column
+          prop="hospital_name"
+          label="拜访医院"
+          sortable
+          min-width="150"
+        ></el-table-column>
+        <el-table-column
+          prop="doctor_name"
+          label="拜访医生"
+          sortable
+          min-width="100"
+        ></el-table-column>
         <!-- <el-table-column prop="visit_goal" label="拜访目的"></el-table-column> -->
         <el-table-column prop="product_name" label="产品" min-width="120">
-          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+          <template slot-scope="scope">{{
+            scope.row.product_name + "-" + scope.row.specification
+          }}</template>
         </el-table-column>
         <el-table-column prop="visit_position" label="位置" min-width="120"></el-table-column>
-        <el-table-column prop="start_time" sortable label="开始时间" min-width="150"></el-table-column>
+        <el-table-column
+          prop="start_time"
+          sortable
+          label="开始时间"
+          min-width="150"
+        ></el-table-column>
         <el-table-column prop="scope" label="拜访照片" min-width="110">
           <template slot-scope="scope">
             <el-image
@@ -176,7 +197,15 @@
         </li>
         <li>
           <label>产品：</label>
-          {{ singleData.product_name+'-'+singleData.specification }}
+          {{ singleData.product_name + "-" + singleData.specification }}
+        </li>
+        <li>
+          <label>宣传主题：</label>
+          <span class="label_span">{{ singleData.propaganda }}</span>
+        </li>
+        <li>
+          <label>医生反馈：</label>
+          <span class="label_span">{{ singleData.doctor_feedback }}</span>
         </li>
         <li>
           <label>位置：</label>
@@ -222,9 +251,7 @@
           </span>
         </li>
       </ul>
-      <div class="dialog_title" slot="title">
-        <span class="line"></span>拜访审核
-      </div>
+      <div class="dialog_title" slot="title"><span class="line"></span>拜访审核</div>
       <div slot="footer" class="dialog-footer" v-if="singleData.status == 3">
         <el-button size="small" type="primary" @click="approve(1, singleData.id)">通 过</el-button>
         <el-button size="small" type="warning" @click="approve(2, singleData.id)">拒 绝</el-button>
@@ -410,12 +437,7 @@ export default {
     //搜索
     search() {
       //代表和产品输入一个即可查询
-      if (
-        this.representative ||
-        this.product ||
-        this.hospitalName ||
-        this.status
-      ) {
+      if (this.representative || this.product || this.hospitalName || this.status) {
         this.page = 1;
         this.getListData();
       } else {

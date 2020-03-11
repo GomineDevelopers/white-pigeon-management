@@ -209,9 +209,15 @@ ul {
 }
 
 .dialog_detail li {
-  line-height: 36px;
+  line-height: 35px;
   color: #333;
   font-size: 14px;
+  display: -webkit-flex;
+  display: flex;
+}
+.dialog_detail li span.label_span {
+  line-height: 25px;
+  margin-top: 6px;
 }
 
 .dialog_detail li label {

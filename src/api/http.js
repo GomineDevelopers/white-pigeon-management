@@ -27,7 +27,7 @@ axios.interceptors.request.use(
         config.headers.Authorization = "Bearer " + token;
       }
     } else if (global.APITYPE == 2) {
-      console.log("~~2");
+      // console.log("~~2");
       // config.headers.Authorization = "";
       delete config.headers.Authorization;
     }
