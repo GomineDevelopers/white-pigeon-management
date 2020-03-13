@@ -80,7 +80,7 @@ let api = {
   bonusDetail: params => get("/bonus/detailed", params), //代表奖金明细列表
   downBonusDetailExcel: params => downFile("/bonus/detailed", params), //代表奖金明细列表下载
   getSignUser: params => post("/cooperate/getSignUser", params), //注册小鱼儿用到医药代表的信息
-
+  getUserFeedback: params => post("/RegionManager/getUserFeedback", params), //获取经理下的代表反馈
   //对接小鱼儿接口
   getKey: params => get("/accessManager/getTokenByXY", params) //获取口令
 };

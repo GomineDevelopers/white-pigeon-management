@@ -99,6 +99,11 @@
           <el-menu-item index="/incomedetail">奖金明细</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+      <el-menu-item index="/feedbacklist">
+        <i class="el-icon-tickets  feedback_icon_active" v-if="$route.path === '/feedbacklist'"></i>
+        <i class="el-icon-tickets feedback_icon" v-else></i>
+        <span slot="title">代表反馈</span>
+      </el-menu-item>
 
       <!-- <el-menu-item index="11">
         <img src="../assets/image/yjbg.png" />
@@ -171,6 +176,16 @@ export default {
 }
 </style>
 <style scoped>
+.feedback_icon {
+  font-size: 22px;
+  color: #666;
+  margin-right: 8px;
+}
+.feedback_icon_active {
+  color: #46a1ff;
+  font-size: 22px;
+  margin-right: 8px;
+}
 .left_aside {
   background: #fff;
   height: 100%;

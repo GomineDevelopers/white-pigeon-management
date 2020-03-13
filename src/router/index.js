@@ -219,6 +219,24 @@ const routes = [
           )
       },
       {
+        path: "/feedbacklist",
+        name: "feedbackList",
+        component: () =>
+          import(
+            /* webpackChunkName: "xiaoyuer" */
+            "../views/FeedbackList.vue"
+          )
+      },
+      {
+        path: "/feedbacklistcontent",
+        name: "feedbackListContent",
+        component: () =>
+          import(
+            /* webpackChunkName: "xiaoyuer" */
+            "../views/FeedbackListContent.vue"
+          )
+      },
+      {
         path: "/",
         redirect: "/hospitalManagement"
       } //二级路由默认首页为数据总览页
