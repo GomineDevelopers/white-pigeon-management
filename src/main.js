@@ -14,8 +14,6 @@ Vue.prototype.$api = api;
 Vue.prototype.$md5 = md5;
 Vue.config.productionTip = false;
 
-global.APITYPE = 1; //全局变量，实现小鱼儿和自己的接口地址环境切换
-
 // 检查用户登录状态
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("adminToken"); //从localStorage中取用户token

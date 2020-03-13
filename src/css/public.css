@@ -267,3 +267,6 @@ ul {
 .el-image-viewer__wrapper .el-image-viewer__close {
   color: #aaa;
 }
+.white_space {
+  white-space: nowrap;
+}

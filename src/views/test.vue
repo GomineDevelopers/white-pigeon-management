@@ -18,7 +18,11 @@ export default {
       this.$api
         .getKey(params)
         .then(res => {
-          console.log(res);
+          console.log(JSON.parse(res));
+          let data = JSON.parse(res);
+          console.log(data.code);
+          console.log(data.msg);
+          console.log(data.token);
         })
         .catch(error => {
           console.log(error);

@@ -45,7 +45,9 @@
         <el-table-column prop="province_name" label="所属省份" min-width="100"></el-table-column>
         <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
         <el-table-column prop="product_name" label="产品名" min-width="100">
-           <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+          <template slot-scope="scope">{{
+            scope.row.product_name + "-" + scope.row.package
+          }}</template>
         </el-table-column>
         <el-table-column prop="promise_sales" label="承诺销量" min-width="100"></el-table-column>
         <el-table-column
@@ -109,7 +111,7 @@
         </li>
         <li>
           <label>产品名称：</label>
-          {{ singleData.product_name +'-'+singleData.specification}}
+          {{ singleData.product_name + "-" + singleData.package }}
         </li>
         <li>
           <label>承诺销量：</label>
@@ -120,8 +122,8 @@
           {{ singleData.complete_time }}
         </li>
         <li>
-          <label>代表对医院了解：</label>
-          <p>{{ singleData.hospital_know }}</p>
+          <label class="white_space">代表对医院了解：</label>
+          <span>{{ singleData.hospital_know }}</span>
         </li>
         <li>
           <label>代表对竞品了解：</label>

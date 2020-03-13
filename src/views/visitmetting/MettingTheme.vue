@@ -20,7 +20,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="product_name" label="产品名" min-width="140">
-          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+          <template slot-scope="scope">{{
+            scope.row.product_name + "-" + scope.row.package
+          }}</template>
         </el-table-column>
         <el-table-column prop="product_topic" label="会议主题" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
@@ -75,7 +77,7 @@
     <el-dialog class="dialog_wrap" :visible.sync="detailVisble" :append-to-body="true" width="30%">
       <div class="dialog_title" slot="title"><span class="line"></span>会议主题</div>
       <ul class="dialog_detail">
-        <li><label>产品名：</label>{{ singleData.product_name +'-'+singleData.specification}}</li>
+        <li><label>产品名：</label>{{ singleData.product_name + "-" + singleData.package }}</li>
         <li><label>会议主题：</label>{{ singleData.product_topic }}</li>
         <li>
           <label>状态：</label>
@@ -197,7 +199,7 @@ export default {
               if (item.status == 1) {
                 this.product.push({
                   id: item.id,
-                  product_name: item.product_name+'-'+item.specification
+                  product_name: item.product_name + "-" + item.package
                 });
               }
             });

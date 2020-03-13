@@ -11,8 +11,8 @@ module.exports = {
   //反向代理的配置
   devServer: {
     proxy: {
-      "/admin": {
-        target: "http://back.zidata.cn", //目标地址
+      "/": {
+        target: "http://back.zidata.cn/admin", //目标地址
         changeOrigin: true,
         pathRewrite: {
           "^/": "/"

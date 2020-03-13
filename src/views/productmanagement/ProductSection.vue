@@ -62,7 +62,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="product_name" label="产品名" min-width="150">
-          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+          <template slot-scope="scope">{{
+            scope.row.product_name + "-" + scope.row.package
+          }}</template>
         </el-table-column>
         <el-table-column prop="section_name" label="科室名" min-width="200"></el-table-column>
         <el-table-column prop="create_time" label="创建日期" min-width="200"></el-table-column>
@@ -228,13 +230,13 @@ export default {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
-                  product_name: item.product_name+'-'+item.specification,
+                  product_name: item.product_name + "-" + item.package,
                   status: item.status
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
-                  product_name: item.product_name+'-'+item.specification,
+                  product_name: item.product_name + "-" + item.package,
                   status: item.status
                 });
               }

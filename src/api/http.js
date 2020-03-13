@@ -5,15 +5,9 @@ import router from ".././router";
 import { Message } from "element-ui";
 // console.log(store.state);
 
-// 环境的切换
-// if (process.env.NODE_ENV == "development") {
-//   axios.defaults.baseURL = "http://localhost:8080";
-// } else if (process.env.NODE_ENV == "production") {
-//   axios.defaults.baseURL = "http://swj.edgrng.com/admin";
-// }
-// if (process.env.NODE_ENV == "production") {
-//   axios.defaults.baseURL = "http://back.zidata.cn/admin";
-// }
+if (process.env.NODE_ENV == "production") {
+  axios.defaults.baseURL = "http://back.zidata.cn/admin";
+}
 
 axios.defaults.timeout = 10000; //设置请求超时
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8"; //设置post请求头
@@ -22,14 +16,8 @@ axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded
 axios.interceptors.request.use(
   config => {
     const token = store.state.token;
-    if (global.APITYPE == 1) {
-      if (token) {
-        config.headers.Authorization = "Bearer " + token;
-      }
-    } else if (global.APITYPE == 2) {
-      // console.log("~~2");
-      // config.headers.Authorization = "";
-      delete config.headers.Authorization;
+    if (token) {
+      config.headers.Authorization = "Bearer " + token;
     }
     return config;
   },
@@ -141,14 +129,7 @@ axios.interceptors.response.use(
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get(url, params, type) {
-  console.log(global.APITYPE);
-  console.log(type);
-  if (type == 1) {
-    global.APITYPE = 1;
-  } else if (type == 2) {
-    global.APITYPE = 2;
-  }
+export function get(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .get(url, {
@@ -168,12 +149,7 @@ export function get(url, params, type) {
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function post(url, params, type) {
-  if (type == 1) {
-    global.APITYPE = 1;
-  } else if (type == 2) {
-    global.APITYPE = 2;
-  }
+export function post(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .post(url, QS.stringify(params))
@@ -187,12 +163,7 @@ export function post(url, params, type) {
 }
 
 //文件上传
-export function postUpload(url, params, type) {
-  if (type == 1) {
-    global.APITYPE = 1;
-  } else if (type == 2) {
-    global.APITYPE = 2;
-  }
+export function postUpload(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .post(url, params)
@@ -210,12 +181,7 @@ export function postUpload(url, params, type) {
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function del(url, params, type) {
-  if (type == 1) {
-    global.APITYPE = 1;
-  } else if (type == 2) {
-    global.APITYPE = 2;
-  }
+export function del(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .delete(url, {
@@ -235,12 +201,7 @@ export function del(url, params, type) {
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function put(url, params, type) {
-  if (type == 1) {
-    global.APITYPE = 1;
-  } else if (type == 2) {
-    global.APITYPE = 2;
-  }
+export function put(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .put(url, QS.stringify(params))
@@ -258,12 +219,7 @@ export function put(url, params, type) {
  * @param {String} url [请求地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function downFile(url, params, type) {
-  if (type == 1) {
-    global.APITYPE = 1;
-  } else if (type == 2) {
-    global.APITYPE = 2;
-  }
+export function downFile(url, params) {
   axios
     .get(url, {
       params: params,
@@ -271,9 +227,6 @@ export function downFile(url, params, type) {
     })
     .then(res => {
       const blob = res.data;
-      // new Blob([res.data], {
-      //   type: "application/vnd.ms-excel"
-      // });
       let date = new Date();
       let time =
         date.getFullYear() +

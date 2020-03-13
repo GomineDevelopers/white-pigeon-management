@@ -226,10 +226,19 @@ export default {
               .catch(err => {
                 console.log(err);
               });
+          } else {
+            this.$message({
+              message: res.msg,
+              type: "error"
+            });
           }
         })
         .catch(error => {
           console.log(error);
+          this.$message({
+            message: res.msg,
+            type: "error"
+          });
           return false;
         });
     },

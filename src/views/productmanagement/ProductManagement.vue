@@ -52,7 +52,9 @@
       >
         <el-table-column prop="id" label="产品编号" min-width="80"></el-table-column>
         <el-table-column prop="product_name" label="产品名" min-width="140">
-          <template slot-scope="scope">{{scope.row.product_name+'-'+scope.row.specification}}</template>
+          <template slot-scope="scope">{{
+            scope.row.product_name + "-" + scope.row.package
+          }}</template>
         </el-table-column>
         <el-table-column prop="generic_name" label="通用名" min-width="160"></el-table-column>
         <el-table-column prop="dosage_form" label="剂型" width="100"></el-table-column>
@@ -103,7 +105,7 @@
       <ul class="dialog_detail">
         <li>
           <label>产品名：</label>
-          {{ singleData.product_name }}-{{ singleData.specification }}
+          {{ singleData.product_name }}-{{ singleData.package }}
         </li>
         <li>
           <label>通用名：</label>
@@ -394,7 +396,7 @@ export default {
           page: this.page,
           row: this.row
         };
-        console.log(params)
+        console.log(params);
       } else {
         params = {
           page: this.page,
@@ -404,7 +406,7 @@ export default {
       this.$api
         .productManagerList(params)
         .then(res => {
-          console.log(res)
+          console.log(res);
           if (res.code == 200) {
             this.total = res.product_manager_list_count;
             this.list = res.product_manager_list;
@@ -432,14 +434,14 @@ export default {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
-                  product_name: item.product_name+'-'+item.specification,
-                  status: item.status,
+                  product_name: item.product_name + "-" + item.package,
+                  status: item.status
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
-                  product_name: item.product_name+'-'+item.specification,
-                  status: item.status,
+                  product_name: item.product_name + "-" + item.package,
+                  status: item.status
                 });
               }
             });
@@ -567,6 +569,8 @@ export default {
     // 新增数据
     createProduct() {
       let params = this.addData;
+      console.log(this.addData);
+      return false;
       this.submitLoading = true;
       this.$api
         .productAdd(params)
