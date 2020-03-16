@@ -50,18 +50,18 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column prop="id" label="产品编号" min-width="80"></el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="140">
+        <el-table-column prop="id" label="产品编号" min-width="120"></el-table-column>
+        <el-table-column prop="product_name" label="产品名+包装" min-width="140">
           <template slot-scope="scope">{{
             scope.row.product_name + "-" + scope.row.package
           }}</template>
         </el-table-column>
-        <el-table-column prop="generic_name" label="通用名" min-width="160"></el-table-column>
-        <el-table-column prop="dosage_form" label="剂型" width="100"></el-table-column>
-        <el-table-column prop="specification" label="规格" width="120"></el-table-column>
-        <el-table-column prop="package" label="包装" min-width="120"></el-table-column>
-        <el-table-column prop="factory" label="厂家" min-width="280"></el-table-column>
-        <el-table-column prop="status" label="状态" width="80">
+        <!-- <el-table-column prop="generic_name" label="通用名" min-width="160"></el-table-column> -->
+        <!-- <el-table-column prop="dosage_form" label="剂型" width="100"></el-table-column> -->
+        <el-table-column prop="specification" label="规格" min-width="140"></el-table-column>
+        <!-- <el-table-column prop="package" label="包装" min-width="120"></el-table-column> -->
+        <el-table-column prop="province_name" label="省份" min-width="180"></el-table-column>
+        <el-table-column prop="status" label="状态" min-width="80">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 1">正常</span>
             <span v-else class="logout">注销</span>
