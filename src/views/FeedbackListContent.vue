@@ -1,7 +1,9 @@
 <template>
   <div class="RegionalManager">
     <!-- 面包屑 -->
-    <span class="breadcrumb">代表反馈</span>
+    <span class="breadcrumb">
+      <router-link to="/feedbacklist">区域经理列表</router-link> / 代表反馈
+    </span>
     <!-- 列表 -->
     <div class="main_list">
       <el-table
@@ -142,5 +144,9 @@ export default {
 .breadcrumb {
   display: block;
   margin-bottom: 10px !important;
+}
+.breadcrumb a {
+  color: #adb3a8;
+  cursor: pointer;
 }
 </style>

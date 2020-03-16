@@ -209,11 +209,12 @@ ul {
 }
 
 .dialog_detail li {
-  line-height: 35px;
+  line-height: 25px;
   color: #333;
   font-size: 14px;
   display: -webkit-flex;
   display: flex;
+  padding: 7px 0px;
 }
 .dialog_detail li span.label_span {
   line-height: 25px;
@@ -225,6 +226,7 @@ ul {
   width: 80px;
   margin-right: 10px;
   text-align: right;
+  white-space: nowrap;
 }
 
 .el-cascader-panel .el-cascader-menu {

@@ -136,8 +136,8 @@
           {{ singleData.province_name }}
         </li>
         <li>
-          <label>主要适应症：</label>
-          <p>{{ singleData.indications }}</p>
+          <label class="white_space">主要适应症：</label>
+          <span>{{ singleData.indications }}</span>
         </li>
         <li>
           <label>中标价（元）：</label>
@@ -396,7 +396,7 @@ export default {
           page: this.page,
           row: this.row
         };
-        console.log(params);
+        // console.log(params);
       } else {
         params = {
           page: this.page,
@@ -406,7 +406,7 @@ export default {
       this.$api
         .productManagerList(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.code == 200) {
             this.total = res.product_manager_list_count;
             this.list = res.product_manager_list;
@@ -569,8 +569,6 @@ export default {
     // 新增数据
     createProduct() {
       let params = this.addData;
-      console.log(this.addData);
-      return false;
       this.submitLoading = true;
       this.$api
         .productAdd(params)

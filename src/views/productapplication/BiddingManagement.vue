@@ -122,12 +122,12 @@
           {{ singleData.complete_time }}
         </li>
         <li>
-          <label class="white_space">代表对医院了解：</label>
+          <label>代表对医院了解：</label>
           <span>{{ singleData.hospital_know }}</span>
         </li>
         <li>
           <label>代表对竞品了解：</label>
-          <p>{{ singleData.commodity_know }}</p>
+          <span>{{ singleData.commodity_know }}</span>
         </li>
         <li>
           <label>状态：</label>
