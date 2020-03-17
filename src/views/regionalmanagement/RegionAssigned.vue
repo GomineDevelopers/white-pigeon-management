@@ -118,44 +118,85 @@
         v-loading="addLoading"
         element-loading-text="数据拼命加载中..."
       >
-        <el-form-item label="省/市：" prop="option">
-          <el-cascader
-            class="width_full"
-            size="small"
-            :options="provinceAndCityData"
-            v-model="regionData.option"
-            @change="handleManagerChange"
-          >
-          </el-cascader>
-        </el-form-item>
-        <el-form-item size="small" label="医院名称：" prop="hospitalId">
-          <el-select
-            v-model="regionData.hospitalId"
-            placeholder="请选择医院名称"
-            @change="chaggeHospital"
-            no-data-text="无可添加区域医院"
-          >
-            <el-option
-              v-for="(item, index) in hosptalList"
-              :label="item.hospital_name"
-              :value="item.id"
-              :key="index"
-            ></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item size="small" label="产品名：" prop="productId">
           <el-select
             v-model="regionData.productId"
             placeholder="请选择产品名"
             no-data-text="无可添加医院产品"
+            @change="productChange"
           >
             <el-option
               v-for="(item, index) in productList"
-              :label="item.product_name + '-' + item.package"
-              :value="item.product_id"
+              :label="item.product_name"
+              :value="item.id"
               :key="index"
             ></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item size="small" label="省份：" prop="provinceCode">
+          <el-select
+            v-model="regionData.provinceCode"
+            placeholder="请选择省份"
+            no-data-text="无可添加省份"
+            @change="provinceChange"
+          >
+            <el-option
+              v-for="(item, index) in provinceData"
+              :label="item.name"
+              :value="item.province_code"
+              :key="index"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item size="small" label="城市：" prop="cityCode">
+          <el-select
+            v-model="regionData.cityCode"
+            placeholder="请选择城市"
+            no-data-text="无可添加城市"
+            @change="cityChange"
+          >
+            <el-option
+              v-for="(item, index) in cityData"
+              :label="item.name"
+              :value="item.city_code"
+              :key="index"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item size="small" label="医院名称：" prop="hospitalId">
+          <el-checkbox
+            :indeterminate="isIndeterminate"
+            v-model="checkAll"
+            @change="handleCheckAllChange"
+            >全选</el-checkbox
+          >
+          <div style="margin: 15px 0;"></div>
+          <el-checkbox-group
+            v-model="regionData.hospitalIdList"
+            @change="handleCheckedCitiesChange"
+          >
+            <el-checkbox
+              v-for="item in hosptalList"
+              :label="item.hospital_name"
+              :value="item.hospital_id"
+              :key="item"
+              >{{ item.hospital_name }}</el-checkbox
+            >
+          </el-checkbox-group>
+          <!-- <el-select
+            v-model="regionData.hospitalIdList"
+            multiple
+            placeholder="请选择医院名称"
+            @change="changeHospital"
+            no-data-text="无可添加区域医院"
+          >
+            <el-option
+              v-for="(item, index) in hosptalList"
+              :label="item.hospital_name"
+              :value="item.hospital_id"
+              :key="index"
+            ></el-option>
+          </el-select> -->
         </el-form-item>
         <el-form-item size="small" label="区域经理：" prop="managerId">
           <el-select
@@ -166,7 +207,7 @@
             <el-option
               v-for="(item, index) in regionList"
               :label="item.name"
-              :value="item.region_id"
+              :value="item.manager_id"
               :key="index"
             ></el-option>
           </el-select>
@@ -185,7 +226,7 @@
   </div>
 </template>
 <script>
-import { provinceAndCityDataPlus, provinceAndCityData } from "element-china-area-data";
+import { provinceAndCityDataPlus } from "element-china-area-data";
 export default {
   name: "RegionalManager",
   data() {
@@ -198,25 +239,30 @@ export default {
       singleData: {}, //单条数据
       managerName: null, // 搜索姓名
       provinceAndCityDataPlus: provinceAndCityDataPlus, //省市数据带“全部”
-      provinceAndCityData: provinceAndCityData, //省市数据不带“全部”
+      productList: [], //产品列表
+      provinceData: [], //省份数据
+      cityData: [], //城市数据
+      checkAll: false, //医院数据全选
+      isIndeterminate: true,
+      hosptalList: [], //医院列表
+      regionList: [], //区域经理列表
       searchOption: [], //搜索省市
       isSearch: false, //是否是搜索请求
       regionData: {
-        option: [],
-        hospitalId: null,
-        productId: null,
-        managerId: null
+        provinceCode: "",
+        cityCode: "",
+        hospitalIdList: [],
+        productId: "",
+        managerId: ""
       }, //新增数据
-      regionList: [], //区域经理列表
-      hosptalList: [], //医院列表
-      productList: [], //产品列表
       page: 1,
       row: 10,
       total: 0,
       list: [],
       rules: {
-        option: [{ required: true, message: "请选择省市", trigger: "change" }],
-        hospitalId: [{ required: true, message: "请选择医院名称", trigger: "change" }],
+        provinceCode: [{ required: true, message: "请选择省份", trigger: "change" }],
+        cityCode: [{ required: true, message: "请选择城市", trigger: "change" }],
+        hospitalIdList: [{ required: true, message: "请选择医院名称", trigger: "change" }],
         productId: [{ required: true, message: "请选择产品名", trigger: "change" }],
         managerId: [{ required: true, message: "请选择区域经理", trigger: "change" }]
       }
@@ -224,8 +270,115 @@ export default {
   },
   mounted() {
     this.getListData();
+    this.getproductList();
   },
   methods: {
+    // 获取产品
+    getproductList() {
+      this.$api
+        .productList()
+        .then(res => {
+          if (res.code == 200) {
+            res.product_list.forEach(item => {
+              this.productList.push({
+                id: item.id,
+                product_name: item.product_name + "-" + item.package
+              });
+            });
+          } else {
+            this.$message({
+              message: res.message,
+              type: "error"
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //产品选择改变
+    productChange(value) {
+      console.log(value);
+      this.provinceData = [];
+      this.cityData = [];
+      this.regionData.provinceCode = "";
+      this.regionData.cityCode = "";
+      let params = { product_id: this.regionData.productId };
+      this.getprovinceData(params);
+    },
+    //通过产品获取省份信息
+    getprovinceData(params) {
+      this.addLoading = true;
+      this.$api
+        .regionManagerProduct(params)
+        .then(res => {
+          this.addLoading = false;
+          if (res.code == 200) {
+            this.provinceData = res.china_region_info;
+          }
+        })
+        .catch(error => {
+          this.addLoading = false;
+          console.log(error);
+        });
+    },
+    //省份改变
+    provinceChange(value) {
+      console.log("省份", value);
+      this.cityData = [];
+      this.regionList = [];
+      this.regionData.cityCode = "";
+      let params = { province_code: value };
+      this.addLoading = true;
+      //通过省份获取城市信息
+      this.$api
+        .getHospitalByProvince(params)
+        .then(res => {
+          this.addLoading = false;
+          if (res.code == 200) {
+            this.cityData = res.china_city_info;
+          }
+        })
+        .catch(error => {
+          this.addLoading = false;
+          console.log(error);
+        });
+    },
+    //城市改变
+    cityChange(value) {
+      console.log("城市", value);
+      this.hosptalList = [];
+      this.regionList = [];
+      this.addLoading = true;
+      let params = {
+        province_code: this.regionData.provinceCode,
+        city_code: this.regionData.cityCode,
+        product_id: this.regionData.productId
+      };
+      this.$api
+        .getHospitalByCity(params)
+        .then(res => {
+          console.log(res);
+          this.addLoading = false;
+          if (res.code == 200) {
+            this.hosptalList = res.hospital_id_list;
+            this.regionList = res.mangager_info;
+          }
+        })
+        .catch(error => {
+          this.addLoading = false;
+          console.log(error);
+        });
+    },
+    handleCheckAllChange(val) {
+      this.regionData.hospitalIdList = val ? this.hosptalList : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.hosptalList.length;
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+    },
     //地区省市操作
     handleChange(arr) {
       this.searchOption = arr;
@@ -233,13 +386,7 @@ export default {
 
     // 新增/编辑经理省市选择
     handleManagerChange(arr) {
-      this.regionData.option = arr;
-      this.resetAddData();
-      let params = {
-        province_code: arr[0],
-        city_code: arr[1]
-      };
-      this.getInfoByProvince(params);
+      console.log(arr[0]);
     },
 
     // 获取列表数据
@@ -346,34 +493,14 @@ export default {
     },
 
     // 切换医院选择
-    chaggeHospital(val) {
-      this.productList = [];
-      this.regionData.productId = null;
-      this.hosptalList.forEach(item => {
-        if (item.id == val) {
-          this.productList = item.product_info;
-        }
-      });
-    },
-
-    // 通过省市获取医院信息
-    getInfoByProvince(params) {
-      this.addLoading = true;
-      console.log("params", params);
-      this.$api
-        .getInfoByProvince(params)
-        .then(res => {
-          console.log("res-----", res);
-          if (res.code == 200) {
-            this.hosptalList = res.hospital_product;
-            this.regionList = res.region_list;
-          }
-          this.addLoading = false;
-        })
-        .catch(err => {
-          this.addLoading = false;
-          console.log(err);
-        });
+    changeHospital(val) {
+      // this.productList = [];
+      // this.regionData.productId = null;
+      // this.hosptalList.forEach(item => {
+      //   if (item.id == val) {
+      //     this.productList = item.product_info;
+      //   }
+      // });
     },
 
     // 新增区域
@@ -395,12 +522,14 @@ export default {
         })
         .then(() => {
           let params = {
-            province_code: this.regionData.option[0],
-            city_code: this.regionData.option[1],
-            hospital_id: this.regionData.hospitalId,
-            product_id: this.regionData.productId,
-            region_manager_id: this.regionData.managerId
+            history_id_list: this.regionData.hospitalIdList,
+            product_id: this.regionData.provinceCode,
+            province_code: this.regionData.provinceCode,
+            city_code: this.regionData.cityCode,
+            regional_manager_id: this.regionData.managerId
           };
+          console.log(params);
+          return false;
           this.submitRegion(params);
           this.submitLoading = true;
         })
@@ -439,14 +568,7 @@ export default {
     },
 
     // 重置添加数据
-    resetAddData() {
-      this.hosptalList = [];
-      this.productList = [];
-      this.regionList = [];
-      this.regionData.hospitalId = null;
-      this.regionData.productId = null;
-      this.regionData.managerId = null;
-    }
+    resetAddData() {}
   }
 };
 </script>

@@ -250,7 +250,7 @@
         </el-form-item>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="纬度：" prop="lng">
+            <el-form-item label="经度：" prop="lng">
               <el-input
                 size="small"
                 v-model="addData.lng"
@@ -260,7 +260,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="经度：" prop="lat">
+            <el-form-item label="纬度：" prop="lat">
               <el-input
                 size="small"
                 v-model="addData.lat"
@@ -354,8 +354,8 @@ export default {
         hospital_type: { required: true, message: "请选择医院类型" },
         business: { required: true, message: "请选择经营方式" },
         address: { required: true, message: "请输入详细地址" },
-        lng: { required: true, message: "请输入医院纬度" },
-        lat: { required: true, message: "请输入医院经度" }
+        lng: { required: true, message: "请输入医院经度" },
+        lat: { required: true, message: "请输入医院纬度" }
       }
     };
   },
