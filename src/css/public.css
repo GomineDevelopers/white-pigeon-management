@@ -13,7 +13,8 @@ table {
 .el-menu-vertical-demo::-webkit-scrollbar-track,
 .el-main::-webkit-scrollbar-track,
 .main_list .el-table__body-wrapper::-webkit-scrollbar-track,
-.post_demand .el-form .form_body::-webkit-scrollbar-track {
+.post_demand .el-form .form_body::-webkit-scrollbar-track,
+.checkbox_form_item .el-checkbox-group::-webkit-scrollbar-track {
   border-radius: 5px;
   background-color: #f0f0f0;
 }
@@ -21,7 +22,8 @@ table {
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
 .el-menu-vertical-demo::-webkit-scrollbar,
 .el-main::-webkit-scrollbar,
-.post_demand .el-form .form_body::-webkit-scrollbar {
+.post_demand .el-form .form_body::-webkit-scrollbar,
+.checkbox_form_item .el-checkbox-group::-webkit-scrollbar {
   width: 6px;
 }
 
@@ -29,12 +31,14 @@ table {
 .el-menu-vertical-demo::-webkit-scrollbar-thumb,
 .el-main::-webkit-scrollbar-thumb,
 .main_list .el-table__body-wrapper::-webkit-scrollbar-thumb,
-.post_demand .el-form .form_body::-webkit-scrollbar-thumb {
+.post_demand .el-form .form_body::-webkit-scrollbar-thumb,
+.checkbox_form_item .el-checkbox-group::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background-color: #c1c1c1;
 }
 
-.main_list .el-table__body-wrapper::-webkit-scrollbar {
+.main_list .el-table__body-wrapper::-webkit-scrollbar,
+.checkbox_form_item .el-checkbox-group::-webkit-scrollbar {
   height: 10px;
   cursor: pointer;
 }

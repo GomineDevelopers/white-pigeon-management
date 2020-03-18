@@ -113,7 +113,7 @@
       <el-form
         :model="regionData"
         :rules="rules"
-        ref="ruleForm"
+        ref="regionData"
         label-width="100px"
         v-loading="addLoading"
         element-loading-text="数据拼命加载中..."
@@ -163,8 +163,14 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item size="small" label="医院名称：" prop="hospitalId">
+        <el-form-item
+          size="small"
+          prop="hospitalIdList"
+          label="医院名称："
+          class="checkbox_form_item"
+        >
           <el-checkbox
+            v-show="hosptalList.length > 0"
             :indeterminate="isIndeterminate"
             v-model="checkAll"
             @change="handleCheckAllChange"
@@ -177,26 +183,11 @@
           >
             <el-checkbox
               v-for="item in hosptalList"
-              :label="item.hospital_name"
-              :value="item.hospital_id"
-              :key="item"
+              :label="item.hospital_id"
+              :key="item.hospital_id"
               >{{ item.hospital_name }}</el-checkbox
             >
           </el-checkbox-group>
-          <!-- <el-select
-            v-model="regionData.hospitalIdList"
-            multiple
-            placeholder="请选择医院名称"
-            @change="changeHospital"
-            no-data-text="无可添加区域医院"
-          >
-            <el-option
-              v-for="(item, index) in hosptalList"
-              :label="item.hospital_name"
-              :value="item.hospital_id"
-              :key="index"
-            ></el-option>
-          </el-select> -->
         </el-form-item>
         <el-form-item size="small" label="区域经理：" prop="managerId">
           <el-select
@@ -214,7 +205,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="addManager('ruleForm')">
+        <el-button size="small" type="primary" @click="addManager('regionData')">
           <span v-show="submitLoading" class="submit_loading"
             ><i class="el-icon-loading"></i>数据提交中...</span
           >
@@ -262,7 +253,9 @@ export default {
       rules: {
         provinceCode: [{ required: true, message: "请选择省份", trigger: "change" }],
         cityCode: [{ required: true, message: "请选择城市", trigger: "change" }],
-        hospitalIdList: [{ required: true, message: "请选择医院名称", trigger: "change" }],
+        hospitalIdList: [
+          { type: "array", required: true, message: "请至少选择一个医院", trigger: "change" }
+        ],
         productId: [{ required: true, message: "请选择产品名", trigger: "change" }],
         managerId: [{ required: true, message: "请选择区域经理", trigger: "change" }]
       }
@@ -282,7 +275,8 @@ export default {
             res.product_list.forEach(item => {
               this.productList.push({
                 id: item.id,
-                product_name: item.product_name + "-" + item.package
+                product_name:
+                  item.product_name + "-" + item.package + "（" + item.province_name + "）"
               });
             });
           } else {
@@ -298,11 +292,14 @@ export default {
     },
     //产品选择改变
     productChange(value) {
-      console.log(value);
       this.provinceData = [];
       this.cityData = [];
       this.regionData.provinceCode = "";
       this.regionData.cityCode = "";
+      this.hosptalList = [];
+      this.regionData.hospitalIdList = [];
+      this.regionList = [];
+      this.regionData.managerId = "";
       let params = { product_id: this.regionData.productId };
       this.getprovinceData(params);
     },
@@ -328,6 +325,10 @@ export default {
       this.cityData = [];
       this.regionList = [];
       this.regionData.cityCode = "";
+      this.hosptalList = [];
+      this.regionData.hospitalIdList = [];
+      this.regionList = [];
+      this.regionData.managerId = "";
       let params = { province_code: value };
       this.addLoading = true;
       //通过省份获取城市信息
@@ -346,9 +347,10 @@ export default {
     },
     //城市改变
     cityChange(value) {
-      console.log("城市", value);
       this.hosptalList = [];
+      this.regionData.hospitalIdList = [];
       this.regionList = [];
+      this.regionData.managerId = "";
       this.addLoading = true;
       let params = {
         province_code: this.regionData.provinceCode,
@@ -358,7 +360,6 @@ export default {
       this.$api
         .getHospitalByCity(params)
         .then(res => {
-          console.log(res);
           this.addLoading = false;
           if (res.code == 200) {
             this.hosptalList = res.hospital_id_list;
@@ -371,13 +372,17 @@ export default {
         });
     },
     handleCheckAllChange(val) {
-      this.regionData.hospitalIdList = val ? this.hosptalList : [];
+      this.regionData.hospitalIdList = val
+        ? this.hosptalList.map(item => {
+            return item.hospital_id;
+          })
+        : [];
       this.isIndeterminate = false;
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
       this.checkAll = checkedCount === this.hosptalList.length;
-      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.hosptalList.length;
     },
     //地区省市操作
     handleChange(arr) {
@@ -523,13 +528,12 @@ export default {
         .then(() => {
           let params = {
             history_id_list: this.regionData.hospitalIdList,
-            product_id: this.regionData.provinceCode,
+            product_id: this.regionData.productId,
             province_code: this.regionData.provinceCode,
             city_code: this.regionData.cityCode,
             regional_manager_id: this.regionData.managerId
           };
           console.log(params);
-          return false;
           this.submitRegion(params);
           this.submitLoading = true;
         })
@@ -539,14 +543,13 @@ export default {
     },
     submitRegion(params) {
       this.$api
-        .regionManagerSubmit(params)
+        .regionManagerAllocation(params)
         .then(res => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
               type: "success"
             });
-            this.regionData.option = [];
             this.resetAddData();
             this.isSearch = false;
             this.page = 1;
@@ -568,7 +571,25 @@ export default {
     },
 
     // 重置添加数据
-    resetAddData() {}
+    resetAddData() {
+      this.provinceData = [];
+      this.cityData = [];
+      this.hosptalList = [];
+      this.regionList = [];
+      this.resetForm("regionData");
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
   }
 };
 </script>
+<style scoped>
+.checkbox_form_item {
+  padding-bottom: 10px;
+}
+.checkbox_form_item .el-checkbox-group {
+  max-height: 400px;
+  overflow-y: auto;
+}
+</style>
