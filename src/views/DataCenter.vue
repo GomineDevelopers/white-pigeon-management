@@ -412,7 +412,6 @@ export default {
     // 选择PDF
     checkFile(e) {
       let files = e.target.files[0];
-      console.log(files);
       let errTag = this.$refs.uploadPdf.$el.childNodes[1].childNodes[3];
       if (!files.type.match("application/pdf")) {
         this.$message.error("请选择PDF格式的文件上传");
@@ -422,7 +421,7 @@ export default {
         errTag.style.display = "none";
       }
       this.addData.pfdUrl = null;
-      // this.getToken(files);
+      this.getToken(files);
     },
 
     // 获取上去七牛云的doman和token
