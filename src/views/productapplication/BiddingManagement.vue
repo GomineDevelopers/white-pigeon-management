@@ -43,10 +43,10 @@
         </el-table-column>
         <el-table-column prop="user_name" label="代表姓名" min-width="100"></el-table-column>
         <el-table-column prop="province_name" label="所属省份" min-width="100"></el-table-column>
-        <el-table-column prop="hospital_name" label="医院名称" min-width="260"></el-table-column>
-        <el-table-column prop="product_name" label="产品名" min-width="100">
+        <el-table-column prop="hospital_name" label="医院名称" min-width="220"></el-table-column>
+        <el-table-column prop="product_name" label="产品名" min-width="140">
           <template slot-scope="scope">{{
-            scope.row.product_name + "-" + scope.row.package
+            scope.row.product_name + "-" + scope.row.package + "-" + scope.row.province_name
           }}</template>
         </el-table-column>
         <el-table-column prop="promise_sales" label="承诺销量" min-width="100"></el-table-column>
@@ -65,7 +65,18 @@
           label="承诺完成时间"
           min-width="160"
         ></el-table-column>
-        <el-table-column prop="status" label="状态" min-width="80">
+        <el-table-column
+          prop="status"
+          label="状态"
+          min-width="80"
+          :filters="[
+            { text: '通过', value: 1 },
+            { text: '拒绝', value: 2 },
+            { text: '待审核', value: 3 }
+          ]"
+          :filter-method="filterStatus"
+          filter-placement="bottom-end"
+        >
           <template slot-scope="scope">
             <span v-if="scope.row.status == 1" class="status_success">通过</span>
             <span v-else-if="scope.row.status == 2" class="logout">拒绝</span>
@@ -111,7 +122,7 @@
         </li>
         <li>
           <label>产品名称：</label>
-          {{ singleData.product_name + "-" + singleData.package }}
+          {{ singleData.product_name + "-" + singleData.package + "-" + singleData.province_name }}
         </li>
         <li>
           <label>承诺销量：</label>
@@ -232,7 +243,7 @@ export default {
       this.$api
         .hospitalProductList(params)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.code == 200) {
             this.total = res.hospital_product_count;
             this.list = res.hospital_product_list;
@@ -248,6 +259,9 @@ export default {
           this.listLoading = false;
           console.log(err);
         });
+    },
+    filterStatus(value, row) {
+      return row.status === value;
     },
 
     // 搜索

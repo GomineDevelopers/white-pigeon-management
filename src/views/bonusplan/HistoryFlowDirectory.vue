@@ -172,9 +172,9 @@ export default {
       this.$api
         .flowsdeal(fileData)
         .then(res => {
-          console.log(res);
+          // console.log(res);
+          this.uploadLoading = false;
           if (res.code == 200) {
-            this.uploadLoading = false;
             this.fileList = [];
             this.$message({
               message: "文件上传成功",
@@ -184,6 +184,7 @@ export default {
           }
         })
         .catch(error => {
+          this.uploadLoading = false;
           console.log(error);
         });
     },

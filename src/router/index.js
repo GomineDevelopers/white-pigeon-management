@@ -224,7 +224,7 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "xiaoyuer" */
-            "../views/FeedbackList.vue"
+            "../views/feedback/FeedbackList.vue"
           )
       },
       {
@@ -233,7 +233,7 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "xiaoyuer" */
-            "../views/FeedbackListContent.vue"
+            "../views/feedback/FeedbackListContent.vue"
           )
       },
       {
