@@ -1,7 +1,7 @@
 <template>
   <el-row class="home">
     <el-container>
-      <el-aside width="240px">
+      <el-aside width="220px">
         <AsideNav></AsideNav>
       </el-aside>
       <el-container>

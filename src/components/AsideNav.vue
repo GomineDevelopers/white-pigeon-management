@@ -11,9 +11,6 @@
       active-text-color="#3399FF"
       unique-opened
     >
-      <!-- <el-menu-item index="/test">
-        <span slot="title">测试</span>
-      </el-menu-item> -->
       <el-menu-item index="/hospitalManagement">
         <img v-if="$route.path == '/hospitalManagement'" src="../assets/image/yy.png" />
         <img v-else src="../assets/image/yy1.png" />
