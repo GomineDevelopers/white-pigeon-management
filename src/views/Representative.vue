@@ -111,6 +111,8 @@
           >
           </el-image>
         </li>
+        <li><label>客户名称：</label>{{ singleData.customer_name }}</li>
+        <li><label>客户类型：</label>{{ singleData.customer_type }}</li>
       </ul>
       <div class="dialog_title" slot="title"><span class="line"></span>代表信息</div>
       <div slot="footer" class="dialog-footer">
