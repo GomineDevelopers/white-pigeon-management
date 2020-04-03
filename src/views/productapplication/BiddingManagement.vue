@@ -129,6 +129,10 @@
           {{ singleData.promise_sales }}
         </li>
         <li>
+          <label>创建时间：</label>
+          {{ dateFormatter(singleData) }}
+        </li>
+        <li>
           <label>承诺完成时间：</label>
           {{ singleData.complete_time }}
         </li>
@@ -223,6 +227,13 @@ export default {
     this.getListData();
   },
   methods: {
+    dateFormatter(row) {
+      if (row.create_time != null) {
+        return row.create_time.split(" ")[0];
+      } else {
+        return row.create_time;
+      }
+    },
     // 获取列表数据
     getListData() {
       this.listLoading = true;

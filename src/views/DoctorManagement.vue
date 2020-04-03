@@ -20,6 +20,10 @@
             ></el-option>
           </el-select>
         </div>
+        <div class="main_header_item">
+          <span>医院：</span>
+          <el-input size="small" v-model="hospitalName" placeholder="请输入"></el-input>
+        </div>
         <el-button size="small" plain icon="el-icon-bottom" @click="downLoad">下载</el-button>
       </el-col>
       <el-col :span="4" class="main_header_btns">
@@ -272,6 +276,7 @@ export default {
       singleData: {}, //单条数据
       doctorName: null, // 搜索姓名
       doctorStatus: null, // 搜索医生状态
+      hospitalName: null, //搜索医院
       isSearch: false, //是否是搜索请求
       isEdit: false, // 是否是修改数据
       //新增数据
@@ -600,6 +605,7 @@ export default {
         params = {
           doctor_name: this.doctorName,
           doctor_status: this.doctorStatus,
+          hospital_name: this.hospitalName,
           page: this.page,
           row: this.row
         };
@@ -661,7 +667,7 @@ export default {
 
     // 搜索
     search() {
-      if (this.doctorName == null && this.doctorStatus == null) {
+      if (this.doctorName == null && this.doctorStatus == null && this.hospitalName == null) {
         this.$message({
           message: "请输入或选择搜索内容",
           type: "error"
@@ -677,6 +683,7 @@ export default {
     resetSearch() {
       this.doctorName = null;
       this.doctorStatus = null;
+      this.hospitalName = null;
       this.isSearch = false;
       this.page = 1;
       this.getListData();

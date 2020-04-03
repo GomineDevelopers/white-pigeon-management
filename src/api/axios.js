@@ -58,6 +58,7 @@ let api = {
   productAdd: params => post("/productManager/productAdd", params), //产品管理新增
   productEdit: params => post("/productManager/productEdit", params), //产品管理修改
   hospitalManagerList: params => get("/hospitalManager/hospitalManagerList", params), //医院管理列表
+  hospitalDataUpload: params => postUpload("/HospitalManager/flowsdeal", params), //医院数据批量上传
   hospitalAdd: params => post("/hospitalManager/hospitalAdd", params), //添加医院
   hospitalDel: params => post("/hospitalManager/hospitalDel", params), //删除医院
   hospitalEdit: params => post("/hospitalManager/hospitalEdit", params), //编辑医院

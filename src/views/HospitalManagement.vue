@@ -45,8 +45,43 @@
     </el-row>
     <!-- 列表 -->
     <div class="main_list">
-      <div class="toolbar">
+      <div class="toolbar flex">
         <el-button size="small" plain icon="el-icon-plus" @click="handleCreate">新增医院</el-button>
+        <div class="upload_div flex">
+          <span>批量上传：</span>
+          <el-upload
+            class="upload-demo"
+            ref="upload"
+            :limit="1"
+            action=""
+            name="file"
+            :file-list="fileList"
+            :auto-upload="false"
+            :http-request="uploadHospitalFile"
+            accept=".xls,.xlsx"
+          >
+            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            <el-button
+              style="margin-left: 10px;"
+              size="small"
+              type="success"
+              v-show="!uploadLoading"
+              @click="submitUpload"
+            >
+              上传到服务器
+            </el-button>
+            <el-button
+              style="margin-left: 10px;"
+              size="small"
+              type="info"
+              v-show="uploadLoading"
+              icon="el-icon-loading"
+            >
+              上传中...
+            </el-button>
+            <span class="upload_notice">注：非专业人士请勿操作！</span>
+          </el-upload>
+        </div>
       </div>
       <el-table
         :data="tableData"
@@ -294,7 +329,7 @@ export default {
       if (!value) {
         return callback(new Error("请输入手机号"));
       } else {
-        const reg = /^1[3|4|5|7|8|9][0-9]\d{8}$/;
+        const reg = /^1[3|4|5|6|7|8|9][0-9]\d{8}$/;
         if (reg.test(value)) {
           callback();
         } else {
@@ -303,6 +338,8 @@ export default {
       }
     };
     return {
+      uploadLoading: false,
+      fileList: [], //存放上传文件列表
       listLoading: false, //加载数据中
       addVisble: false, //新增
       detailVisble: false, //详情弹窗
@@ -365,6 +402,50 @@ export default {
     });
   },
   methods: {
+    //上传文件到服务器
+    submitUpload() {
+      let list = document.getElementsByClassName("el-upload-list__item is-ready");
+      if (list.length == 0) {
+        this.$message({
+          type: "warning",
+          message: "请选择需要上传的文件"
+        });
+        return;
+      }
+      this.uploadLoading = true;
+      this.$refs.upload.submit();
+    },
+    //在this.$refs.upload.submit()上传前做数据处理
+    uploadHospitalFile(param) {
+      var fileObj = param.file;
+      console.log("fileObj", fileObj);
+      let fileData = new FormData(); // FormData 对象
+      fileData.append("file", fileObj); // 文件对象
+      let postParams = { file: fileData };
+      this.$api
+        .hospitalDataUpload(fileData)
+        .then(res => {
+          console.log(res);
+          this.uploadLoading = false;
+          if (res.code == 200) {
+            this.fileList = [];
+            this.$message({
+              message: "文件上传成功",
+              type: "success"
+            });
+            this.getListData();
+          } else {
+            this.$message({
+              message: "文件上传失败",
+              type: "error"
+            });
+          }
+        })
+        .catch(error => {
+          this.uploadLoading = false;
+          console.log(error);
+        });
+    },
     //地区省市搜索操作
     handleChange(arr) {
       this.searchOption = arr;
@@ -736,5 +817,20 @@ export default {
 .hospital_link:hover {
   color: #409eff;
   text-decoration: underline;
+}
+.flex {
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+}
+.flex .upload_div {
+  margin-left: 20px;
+}
+.flex .upload_div .el-button {
+  color: #fff;
+}
+.flex .upload_div .upload_notice {
+  color: red;
+  margin-left: 10px;
 }
 </style>
