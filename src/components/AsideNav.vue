@@ -101,6 +101,14 @@
         <i class="el-icon-tickets feedback_icon" v-else></i>
         <span slot="title">代表反馈</span>
       </el-menu-item>
+      <el-menu-item index="/doctorapplylist">
+        <i
+          class="el-icon-document  feedback_icon_active"
+          v-if="$route.path === '/doctorapplylist'"
+        ></i>
+        <i class="el-icon-document feedback_icon" v-else></i>
+        <span slot="title">医生申请</span>
+      </el-menu-item>
 
       <!-- <el-menu-item index="11">
         <img src="../assets/image/yjbg.png" />
@@ -140,7 +148,7 @@ export default {
   name: "asideNav",
   data() {
     return {
-      access: null
+      access: null,
     };
   },
   created() {
@@ -153,8 +161,8 @@ export default {
     },
     handleClose() {
       //   console.log(key, keyPath);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

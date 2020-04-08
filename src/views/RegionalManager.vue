@@ -158,7 +158,7 @@ export default {
       if (!value) {
         return callback(new Error("请输入手机号"));
       } else {
-        const reg = /^1[3|4|5|7|8|9][0-9]\d{8}$/;
+        const reg = /^1[3|4|5|6|7|8|9][0-9]\d{8}$/;
         if (reg.test(value)) {
           callback();
         } else {
@@ -180,7 +180,7 @@ export default {
         option: [],
         name: null,
         email: null,
-        password: null
+        password: null,
       }, //新增数据
       page: 1,
       row: 10,
@@ -190,8 +190,8 @@ export default {
         name: [{ required: true, message: "请输入姓名" }],
         option: [{ required: true, message: "请选择省市" }],
         email: [{ required: true, validator: checkPhone, trigger: "blur" }],
-        password: [{ required: true, message: "请输入密码" }]
-      }
+        password: [{ required: true, message: "请输入密码" }],
+      },
     };
   },
   mounted() {
@@ -220,29 +220,29 @@ export default {
           province_code: this.searchOption[0],
           city_code: this.searchOption[1],
           page: this.page,
-          row: this.row
+          row: this.row,
         };
       } else {
         params = {
           page: this.page,
-          row: this.row
+          row: this.row,
         };
       }
       this.$api
         .regionList(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.total = res.regional_info_count;
             this.list = res.regional_info_list;
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.listLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.listLoading = false;
           console.log(err);
         });
@@ -253,7 +253,7 @@ export default {
       if (this.managerName == null && !this.searchOption.length) {
         this.$message({
           message: "请输入或选择搜索内容",
-          type: "error"
+          type: "error",
         });
         return false;
       }
@@ -284,7 +284,7 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("确认注销该条记录吗?", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           let params = { regional_manager_id: row.id };
@@ -309,7 +309,7 @@ export default {
 
     // 新增经理
     addManager(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.submitManager();
         } else {
@@ -322,21 +322,21 @@ export default {
     delRegion(params) {
       this.$api
         .delRegion(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: "删除成功",
-              type: "success"
+              type: "success",
             });
             this.getListData();
           } else {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -345,7 +345,7 @@ export default {
     submitManager() {
       this.$messageBox
         .confirm("提交数据后将无法更改，请确认无误后再提交！", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           let params = {
@@ -353,7 +353,7 @@ export default {
             city_code: this.managerData.option[1],
             name: this.managerData.name,
             email: this.managerData.email,
-            password: this.managerData.password
+            password: this.managerData.password,
           };
           this.addRegion(params);
         })
@@ -364,11 +364,11 @@ export default {
     addRegion(params) {
       this.$api
         .addRegion(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.managerData.option = [];
             this.managerData.name = null;
@@ -380,19 +380,19 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
           console.log(err);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>

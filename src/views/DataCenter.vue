@@ -235,7 +235,7 @@ export default {
         productId: null,
         productTypeId: null,
         title: null,
-        pfdUrl: null
+        pfdUrl: null,
       }, //新增数据
       page: 1,
       row: 10,
@@ -243,34 +243,34 @@ export default {
       product: [
         {
           label: "有效产品",
-          options: []
+          options: [],
         },
         {
           label: "已注销产品",
-          options: []
-        }
+          options: [],
+        },
       ],
       productType: [
         {
           value: "1",
-          label: "科室会议"
+          label: "科室会议",
         },
         {
           value: "2",
-          label: "代表培训"
+          label: "代表培训",
         },
         {
           value: "3",
-          label: "说明书"
-        }
+          label: "说明书",
+        },
       ],
       list: [],
       rules: {
         productId: { required: true, message: "请选择产品" },
         productTypeId: { required: true, message: "请选择类型" },
         title: { required: true, message: "请输入PDF名称" },
-        pfdUrl: { required: true, message: "请选择上传PDF" }
-      }
+        pfdUrl: { required: true, message: "请选择上传PDF" },
+      },
     };
   },
   mounted() {
@@ -289,29 +289,29 @@ export default {
           product_id: this.productId,
           product_data_type: this.productTypeId,
           page: this.page,
-          row: this.row
+          row: this.row,
         };
       } else {
         params = {
           page: this.page,
-          row: this.row
+          row: this.row,
         };
       }
       this.$api
         .materialList(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.total = res.meterialDetail_count;
             this.list = res.meterialDetail;
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.listLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.listLoading = false;
           console.log(err);
         });
@@ -321,26 +321,26 @@ export default {
     getproductList() {
       this.$api
         .productList()
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
-            res.product_list.forEach(item => {
+            res.product_list.forEach((item) => {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
                   product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  status: item.status,
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
                   product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  status: item.status,
                 });
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -349,7 +349,7 @@ export default {
       if (this.productId == null && this.productTypeId == null) {
         this.$message({
           message: "请选择搜索内容",
-          type: "error"
+          type: "error",
         });
         return false;
       }
@@ -377,7 +377,7 @@ export default {
     readPDF(row) {
       this.pdfData = {
         title: row.title,
-        pdfSrc: row.company_policy_name
+        pdfSrc: row.company_policy_name,
       };
       this.pdfVisble = true;
     },
@@ -386,7 +386,7 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("确认删除该条记录吗?", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           let params = { material_id: row.id };
@@ -428,7 +428,7 @@ export default {
     getToken(file) {
       this.$api
         .getQiniuToken()
-        .then(res => {
+        .then((res) => {
           if (res.code === 100) {
             let domain = res.domain;
             let token = res.token;
@@ -437,7 +437,7 @@ export default {
             this.$message.error(res.message);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -447,12 +447,12 @@ export default {
       let _this = this;
       const config = {
         useCdnDomain: true,
-        region: qiniu.region.z2
+        region: qiniu.region.z2,
       };
       let api = `http://${domain}/`;
       let fileName = file.name;
       let putExtra = {
-        mimeType: null
+        mimeType: null,
       };
       const observable = qiniu.upload(file, fileName, token, putExtra, config);
       observable.subscribe({
@@ -471,13 +471,13 @@ export default {
         },
         complete(res) {
           _this.addData.pfdUrl = `${api}${res.key}`;
-        }
+        },
       });
     },
 
     // 新增资料
     add(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.submitData();
         } else {
@@ -490,21 +490,21 @@ export default {
     delMaterial(params) {
       this.$api
         .delMaterial(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: "删除成功",
-              type: "success"
+              type: "success",
             });
             this.getListData();
           } else {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -515,15 +515,15 @@ export default {
         product_id: this.addData.productId,
         product_data_type: this.addData.productTypeId,
         title: this.addData.title,
-        company_policy_name: this.addData.pfdUrl
+        company_policy_name: this.addData.pfdUrl,
       };
       this.$api
         .materialCreate(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.addData.productId = null;
             this.addData.productTypeId = null;
@@ -535,16 +535,16 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
