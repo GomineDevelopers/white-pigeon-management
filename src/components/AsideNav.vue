@@ -27,15 +27,38 @@
           <el-menu-item index="/sectionManagement">科室管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="/doctorManagement">
+      <el-submenu index="/doctorManagement">
+        <template slot="title">
+          <img src="../assets/image/ys1.png" />
+          <span>医生管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/doctorManagement">医生管理</el-menu-item>
+          <el-menu-item index="/doctorapplylist">医生申请</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <!-- <el-menu-item index="/doctorManagement">
         <img v-if="$route.path == '/doctorManagement'" src="../assets/image/ys.png" />
         <img v-else src="../assets/image/ys1.png" />
         <span slot="title">医生管理</span>
       </el-menu-item>
+      <el-menu-item index="/doctorapplylist">
+        <i
+          class="el-icon-document  feedback_icon_active"
+          v-if="$route.path === '/doctorapplylist'"
+        ></i>
+        <i class="el-icon-document feedback_icon" v-else></i>
+        <span slot="title">医生申请</span>
+      </el-menu-item> -->
       <el-menu-item index="/representative">
         <img src="../assets/image/db.png" v-if="$route.path == '/representative'" />
         <img src="../assets/image/db1.png" v-else />
         <span slot="title">代表管理</span>
+      </el-menu-item>
+      <el-menu-item index="/feedbacklist">
+        <i class="el-icon-tickets  feedback_icon_active" v-if="$route.path === '/feedbacklist'"></i>
+        <i class="el-icon-tickets feedback_icon" v-else></i>
+        <span slot="title">代表反馈</span>
       </el-menu-item>
       <el-submenu index="/regionAssigned">
         <template slot="title">
@@ -96,19 +119,6 @@
           <el-menu-item index="/incomedetail">奖金明细</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="/feedbacklist">
-        <i class="el-icon-tickets  feedback_icon_active" v-if="$route.path === '/feedbacklist'"></i>
-        <i class="el-icon-tickets feedback_icon" v-else></i>
-        <span slot="title">代表反馈</span>
-      </el-menu-item>
-      <el-menu-item index="/doctorapplylist">
-        <i
-          class="el-icon-document  feedback_icon_active"
-          v-if="$route.path === '/doctorapplylist'"
-        ></i>
-        <i class="el-icon-document feedback_icon" v-else></i>
-        <span slot="title">医生申请</span>
-      </el-menu-item>
 
       <!-- <el-menu-item index="11">
         <img src="../assets/image/yjbg.png" />
