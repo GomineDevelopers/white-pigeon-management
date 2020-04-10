@@ -100,7 +100,7 @@
               :preview-src-list="[
                 scope.row.visit_image,
                 scope.row.visit_image_two,
-                scope.row.visit_image_three,
+                scope.row.visit_image_three
               ]"
               v-if="scope.row.visit_image"
             ></el-image>
@@ -161,6 +161,7 @@
         批量审核：
         <el-button type="success" size="mini" @click="visitmultipleOperate(1)">通过</el-button>
         <el-button type="danger" size="mini" @click="visitmultipleOperate(2)">拒绝</el-button>
+        <el-button type="warning" size="mini">已核销</el-button>
       </el-row>
       <!-- 分页 -->
       <div class="pagination">
@@ -321,46 +322,46 @@ export default {
       statusList: [
         {
           id: "1",
-          value: "通过",
+          value: "通过"
         },
         {
           id: "2",
-          value: "不合格",
+          value: "不合格"
         },
         {
           id: "3",
-          value: "待审核",
+          value: "待审核"
         },
         {
           id: "4",
-          value: "已核销",
+          value: "已核销"
         },
         {
           id: "5",
-          value: "已失效",
+          value: "已失效"
         },
         {
           id: "6",
-          value: "创建",
+          value: "创建"
         },
         {
           id: "7",
-          value: "隐藏",
+          value: "隐藏"
         },
         {
           id: "8",
-          value: "删除",
-        },
+          value: "删除"
+        }
       ], //状态列表
       productOptions: [
         {
           label: "有效产品",
-          options: [],
+          options: []
         },
         {
           label: "已注销产品",
-          options: [],
-        },
+          options: []
+        }
       ],
       page: 1,
       row: 10,
@@ -390,18 +391,18 @@ export default {
       refuseOptions: [
         {
           value: 1,
-          label: "当日拜访医生重复",
+          label: "当日拜访医生重复"
         },
         {
           value: 2,
-          label: "医生反馈不合格",
+          label: "医生反馈不合格"
         },
         {
           value: 3,
-          label: "拜访时间交叉重合",
-        },
+          label: "拜访时间交叉重合"
+        }
       ],
-      refuseValue: "",
+      refuseValue: ""
     };
   },
   mounted() {
@@ -419,32 +420,32 @@ export default {
       }
     },
     checkSelectable(row) {
-      return row.status === 3;
+      return row.status === 3 || row.status === 1;
     },
     //获取产品列表填入下拉框
     productList() {
       this.$api
         .productList()
-        .then((res) => {
+        .then(res => {
           if (res.code == 200) {
-            res.product_list.forEach((item) => {
+            res.product_list.forEach(item => {
               if (item.status == 1) {
                 this.productOptions[0].options.push({
                   id: item.id,
                   product_name: item.product_name + "-" + item.package,
-                  status: item.status,
+                  status: item.status
                 });
               } else {
                 this.productOptions[1].options.push({
                   id: item.id,
                   product_name: item.product_name + "-" + item.package,
-                  status: item.status,
+                  status: item.status
                 });
               }
             });
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
@@ -467,11 +468,11 @@ export default {
         hospital_name: this.hospitalName,
         status: this.status,
         page: this.page,
-        row: this.row,
+        row: this.row
       };
       this.$api
         .visitList(parmas)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           if (res.code == 200) {
             this.total = res.visit_count;
@@ -483,7 +484,7 @@ export default {
             this.$message.error("数据请求失败，请重试！");
           }
         })
-        .catch((error) => {
+        .catch(error => {
           this.listLoading = false;
           console.log(error);
         });
@@ -524,7 +525,7 @@ export default {
       let parmas = {
         user_name: this.representative,
         product_id: this.product,
-        is_export: 1,
+        is_export: 1
       };
       this.$api.downVisitExcel(parmas);
     },
@@ -532,23 +533,23 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("确认删除该条记录吗?", "提示", {
-          type: "warning",
+          type: "warning"
         })
         .then(() => {
           let params = { visit_id: row.id };
           this.$api
             .visitDel(params)
-            .then((res) => {
+            .then(res => {
               // console.log(res);
               if (res.code == 200) {
                 this.$message({
                   message: "操作成功!",
-                  type: "success",
+                  type: "success"
                 });
                 this.getListData(); //重新获取审核列表
               }
             })
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
         })
@@ -570,30 +571,30 @@ export default {
       this.$messageBox
         .confirm(message, {
           type: messageType,
-          closeOnClickModal: false,
+          closeOnClickModal: false
         })
         .then(() => {
           let params = {
             visit_id: row.id,
             is_pass: type,
-            start_date: row.start_date,
+            start_date: row.start_date
           };
           this.$api
             .visitOperate(params)
-            .then((res) => {
+            .then(res => {
               // console.log(res);
               if (res.code == 200) {
                 this.detailVisble = false;
                 this.$message({
                   message: "操作成功!",
-                  type: "success",
+                  type: "success"
                 });
                 this.getListData(); //重新获取审核列表
               } else {
                 this.$message.error("操作失败，请重试！");
               }
             })
-            .catch((error) => {
+            .catch(error => {
               this.$message.error("操作失败，请重试！");
               console.log(error);
             });
@@ -614,11 +615,11 @@ export default {
           visit_id: this.visitInfo.id,
           is_pass: 2,
           start_date: this.visitInfo.start_date,
-          refuse_reason: this.refuseValue,
+          refuse_reason: this.refuseValue
         };
         this.$api
           .visitOperate(params)
-          .then((res) => {
+          .then(res => {
             console.log(res);
             if (res.code == 200) {
               this.detailVisble = false;
@@ -626,7 +627,7 @@ export default {
               this.refuseValue = "";
               this.$message({
                 message: "操作成功!",
-                type: "success",
+                type: "success"
               });
               this.getListData(); //重新获取审核列表
               this.refuseValue = "";
@@ -635,7 +636,7 @@ export default {
               this.$message.error("操作失败，请重试！");
             }
           })
-          .catch((error) => {
+          .catch(error => {
             this.$message.error("操作失败，请重试！");
             console.log(error);
           });
@@ -662,33 +663,33 @@ export default {
         this.$messageBox
           .confirm(message, {
             type: messageType,
-            closeOnClickModal: false,
+            closeOnClickModal: false
           })
           .then(() => {
             let visitList = [];
-            this.selected.forEach((value) => {
+            this.selected.forEach(value => {
               visitList.push(value.id);
             });
             let postData = {
               visit_id_list: visitList,
-              is_pass: type,
+              is_pass: type
             };
             this.$api
               .visitmultipleOperate(postData)
-              .then((res) => {
+              .then(res => {
                 console.log(res);
                 if (res.code == 200) {
                   this.detailVisble = false;
                   this.$message({
                     message: "操作成功!",
-                    type: "success",
+                    type: "success"
                   });
                   this.getListData(); //重新获取审核列表
                 } else {
                   this.$message.error("操作失败，请重试！");
                 }
               })
-              .catch((error) => {
+              .catch(error => {
                 console.log(error);
               });
           })
@@ -703,37 +704,37 @@ export default {
     refuseMultipleSubmit() {
       if (this.refuseValue != "") {
         let visitList = [];
-        this.selected.forEach((value) => {
+        this.selected.forEach(value => {
           visitList.push(value.id);
         });
         let postData = {
           visit_id_list: visitList,
           is_pass: 2,
-          refuse_reason: this.refuseValue,
+          refuse_reason: this.refuseValue
         };
         this.$api
           .visitmultipleOperate(postData)
-          .then((res) => {
+          .then(res => {
             if (res.code == 200) {
               this.refuseDialog = false;
               this.refuseValue = "";
               this.$message({
                 message: "操作成功!",
-                type: "success",
+                type: "success"
               });
               this.getListData(); //重新获取审核列表
             } else {
               this.$message.error("操作失败，请重试！");
             }
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
           });
       } else {
         this.$message.error("请选择拒绝理由！");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style>

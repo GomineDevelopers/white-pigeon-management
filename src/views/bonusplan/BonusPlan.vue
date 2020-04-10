@@ -21,13 +21,13 @@
         <el-table-column prop="name" label="姓名" min-width="140"></el-table-column>
         <el-table-column label="拜访" min-width="140">
           <template slot-scope="scope">
-            <span class="detail_link" @click="goVisitDetail(scope.row)">{{ scope.row.vs }}</span
+            <span class="detail_link" @click="goVisitDetail(scope.row)"> {{ scope.row.vs }} </span
             >条
           </template>
         </el-table-column>
         <el-table-column prop="metting" label="会议" min-width="140">
           <template slot-scope="scope">
-            <span class="detail_link" @click="goMettingDetail(scope.row)">{{ scope.row.ms }}</span
+            <span class="detail_link" @click="goMettingDetail(scope.row)"> {{ scope.row.ms }} </span
             >人
           </template>
         </el-table-column>

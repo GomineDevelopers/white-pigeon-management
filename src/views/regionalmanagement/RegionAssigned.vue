@@ -254,7 +254,7 @@ export default {
         provinceCode: [{ required: true, message: "请选择省份", trigger: "change" }],
         cityCode: [{ required: true, message: "请选择城市", trigger: "change" }],
         hospitalIdList: [
-          { type: "array", required: true, message: "请至少选择一个医院", trigger: "change" }
+          { type: "array", required: true, message: "请至少选择一个医院", trigger: "blur" }
         ],
         productId: [{ required: true, message: "请选择产品名", trigger: "change" }],
         managerId: [{ required: true, message: "请选择区域经理", trigger: "change" }]
@@ -361,6 +361,7 @@ export default {
         .getHospitalByCity(params)
         .then(res => {
           this.addLoading = false;
+          console.log("医院", res);
           if (res.code == 200) {
             this.hosptalList = res.hospital_id_list;
             this.regionList = res.mangager_info;
