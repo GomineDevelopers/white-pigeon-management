@@ -141,7 +141,7 @@
           <label>本期医院开发奖（元）：</label>
           {{ singleData.develop_bonus }}
         </li>
-        <li>
+        <li v-if="singleData.invite_bonus">
           <label>本期推荐奖（元）：</label>
           {{ singleData.invite_bonus }}
         </li>
@@ -290,7 +290,7 @@ export default {
       this.getIncomeDetailList();
     },
 
-    // 弹出代表详情
+    // 弹出详情
     handleDetail(index, row) {
       this.detailVisble = true;
       this.singleDataLoading = true;

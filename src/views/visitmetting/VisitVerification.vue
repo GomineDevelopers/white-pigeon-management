@@ -1,6 +1,6 @@
 <template>
   <el-row class="PurposeTopical">
-    <span class="breadcrumb">拜访审核</span>
+    <span class="breadcrumb">拜访核销</span>
     <!--工具条-->
     <el-row class="main_header">
       <el-col :span="20">
@@ -79,7 +79,6 @@
           sortable
           min-width="100"
         ></el-table-column>
-        <!-- <el-table-column prop="visit_goal" label="拜访目的"></el-table-column> -->
         <el-table-column prop="product_name" label="产品" min-width="120">
           <template slot-scope="scope">{{
             scope.row.product_name + "-" + scope.row.package
@@ -118,26 +117,15 @@
             <span class="status8" v-if="scope.row.status == 8">删除</span>
           </template>
         </el-table-column>
-        <el-table-column label="审核" min-width="110">
+        <el-table-column label="核销" min-width="90">
           <template slot-scope="scope">
-            <el-tooltip
-              v-if="scope.row.status == 3"
-              class="item approved_pass"
-              effect="dark"
-              content="通过"
-              placement="top"
-            >
-              <i class="el-icon-circle-check" @click="approve(1, scope.row)"></i>
-            </el-tooltip>
-            <el-tooltip
-              v-if="scope.row.status == 3"
-              class="item approved_nopass"
-              effect="dark"
-              content="拒绝"
-              placement="top"
-            >
-              <i class="el-icon-circle-close" @click="approveNopass(2, scope.row)"></i>
-            </el-tooltip>
+            <el-button
+              type="success"
+              v-if="scope.row.status == 1"
+              size="mini"
+              @click="verification(4, scope.row)"
+              >核销
+            </el-button>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
@@ -159,8 +147,7 @@
       </el-table>
       <el-row class="batch_approve">
         批量审核：
-        <el-button type="success" size="mini" @click="visitmultipleOperate(1)">通过</el-button>
-        <el-button type="danger" size="mini" @click="visitmultipleOperate(2)">拒绝</el-button>
+        <el-button type="success" size="mini" @click="visitMultipleOperate(4)">核销</el-button>
       </el-row>
       <!-- 分页 -->
       <div class="pagination">
@@ -261,65 +248,18 @@
       <div slot="footer" class="dialog-footer">
         <el-button
           size="small"
-          type="primary"
-          v-if="singleData.status == 3"
-          @click="approve(1, singleData)"
-          >通 过</el-button
-        >
-        <el-button
-          size="small"
-          type="danger"
-          v-if="singleData.status == 3"
-          @click="approveNopass(2, singleData)"
-          >拒 绝</el-button
+          type="success"
+          v-if="singleData.status == 1"
+          @click="verification(4, singleData)"
+          >核 销</el-button
         >
       </div>
-    </el-dialog>
-
-    <!-- 拜访拒绝弹框 -->
-    <el-dialog
-      class="refuse_dialog"
-      title="确认拒绝当前拜访吗？状态提交后不可更改！"
-      :visible.sync="refuseDialog"
-      :append-to-body="true"
-      top="40%"
-    >
-      <el-select class="refuse_select" v-model="refuseValue" clearable placeholder="请选择拒绝理由">
-        <el-option
-          v-for="item in refuseOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="refuseDialog = false">取 消</el-button>
-        <el-button
-          v-if="refuseType == 1"
-          size="small"
-          type="primary"
-          @click="refuseSubmit"
-          :disabled="refuseDisabled"
-        >
-          确 定
-        </el-button>
-        <el-button
-          v-if="refuseType == 2"
-          size="small"
-          type="primary"
-          @click="refuseMultipleSubmit"
-          :disabled="refuseDisabled"
-        >
-          确 定
-        </el-button>
-      </span>
     </el-dialog>
   </el-row>
 </template>
 <script>
 export default {
-  name: "VisitApprove",
+  name: "VisitVerification",
   data() {
     return {
       selected: [],
@@ -334,32 +274,8 @@ export default {
           value: "通过"
         },
         {
-          id: "2",
-          value: "不合格"
-        },
-        {
-          id: "3",
-          value: "待审核"
-        },
-        {
           id: "4",
           value: "已核销"
-        },
-        {
-          id: "5",
-          value: "已失效"
-        },
-        {
-          id: "6",
-          value: "创建"
-        },
-        {
-          id: "7",
-          value: "隐藏"
-        },
-        {
-          id: "8",
-          value: "删除"
         }
       ], //状态列表
       productOptions: [
@@ -392,26 +308,7 @@ export default {
         // }
       ],
       detailVisble: false, //详情弹窗
-      singleData: {}, //单条数据详情
-      refuseDialog: false,
-      refuseDisabled: false,
-      refuseType: 1,
-      visitInfo: "", //点击拒绝拜访时的存放当前的拜访数据
-      refuseOptions: [
-        {
-          value: 1,
-          label: "当日拜访医生重复"
-        },
-        {
-          value: 2,
-          label: "医生反馈不合格"
-        },
-        {
-          value: 3,
-          label: "拜访时间交叉重合"
-        }
-      ],
-      refuseValue: ""
+      singleData: {} //单条数据详情
     };
   },
   mounted() {
@@ -429,7 +326,7 @@ export default {
       }
     },
     checkSelectable(row) {
-      return row.status === 3;
+      return row.status === 1;
     },
     //获取产品列表填入下拉框
     productList() {
@@ -480,7 +377,7 @@ export default {
         row: this.row
       };
       this.$api
-        .visitList(parmas)
+        .visitCancelList(parmas)
         .then(res => {
           console.log(res);
           if (res.code == 200) {
@@ -536,7 +433,7 @@ export default {
         product_id: this.product,
         is_export: 1
       };
-      this.$api.downVisitExcel(parmas);
+      this.$api.downVisitCancelList(parmas);
     },
     //删除
     handleDelete(index, row) {
@@ -566,31 +463,20 @@ export default {
           console.log("取消");
         });
     },
-    //通过审核
-    approve(type, row) {
-      let message;
-      let messageType;
-      if (type == 1) {
-        message = "确认修改当前拜访状态为‘通过’吗?";
-        messageType = "info";
-      }
-      // else if (type == 4) {
-      //   message = "确认核销当前拜访吗？状态提交后不可更改！";
-      //   messageType = "warning";
-      // }
+    //核销
+    verification(type, row) {
       this.$messageBox
-        .confirm(message, {
-          type: messageType,
+        .confirm("确认核销当前拜访吗?", {
+          type: "info",
           closeOnClickModal: false
         })
         .then(() => {
           let params = {
             visit_id: row.id,
-            is_pass: type,
-            start_date: row.start_date
+            is_pass: type
           };
           this.$api
-            .visitOperate(params)
+            .visitCancel(params)
             .then(res => {
               if (res.code == 200) {
                 this.detailVisble = false;
@@ -612,63 +498,18 @@ export default {
           console.log("取消");
         });
     },
-    //拒绝
-    approveNopass(type, row) {
-      this.refuseDialog = true;
-      this.visitInfo = row;
-    },
-    //点击拜访拒绝弹框的确认按钮
-    refuseSubmit() {
-      if (this.refuseValue != "") {
-        let params = {
-          visit_id: this.visitInfo.id,
-          is_pass: 2,
-          start_date: this.visitInfo.start_date,
-          refuse_reason: this.refuseValue
-        };
-        this.$api
-          .visitOperate(params)
-          .then(res => {
-            console.log(res);
-            if (res.code == 200) {
-              this.detailVisble = false;
-              this.refuseDialog = false;
-              this.refuseValue = "";
-              this.$message({
-                message: "操作成功!",
-                type: "success"
-              });
-              this.getListData(); //重新获取审核列表
-              this.refuseValue = "";
-              this.visitInfo = "";
-            } else {
-              this.$message.error("操作失败，请重试！");
-            }
-          })
-          .catch(error => {
-            this.$message.error("操作失败，请重试！");
-            console.log(error);
-          });
-      } else {
-        this.$message.error("请选择拒绝理由！");
-      }
-    },
-
     //批量审核拜访
-    visitmultipleOperate(type) {
-      // console.log(this.selected);
+    visitMultipleOperate(type) {
       if (this.selected.length == 0) {
-        this.$message.error("当前未选择审核数据！");
+        this.$message.error("当前未选择核销数据！");
         return false;
       }
       let message;
       let messageType;
-      if (type == 1) {
+      if (type == 4) {
         //此处为通过
-        message = `确认修改当前 ${this.selected.length} 条拜访状态为‘通过’吗?`;
+        message = `确认核销当前 ${this.selected.length} 条拜访吗?`;
         messageType = "info";
-        // message = `确认拒绝当前 ${this.selected.length} 条拜访吗？状态提交后不可更改！`;
-        // messageType = "warning";
         this.$messageBox
           .confirm(message, {
             type: messageType,
@@ -684,7 +525,7 @@ export default {
               is_pass: type
             };
             this.$api
-              .visitmultipleOperate(postData)
+              .visitCancelmultipleOperate(postData)
               .then(res => {
                 console.log(res);
                 if (res.code == 200) {
@@ -705,43 +546,6 @@ export default {
           .catch(() => {
             console.log("取消");
           });
-      } else if (type == 2) {
-        this.refuseType = 2;
-        this.refuseDialog = true;
-      }
-    },
-    //批量拒绝
-    refuseMultipleSubmit() {
-      if (this.refuseValue != "") {
-        let visitList = [];
-        this.selected.forEach(value => {
-          visitList.push(value.id);
-        });
-        let postData = {
-          visit_id_list: visitList,
-          is_pass: 2,
-          refuse_reason: this.refuseValue
-        };
-        this.$api
-          .visitmultipleOperate(postData)
-          .then(res => {
-            if (res.code == 200) {
-              this.refuseDialog = false;
-              this.refuseValue = "";
-              this.$message({
-                message: "操作成功!",
-                type: "success"
-              });
-              this.getListData(); //重新获取审核列表
-            } else {
-              this.$message.error(res.message);
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      } else {
-        this.$message.error("请选择拒绝理由！");
       }
     }
   }

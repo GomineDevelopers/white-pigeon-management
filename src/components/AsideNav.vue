@@ -105,6 +105,7 @@
         <el-menu-item-group>
           <el-menu-item index="/purposetopical">拜访目的</el-menu-item>
           <el-menu-item index="/visitapprove">拜访审核</el-menu-item>
+          <el-menu-item index="/visitverification">拜访核销</el-menu-item>
           <el-menu-item index="/mettingTheme">会议主题</el-menu-item>
           <el-menu-item index="/mettingapprove">会议审核</el-menu-item>
         </el-menu-item-group>
@@ -158,7 +159,7 @@ export default {
   name: "asideNav",
   data() {
     return {
-      access: null,
+      access: null
     };
   },
   created() {
@@ -171,8 +172,8 @@ export default {
     },
     handleClose() {
       //   console.log(key, keyPath);
-    },
-  },
+    }
+  }
 };
 </script>
 <style>

@@ -52,7 +52,7 @@ axios.interceptors.response.use(
   error => {
     if (error.response.status) {
       switch (error.response.status) {
-        case 400001:
+        case 401:
           Message({
             message: "token账号过期，请重新登录!",
             type: "warning"
