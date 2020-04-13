@@ -141,7 +141,7 @@
           <label>本期医院开发奖（元）：</label>
           {{ singleData.develop_bonus }}
         </li>
-        <li v-if="singleData.invite_bonus">
+        <li v-if="'invite_bonus' in singleData">
           <label>本期推荐奖（元）：</label>
           {{ singleData.invite_bonus }}
         </li>
