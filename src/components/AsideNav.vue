@@ -37,29 +37,23 @@
           <el-menu-item index="/doctorapplylist">医生申请</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <!-- <el-menu-item index="/doctorManagement">
-        <img v-if="$route.path == '/doctorManagement'" src="../assets/image/ys.png" />
-        <img v-else src="../assets/image/ys1.png" />
-        <span slot="title">医生管理</span>
-      </el-menu-item>
-      <el-menu-item index="/doctorapplylist">
-        <i
-          class="el-icon-document  feedback_icon_active"
-          v-if="$route.path === '/doctorapplylist'"
-        ></i>
-        <i class="el-icon-document feedback_icon" v-else></i>
-        <span slot="title">医生申请</span>
-      </el-menu-item> -->
-      <el-menu-item index="/representative">
-        <img src="../assets/image/db.png" v-if="$route.path == '/representative'" />
-        <img src="../assets/image/db1.png" v-else />
-        <span slot="title">代表管理</span>
-      </el-menu-item>
-      <el-menu-item index="/feedbacklist">
-        <i class="el-icon-tickets  feedback_icon_active" v-if="$route.path === '/feedbacklist'"></i>
-        <i class="el-icon-tickets feedback_icon" v-else></i>
-        <span slot="title">代表反馈</span>
-      </el-menu-item>
+      <el-submenu index="/regionAssigned">
+        <template slot="title">
+          <img src="../assets/image/db1.png" />
+          <span slot="title">代表管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/representative">
+            <span slot="title">代表管理</span>
+          </el-menu-item>
+          <!-- <el-menu-item index="/terminateagreement">
+            <span slot="title">产品解约</span>
+          </el-menu-item> -->
+          <el-menu-item index="/feedbacklist">
+            <span slot="title">代表反馈</span>
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <el-submenu index="/regionAssigned">
         <template slot="title">
           <!-- <img src="../assets/image/qygl.png" /> -->

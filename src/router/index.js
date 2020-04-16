@@ -117,7 +117,18 @@ const routes = [
       {
         path: "/representative",
         name: "representative",
-        component: () => import(/* webpackChunkName: "login" */ "../views/Representative.vue")
+        component: () =>
+          import(
+            /* webpackChunkName: "login" */ "../views/representativemanagement/Representative.vue"
+          )
+      },
+      {
+        path: "/terminateagreement",
+        name: "terminateagreement",
+        component: () =>
+          import(
+            /* webpackChunkName: "login" */ "../views/representativemanagement/TerminateAgreement.vue"
+          )
       },
       {
         path: "/sectionManagement",
