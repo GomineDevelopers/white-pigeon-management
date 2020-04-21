@@ -366,13 +366,13 @@ export default {
         { id: 7, grade_name: "一级甲等" },
         { id: 8, grade_name: "一级乙等" },
         { id: 9, grade_name: "一级丙等" },
-        { id: 10, grade_name: "未知" }
+        { id: 10, grade_name: "未知" },
       ],
       hospitalType: [
         { id: 1, type: "综合医院" },
         { id: 2, type: "专科医院" },
         { id: 3, type: "整形美容医院" },
-        { id: 4, type: "未知" }
+        { id: 4, type: "未知" },
       ],
       runType: [
         { id: 1, type: "国营医院" },
@@ -380,7 +380,7 @@ export default {
         { id: 3, type: "中外合资医院" },
         { id: 4, type: "合伙制医院" },
         { id: 5, type: "私人医院" },
-        { id: 6, type: "未知" }
+        { id: 6, type: "未知" },
       ],
       tableData: [],
       total: null,
@@ -392,8 +392,8 @@ export default {
         business: { required: true, message: "请选择经营方式" },
         address: { required: true, message: "请输入详细地址" },
         lng: { required: true, message: "请输入医院经度" },
-        lat: { required: true, message: "请输入医院纬度" }
-      }
+        lat: { required: true, message: "请输入医院纬度" },
+      },
     };
   },
   mounted() {
@@ -408,7 +408,7 @@ export default {
       if (list.length == 0) {
         this.$message({
           type: "warning",
-          message: "请选择需要上传的文件"
+          message: "请选择需要上传的文件",
         });
         return;
       }
@@ -424,24 +424,24 @@ export default {
       let postParams = { file: fileData };
       this.$api
         .hospitalDataUpload(fileData)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.uploadLoading = false;
           if (res.code == 200) {
             this.fileList = [];
             this.$message({
               message: "文件上传成功",
-              type: "success"
+              type: "success",
             });
             this.getListData();
           } else {
             this.$message({
               message: "文件上传失败",
-              type: "error"
+              type: "error",
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.uploadLoading = false;
           console.log(error);
         });
@@ -455,7 +455,7 @@ export default {
       this.addData.option = arr;
       this.$messageBox
         .confirm("医院省市区数据非常重要，数据提交后将无法更改，请确认省市区信息无误！", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           console.log("确认！");
@@ -476,19 +476,19 @@ export default {
         city_code: this.searchOption[1],
         hospital_name: this.hospitalName,
         hospital_level: this.gradeId,
-        status: this.searchStatus
+        status: this.searchStatus,
       };
       this.listLoading = true;
       this.$api
         .hospitalManagerList(params)
-        .then(res => {
+        .then((res) => {
           this.listLoading = false;
           if (res.code == 200) {
             this.total = res.hospital_manager_count;
             this.tableData = res.hospital_manager_list;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.listLoading = false;
           console.log(error);
         });
@@ -576,7 +576,7 @@ export default {
       ) {
         this.$message({
           message: "请输入或选择搜索内容",
-          type: "error"
+          type: "error",
         });
         return false;
       }
@@ -601,7 +601,7 @@ export default {
         hospital_name: this.hospitalName,
         hospital_level: this.gradeId,
         status: this.searchStatus,
-        is_export: 1
+        is_export: 1,
       };
       this.$api.downHospitalManagerExcel(parmas);
     },
@@ -615,29 +615,29 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("确认删除此医院吗?", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           console.log(row);
           let params = { hospital_id: row.id };
           this.$api
             .hospitalDel(params)
-            .then(res => {
+            .then((res) => {
               console.log(res);
               if (res.code == 200) {
                 this.$message({
                   message: "医院状态更改成功！",
-                  type: "success"
+                  type: "success",
                 });
                 this.getListData();
               } else {
                 this.$message({
                   message: res.message,
-                  type: "error"
+                  type: "error",
                 });
               }
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
         })
@@ -671,7 +671,7 @@ export default {
         lng: row.hospital_longtude,
         lat: row.hospital_latitude,
         postcode: row.postcode,
-        hospital_email: row.hospital_email
+        hospital_email: row.hospital_email,
       };
     },
     // 点击分页当前页数
@@ -688,7 +688,7 @@ export default {
     },
     // 新增医院确认按钮
     addhospital(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.submitManager();
         } else {
@@ -702,7 +702,7 @@ export default {
         console.log("编辑");
         this.$messageBox
           .confirm("请确认信息无误后再提交！", "提示", {
-            type: "warning"
+            type: "warning",
           })
           .then(() => {
             let params = {
@@ -720,30 +720,30 @@ export default {
               hospital_longtude: this.addData.lng,
               hospital_latitude: this.addData.lat,
               postcode: this.addData.postcode,
-              hospital_email: this.addData.hospital_email
+              hospital_email: this.addData.hospital_email,
             };
             this.$api
               .hospitalEdit(params)
-              .then(res => {
+              .then((res) => {
                 console.log(res);
                 if (res.code == 200) {
                   this.$message({
                     message: "编辑信息成功！",
-                    type: "success"
+                    type: "success",
                   });
                   this.addVisble = false;
                   this.getListData();
                 } else {
                   this.$message({
                     message: res.message,
-                    type: "error"
+                    type: "error",
                   });
                 }
               })
-              .catch(error => {
+              .catch((error) => {
                 this.$message({
                   message: res.message,
-                  type: "error"
+                  type: "error",
                 });
                 console.log(error);
               });
@@ -752,7 +752,7 @@ export default {
         console.log("添加");
         this.$messageBox
           .confirm("请确认无误后再提交！", "提示", {
-            type: "warning"
+            type: "warning",
           })
           .then(() => {
             let params = {
@@ -769,16 +769,16 @@ export default {
               hospital_longtude: this.addData.lng,
               hospital_latitude: this.addData.lat,
               postcode: this.addData.postcode,
-              hospital_email: this.addData.hospital_email
+              hospital_email: this.addData.hospital_email,
             };
             this.$api
               .hospitalAdd(params)
-              .then(res => {
+              .then((res) => {
                 console.log(res);
                 if (res.code == 200) {
                   this.$message({
                     message: "添加医院成功！",
-                    type: "success"
+                    type: "success",
                   });
                   this.addVisble = false;
                   this.page = 1;
@@ -786,21 +786,21 @@ export default {
                 } else {
                   this.$message({
                     message: res.message,
-                    type: "error"
+                    type: "error",
                   });
                 }
               })
-              .catch(error => {
+              .catch((error) => {
                 this.$message({
                   message: res.message,
-                  type: "error"
+                  type: "error",
                 });
                 console.log(error);
               });
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
