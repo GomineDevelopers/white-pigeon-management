@@ -37,7 +37,7 @@
           <el-menu-item index="/doctorapplylist">医生申请</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="/regionAssigned">
+      <el-submenu index="/representative">
         <template slot="title">
           <img src="../assets/image/db1.png" />
           <span slot="title">代表管理</span>
@@ -153,7 +153,7 @@ export default {
   name: "asideNav",
   data() {
     return {
-      access: null
+      access: null,
     };
   },
   created() {
@@ -166,8 +166,8 @@ export default {
     },
     handleClose() {
       //   console.log(key, keyPath);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

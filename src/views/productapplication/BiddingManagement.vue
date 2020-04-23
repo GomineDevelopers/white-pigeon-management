@@ -72,7 +72,7 @@
           :filters="[
             { text: '通过', value: 1 },
             { text: '拒绝', value: 2 },
-            { text: '待审核', value: 3 }
+            { text: '待审核', value: 3 },
           ]"
           :filter-method="filterStatus"
           filter-placement="bottom-end"
@@ -83,8 +83,11 @@
             <span v-else class="status_waiting">待审核</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="60" fixed="right">
+        <el-table-column label="操作" width="90" fixed="right">
           <template slot-scope="scope">
+            <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+              <i class="el-icon-edit" @click="handleEdit(scope.row)"></i>
+            </el-tooltip>
             <el-tooltip class="item" effect="dark" content="查看" placement="top">
               <i class="el-icon-view" @click="handleDetail(scope.$index, scope.row)"></i>
             </el-tooltip>
@@ -168,6 +171,22 @@
         <el-button size="small" type="primary" @click="detailVisble = false">关 闭</el-button>
       </div>
     </el-dialog>
+    <!-- 新增 -->
+    <el-dialog class="dialog_wrap" :visible.sync="auditDataShow" :append-to-body="true">
+      <div class="dialog_title" slot="title"><span class="line"></span>编辑</div>
+      <el-form :model="auditData" :rules="auditRules" ref="auditForm" label-width="100px">
+        <el-form-item label="审核销量：" prop="auditSales">
+          <el-input size="small" v-model="auditData.auditSales" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="审核单价：" prop="auditPrice">
+          <el-input size="small" v-model="auditData.auditPrice" placeholder="请输入"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" type="primary" @click="auditButton('auditForm')">确 定</el-button>
+        <el-button size="small" type="info" plain @click="auditDataShow = false">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -219,8 +238,18 @@ export default {
         { code: 650000, name: "新疆维吾尔自治区" },
         { code: 710000, name: "台湾省" },
         { code: 810000, name: "香港特别行政区" },
-        { code: 820000, name: "澳门特别行政区" }
-      ]
+        { code: 820000, name: "澳门特别行政区" },
+      ],
+      auditDataShow: false,
+      auditData: {
+        id: "",
+        auditSales: "", //审核销量
+        auditPrice: "", //审核单价
+      },
+      auditRules: {
+        auditSales: { required: true, message: "请输入审核销量" },
+        auditPrice: { required: true, message: "请输入审核单价" },
+      },
     };
   },
   mounted() {
@@ -243,17 +272,17 @@ export default {
           user_name: this.deputyName,
           province_code: this.provinceCode,
           page: this.page,
-          row: this.row
+          row: this.row,
         };
       } else {
         params = {
           page: this.page,
-          row: this.row
+          row: this.row,
         };
       }
       this.$api
         .hospitalProductList(params)
-        .then(res => {
+        .then((res) => {
           // console.log(res);
           if (res.code == 200) {
             this.total = res.hospital_product_count;
@@ -261,12 +290,12 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.listLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.listLoading = false;
           console.log(err);
         });
@@ -280,7 +309,7 @@ export default {
       if (this.deputyName == null && this.provinceCode == null) {
         this.$message({
           message: "请输入或选择搜索内容",
-          type: "error"
+          type: "error",
         });
         return false;
       }
@@ -303,11 +332,55 @@ export default {
       let params = {
         user_name: this.deputyName,
         province_code: this.provinceCode,
-        is_export: 1
+        is_export: 1,
       };
       this.$api.downHospitalProductListExcel(params);
     },
-
+    // 编辑
+    handleEdit(row) {
+      this.auditDataShow = true;
+      this.auditData.id = row.id;
+      this.auditData.auditSales = row.region_promise_sales;
+      this.auditData.auditPrice = row.region_bidding_price;
+    },
+    // 新增医院确认按钮
+    auditButton(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let params = {
+            hospital_product_id: this.auditData.id,
+            region_promise_sales: this.auditData.auditSales,
+            region_bidding_price: this.auditData.auditPrice,
+          };
+          this.$api
+            .editProductAuditData(params)
+            .then((res) => {
+              if (res.code == 200) {
+                this.$message({
+                  message: "修改数据成功！",
+                  type: "success",
+                });
+                this.auditDataShow = false;
+                this.getListData();
+              } else {
+                this.$message({
+                  message: res.message,
+                  type: "error",
+                });
+              }
+            })
+            .catch((error) => {
+              this.$message({
+                message: "修改数据失败",
+                type: "error",
+              });
+              console.log(error);
+            });
+        } else {
+          return false;
+        }
+      });
+    },
     // 查看详情
     handleDetail(index, row) {
       this.detailVisble = true;
@@ -324,8 +397,8 @@ export default {
     sizeChange(val) {
       this.row = val;
       this.getListData();
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

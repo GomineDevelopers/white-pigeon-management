@@ -93,18 +93,18 @@ export default {
       statusArr: [
         {
           value: 1,
-          label: "已注册"
+          label: "已注册",
         },
         {
           value: 2,
-          label: "未注册"
-        }
+          label: "未注册",
+        },
       ],
       page: 1,
       row: 10,
       total: 0,
       listLoading: false, //加载数据中
-      list: []
+      list: [],
     };
   },
   mounted() {
@@ -123,7 +123,7 @@ export default {
       let params = { is_operate_register: this.registerStatus, page: this.page, row: this.row };
       this.$api
         .getSignUser(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             console.log(res);
             this.list = res.user_list;
@@ -131,12 +131,12 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.listLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.listLoading = false;
           console.log(err);
         });
@@ -157,7 +157,7 @@ export default {
       if (!this.registerStatus) {
         this.$message({
           message: "请选择搜索条件",
-          type: "error"
+          type: "error",
         });
         return false;
       }
@@ -178,19 +178,22 @@ export default {
       let params = {
         xyeAct: "15921638245",
         openNo: "021803069",
-        secret: "87AC305F8EFB6AB2FA8BF194DA02D8A1"
+        secret: "87AC305F8EFB6AB2FA8BF194DA02D8A1",
       };
       this.$api
         .getKey(params)
-        .then(res => {
-          if (res.code == "00000") {
-            this.token = res.token;
+        .then((res) => {
+          console.log(JSON.parse(res));
+          let resData = JSON.parse(res);
+          if (resData.code == "00000") {
+            this.token = resData.token;
+            console.log(this.token);
             //注册参数
             let signParams = {
               openNo: "021803069",
               xyeAct: "15921638245",
               timestamp: minutesTimeFormat2(),
-              token: res.token,
+              token: resData.token,
               name: row.name,
               cellphone: row.phone,
               certNo: row.id_card,
@@ -200,44 +203,43 @@ export default {
               certBack: row.id_back_img,
               signature: row.sign_image,
               type: 0,
-              callbackUrl: "http://back.zidata.cn/admin/cooperate/getRegisterByXY"
+              callbackUrl: "http://back.zidata.cn/admin/cooperate/getRegisterByXY",
             };
             let sign = this.objKeySort(signParams).toUpperCase(); //处理sign
             let newParams = signParams;
             newParams["sign"] = sign;
-            console.log(newParams);
             this.$api
               .register(newParams)
-              .then(res => {
+              .then((res) => {
                 console.log(res);
                 if (res.code == "00000") {
                   this.$message({
                     message: "发送成功！",
-                    type: "success"
+                    type: "success",
                   });
                   this.getListData();
                 } else {
                   this.$message({
                     message: res.msg,
-                    type: "error"
+                    type: "error",
                   });
                 }
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(err);
               });
           } else {
             this.$message({
               message: res.msg,
-              type: "error"
+              type: "error",
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           this.$message({
-            message: res.msg,
-            type: "error"
+            message: error.msg,
+            type: "error",
           });
           return false;
         });
@@ -259,8 +261,8 @@ export default {
         "87AC305F8EFB6AB2FA8BF194DA02D8A1" + newObjString + "87AC305F8EFB6AB2FA8BF194DA02D8A1"
       );
       return newObjString; //返回排好序的新对象
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped></style>
