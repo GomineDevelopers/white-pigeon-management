@@ -24,6 +24,7 @@
             scope.row.product_name + "-" + scope.row.package
           }}</template>
         </el-table-column>
+        <el-table-column prop="province_name" label="省" min-width="200"></el-table-column>
         <el-table-column prop="visit_goal" label="拜访目的" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template slot-scope="scope">
@@ -143,7 +144,7 @@ export default {
       singleData: {}, //单条数据
       addAndEditData: {
         product_id: null,
-        visit_goal: null
+        visit_goal: null,
       }, //新增数据
       page: 1,
       row: 10,
@@ -152,8 +153,8 @@ export default {
       product: [],
       rules: {
         visit_goal: [{ required: true, message: "请输入拜访目的" }],
-        product_id: [{ required: true, message: "请选择产品名" }]
-      }
+        product_id: [{ required: true, message: "请选择产品名" }],
+      },
     };
   },
   mounted() {
@@ -168,23 +169,23 @@ export default {
       this.listLoading = true;
       let params = {
         page: this.page,
-        row: this.row
+        row: this.row,
       };
       this.$api
         .visitTopicList(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.total = res.visit_goal_count;
             this.list = res.visit_goal_list;
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.listLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.listLoading = false;
           console.log(err);
         });
@@ -194,19 +195,20 @@ export default {
     getproductList() {
       this.$api
         .productList()
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
-            res.product_list.forEach(item => {
+            res.product_list.forEach((item) => {
               if (item.status == 1) {
                 this.product.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
                 });
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -237,7 +239,7 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("确认注销该条记录吗?", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           let params = { visit_goal_id: row.id };
@@ -262,7 +264,7 @@ export default {
 
     // 新增拜访目的
     addVisit(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.isEdit ? this.updateVisit() : this.createVisit();
         } else {
@@ -275,21 +277,21 @@ export default {
     delVisit(params) {
       this.$api
         .delVisit(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: "删除成功",
-              type: "success"
+              type: "success",
             });
             this.getListData();
           } else {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -298,16 +300,16 @@ export default {
     createVisit() {
       let params = {
         product_id: this.addAndEditData.product_id,
-        visit_goal: this.addAndEditData.visit_goal
+        visit_goal: this.addAndEditData.visit_goal,
       };
       this.submitLoading = true;
       this.$api
         .createVisit(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.addAndEditData.product_id = null;
             this.addAndEditData.visit_goal = null;
@@ -316,18 +318,18 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
           this.submitLoading = false;
           console.log(err);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -336,16 +338,16 @@ export default {
     updateVisit() {
       let params = {
         visit_goal_id: this.visit_goal_id,
-        visit_goal: this.addAndEditData.visit_goal
+        visit_goal: this.addAndEditData.visit_goal,
       };
       this.submitLoading = true;
       this.$api
         .updateVisit(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.isEdit = false;
             this.addAndEditData.product_id = null;
@@ -354,22 +356,22 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
           this.submitLoading = false;
           console.log(err);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

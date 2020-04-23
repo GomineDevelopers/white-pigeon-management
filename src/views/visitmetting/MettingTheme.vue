@@ -24,6 +24,7 @@
             scope.row.product_name + "-" + scope.row.package
           }}</template>
         </el-table-column>
+        <el-table-column prop="province_name" label="省" min-width="200"></el-table-column>
         <el-table-column prop="product_topic" label="会议主题" min-width="200"></el-table-column>
         <el-table-column label="操作" width="120" fixed="right">
           <template slot-scope="scope">
@@ -142,7 +143,7 @@ export default {
       singleData: {}, //单条数据
       addAndEditData: {
         product_id: null,
-        product_topic: null
+        product_topic: null,
       }, //新增数据
       page: 1,
       row: 10,
@@ -151,8 +152,8 @@ export default {
       product: [],
       rules: {
         product_topic: [{ required: true, message: "请输入会议主题" }],
-        product_id: [{ required: true, message: "请选择产品名" }]
-      }
+        product_id: [{ required: true, message: "请选择产品名" }],
+      },
     };
   },
   mounted() {
@@ -167,23 +168,23 @@ export default {
       this.listLoading = true;
       let params = {
         page: this.page,
-        row: this.row
+        row: this.row,
       };
       this.$api
         .meetingTopicList(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.total = res.product_topic_count;
             this.list = res.product_topic_list;
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.listLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.listLoading = false;
           console.log(err);
         });
@@ -193,19 +194,20 @@ export default {
     getproductList() {
       this.$api
         .productList()
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
-            res.product_list.forEach(item => {
+            res.product_list.forEach((item) => {
               if (item.status == 1) {
                 this.product.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
                 });
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -236,7 +238,7 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("确认删除该条记录吗?", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           let params = { product_topic_id: row.id };
@@ -261,7 +263,7 @@ export default {
 
     // 新增会议主题
     addVisit(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.isEdit ? this.updateMeeting() : this.createMeeting();
         } else {
@@ -274,21 +276,21 @@ export default {
     delVisit(params) {
       this.$api
         .delMeeting(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: "删除成功",
-              type: "success"
+              type: "success",
             });
             this.getListData();
           } else {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -297,16 +299,16 @@ export default {
     createMeeting() {
       let params = {
         product_id: this.addAndEditData.product_id,
-        product_topic: this.addAndEditData.product_topic
+        product_topic: this.addAndEditData.product_topic,
       };
       this.submitLoading = true;
       this.$api
         .createMeeting(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.addAndEditData.product_id = null;
             this.addAndEditData.product_topic = null;
@@ -315,18 +317,18 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
           this.submitLoading = false;
           console.log(err);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -335,16 +337,16 @@ export default {
     updateMeeting() {
       let params = {
         product_topic_id: this.product_topic_id,
-        product_topic: this.addAndEditData.product_topic
+        product_topic: this.addAndEditData.product_topic,
       };
       this.submitLoading = true;
       this.$api
         .updateMeeting(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.isEdit = false;
             this.addAndEditData.product_id = null;
@@ -353,22 +355,22 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
           this.submitLoading = false;
           console.log(err);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

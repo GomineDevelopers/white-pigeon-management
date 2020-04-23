@@ -94,5 +94,6 @@ let api = {
   doctorApplyrRecord: (params) => post("/doctorManager/doctorApplyrRecord", params), //医生申请列表
   //对接小鱼儿接口
   getKey: (params) => get("/accessManager/getTokenByXY", params), //获取口令
+  registerServer: (params) => post("/accessManager/registerServer", params), //注册服务者
 };
 export default api;

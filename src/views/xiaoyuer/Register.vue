@@ -50,7 +50,7 @@
               effect="dark"
               content="注册"
               placement="top"
-              v-if="scope.row.is_operate_register == 2"
+              v-if="scope.row.is_operate_register != 1"
             >
               <i class="el-icon-position" @click="register(scope.row)"></i>
             </el-tooltip>
@@ -173,7 +173,7 @@ export default {
     },
     //注册
     register(row) {
-      // console.log(row);
+      console.log(row.is_operate_register);
       //获取小鱼儿口令
       let params = {
         xyeAct: "15921638245",
@@ -185,34 +185,30 @@ export default {
         .then((res) => {
           console.log(JSON.parse(res));
           let resData = JSON.parse(res);
+          let registerType = row.is_operate_register == 2 ? 0 : 1;
           if (resData.code == "00000") {
             this.token = resData.token;
-            console.log(this.token);
             //注册参数
             let signParams = {
-              openNo: "021803069",
-              xyeAct: "15921638245",
               timestamp: minutesTimeFormat2(),
               token: resData.token,
               name: row.name,
               cellphone: row.phone,
               certNo: row.id_card,
-              certDate: row.id_effect_time,
+              certDate: row.id_effect_time.split(" ")[0],
               address: row.id_address,
               certFront: row.id_front_img,
               certBack: row.id_back_img,
               signature: row.sign_image,
-              type: 0,
-              callbackUrl: "http://back.zidata.cn/admin/cooperate/getRegisterByXY",
+              type: registerType,
             };
-            let sign = this.objKeySort(signParams).toUpperCase(); //处理sign
-            let newParams = signParams;
-            newParams["sign"] = sign;
+            console.log(signParams);
+            // return false;
             this.$api
-              .register(newParams)
+              .registerServer(signParams)
               .then((res) => {
-                console.log(res);
-                if (res.code == "00000") {
+                let response = JSON.parse(res);
+                if (response.code == "00000") {
                   this.$message({
                     message: "发送成功！",
                     type: "success",
@@ -220,17 +216,21 @@ export default {
                   this.getListData();
                 } else {
                   this.$message({
-                    message: res.msg,
+                    message: response.msg,
                     type: "error",
                   });
                 }
               })
               .catch((err) => {
                 console.log(err);
+                this.$message({
+                  message: err.msg,
+                  type: "error",
+                });
               });
           } else {
             this.$message({
-              message: res.msg,
+              message: resData.msg,
               type: "error",
             });
           }

@@ -314,12 +314,12 @@ export default {
       product: [
         {
           label: "有效产品",
-          options: []
+          options: [],
         },
         {
           label: "已注销产品",
-          options: []
-        }
+          options: [],
+        },
       ],
       list: [],
       rules: {
@@ -335,9 +335,9 @@ export default {
         product_company: { required: true, message: "请输入生产公司" },
         product_company_stamp: {
           required: true,
-          message: "请上传产品公司盖章"
+          message: "请上传产品公司盖章",
         },
-        product_image: { required: true, message: "请上传产品图片" }
+        product_image: { required: true, message: "请上传产品图片" },
       },
       provinceList: [
         { code: 110000, name: "北京市" },
@@ -373,8 +373,8 @@ export default {
         { code: 650000, name: "新疆维吾尔自治区" },
         { code: 710000, name: "台湾省" },
         { code: 810000, name: "香港特别行政区" },
-        { code: 820000, name: "澳门特别行政区" }
-      ]
+        { code: 820000, name: "澳门特别行政区" },
+      ],
     };
   },
   mounted() {
@@ -394,18 +394,18 @@ export default {
           generic_name: this.commonName,
           status: this.searchStatus,
           page: this.page,
-          row: this.row
+          row: this.row,
         };
         // console.log(params);
       } else {
         params = {
           page: this.page,
-          row: this.row
+          row: this.row,
         };
       }
       this.$api
         .productManagerList(params)
-        .then(res => {
+        .then((res) => {
           // console.log(res);
           if (res.code == 200) {
             this.total = res.product_manager_list_count;
@@ -413,12 +413,12 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.listLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.listLoading = false;
           console.log(err);
         });
@@ -428,26 +428,28 @@ export default {
     getproductList() {
       this.$api
         .productList()
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
-            res.product_list.forEach(item => {
+            res.product_list.forEach((item) => {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
+                  status: item.status,
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
+                  status: item.status,
                 });
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -457,7 +459,7 @@ export default {
       if (this.commonName == null && this.productName == null && this.searchStatus == null) {
         this.$message({
           message: "请输入或选择搜索内容",
-          type: "error"
+          type: "error",
         });
         return false;
       }
@@ -490,7 +492,7 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("确认删除该条记录吗?", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           console.log(row.id);
@@ -509,7 +511,7 @@ export default {
       this.product_image_percent = 0;
       this.addData = {
         product_company_stamp: null,
-        product_image: null
+        product_image: null,
       };
     },
 
@@ -543,7 +545,7 @@ export default {
 
     // 新增产品
     addManager(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.submitManager();
         } else {
@@ -556,7 +558,7 @@ export default {
     submitManager() {
       this.$messageBox
         .confirm("请确认无误后再提交！", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           this.isEdit ? this.updateProduct() : this.createProduct();
@@ -572,11 +574,11 @@ export default {
       this.submitLoading = true;
       this.$api
         .productAdd(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.isSearch = false;
             this.page = 1;
@@ -584,13 +586,13 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
           this.submitLoading = false;
           console.log(err);
@@ -613,29 +615,29 @@ export default {
         bidding_price: this.addData.bidding_price,
         product_company: this.addData.product_company,
         product_company_stamp: this.addData.product_company_stamp,
-        product_image: this.addData.product_image
+        product_image: this.addData.product_image,
       };
       this.submitLoading = true;
       this.$api
         .productEdit(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.isSearch = false;
             this.getListData();
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
           this.submitLoading = false;
           console.log(err);
@@ -657,7 +659,7 @@ export default {
     getToken(file) {
       this.$api
         .getQiniuToken()
-        .then(res => {
+        .then((res) => {
           if (res.code === 100) {
             let domain = res.domain;
             let token = res.token;
@@ -666,7 +668,7 @@ export default {
             this.$message.error(res.message);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -676,12 +678,12 @@ export default {
       let _this = this;
       const config = {
         useCdnDomain: true,
-        region: qiniu.region.z2
+        region: qiniu.region.z2,
       };
       let api = `http://${domain}/`;
       let fileName = _this.fileNumber == 1 ? `company_stamp_${file.name}` : `product_${file.name}`;
       let putExtra = {
-        mimeType: null
+        mimeType: null,
       };
       const observable = qiniu.upload(file, fileName, token, putExtra, config);
       observable.subscribe({
@@ -710,10 +712,10 @@ export default {
           } else {
             _this.addData.product_image = imgSrc;
           }
-        }
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

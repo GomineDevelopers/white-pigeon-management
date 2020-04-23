@@ -99,7 +99,7 @@
               :preview-src-list="[
                 scope.row.visit_image,
                 scope.row.visit_image_two,
-                scope.row.visit_image_three
+                scope.row.visit_image_three,
               ]"
               v-if="scope.row.visit_image"
             ></el-image>
@@ -271,22 +271,22 @@ export default {
       statusList: [
         {
           id: "1",
-          value: "通过"
+          value: "通过",
         },
         {
           id: "4",
-          value: "已核销"
-        }
+          value: "已核销",
+        },
       ], //状态列表
       productOptions: [
         {
           label: "有效产品",
-          options: []
+          options: [],
         },
         {
           label: "已注销产品",
-          options: []
-        }
+          options: [],
+        },
       ],
       page: 1,
       row: 10,
@@ -308,7 +308,7 @@ export default {
         // }
       ],
       detailVisble: false, //详情弹窗
-      singleData: {} //单条数据详情
+      singleData: {}, //单条数据详情
     };
   },
   mounted() {
@@ -332,26 +332,28 @@ export default {
     productList() {
       this.$api
         .productList()
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
-            res.product_list.forEach(item => {
+            res.product_list.forEach((item) => {
               if (item.status == 1) {
                 this.productOptions[0].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
+                  status: item.status,
                 });
               } else {
                 this.productOptions[1].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
+                  status: item.status,
                 });
               }
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -374,11 +376,11 @@ export default {
         hospital_name: this.hospitalName,
         status: this.status,
         page: this.page,
-        row: this.row
+        row: this.row,
       };
       this.$api
         .visitCancelList(parmas)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.code == 200) {
             this.total = res.visit_count;
@@ -390,7 +392,7 @@ export default {
             this.$message.error("数据请求失败，请重试！");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.listLoading = false;
           console.log(error);
         });
@@ -431,7 +433,7 @@ export default {
       let parmas = {
         user_name: this.representative,
         product_id: this.product,
-        is_export: 1
+        is_export: 1,
       };
       this.$api.downVisitCancelList(parmas);
     },
@@ -439,23 +441,23 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("确认删除该条记录吗?", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           let params = { visit_id: row.id };
           this.$api
             .visitDel(params)
-            .then(res => {
+            .then((res) => {
               // console.log(res);
               if (res.code == 200) {
                 this.$message({
                   message: "操作成功!",
-                  type: "success"
+                  type: "success",
                 });
                 this.getListData(); //重新获取审核列表
               }
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
         })
@@ -468,28 +470,28 @@ export default {
       this.$messageBox
         .confirm("确认核销当前拜访吗?", {
           type: "info",
-          closeOnClickModal: false
+          closeOnClickModal: false,
         })
         .then(() => {
           let params = {
             visit_id: row.id,
-            is_pass: type
+            is_pass: type,
           };
           this.$api
             .visitCancel(params)
-            .then(res => {
+            .then((res) => {
               if (res.code == 200) {
                 this.detailVisble = false;
                 this.$message({
                   message: "操作成功!",
-                  type: "success"
+                  type: "success",
                 });
                 this.getListData(); //重新获取审核列表
               } else {
                 this.$message.error(res.message);
               }
             })
-            .catch(error => {
+            .catch((error) => {
               this.$message.error("操作失败，请重试！");
               console.log(error);
             });
@@ -513,33 +515,33 @@ export default {
         this.$messageBox
           .confirm(message, {
             type: messageType,
-            closeOnClickModal: false
+            closeOnClickModal: false,
           })
           .then(() => {
             let visitList = [];
-            this.selected.forEach(value => {
+            this.selected.forEach((value) => {
               visitList.push(value.id);
             });
             let postData = {
               visit_id_list: visitList,
-              is_pass: type
+              is_pass: type,
             };
             this.$api
               .visitCancelmultipleOperate(postData)
-              .then(res => {
+              .then((res) => {
                 console.log(res);
                 if (res.code == 200) {
                   this.detailVisble = false;
                   this.$message({
                     message: "操作成功!",
-                    type: "success"
+                    type: "success",
                   });
                   this.getListData(); //重新获取审核列表
                 } else {
                   this.$message.error(res.message);
                 }
               })
-              .catch(error => {
+              .catch((error) => {
                 console.log(error);
               });
           })
@@ -547,8 +549,8 @@ export default {
             console.log("取消");
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

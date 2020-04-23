@@ -327,13 +327,15 @@ export default {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
                   status: item.status,
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
                   status: item.status,
                 });
               }

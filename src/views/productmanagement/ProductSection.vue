@@ -159,20 +159,20 @@ export default {
       product: [
         {
           label: "有效产品",
-          options: []
+          options: [],
         },
         {
           label: "已注销产品",
-          options: []
-        }
+          options: [],
+        },
       ],
       sectionTopList: [], //头部搜索科室
       sectionList: [], //科室列表
       sectionSearchList: [], //科室搜索列表
       rules: {
         product_id: { required: true, message: "请选择产品" },
-        section_id: { required: true, message: "请选择科室" }
-      }
+        section_id: { required: true, message: "请选择科室" },
+      },
     };
   },
   mounted() {
@@ -192,29 +192,29 @@ export default {
           product_id: this.productId,
           section_id: this.sectionId,
           page: this.page,
-          row: this.row
+          row: this.row,
         };
       } else {
         params = {
           page: this.page,
-          row: this.row
+          row: this.row,
         };
       }
       this.$api
         .productSectionList(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.total = res.product_section_list_count;
             this.list = res.product_section_list;
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.listLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.listLoading = false;
           console.log(err);
         });
@@ -224,26 +224,28 @@ export default {
     getproductList() {
       this.$api
         .productList()
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
-            res.product_list.forEach(item => {
+            res.product_list.forEach((item) => {
               if (item.status == 1) {
                 this.product[0].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
+                  status: item.status,
                 });
               } else {
                 this.product[1].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
+                  status: item.status,
                 });
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -252,14 +254,14 @@ export default {
     getSectionList() {
       this.$api
         .sectionList()
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.sectionList = res.section_list;
             this.sectionSearchList = res.section_list;
             this.sectionTopList = res.section_list;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -269,7 +271,7 @@ export default {
       if (this.productId == null && this.sectionId == null) {
         this.$message({
           message: "请输入或选择搜索内容",
-          type: "error"
+          type: "error",
         });
         return false;
       }
@@ -291,27 +293,27 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("此操作不可恢复，确认删除该条记录吗?", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           let params = { product_section_id: row.id };
           this.$api
             .delProductSection(params)
-            .then(res => {
+            .then((res) => {
               if (res.code == 200) {
                 this.$message({
                   message: "删除成功",
-                  type: "success"
+                  type: "success",
                 });
                 this.getListData();
               } else {
                 this.$message({
                   message: res.message,
-                  type: "error"
+                  type: "error",
                 });
               }
             })
-            .catch(err => {});
+            .catch((err) => {});
         })
         .catch(() => {
           console.log("取消");
@@ -351,7 +353,7 @@ export default {
       this.sectionId = null;
       if (query !== "") {
         setTimeout(() => {
-          this.sectionTopList = this.sectionSearchList.filter(item => {
+          this.sectionTopList = this.sectionSearchList.filter((item) => {
             return item.section_name.indexOf(query) > -1;
           });
         }, 200);
@@ -366,7 +368,7 @@ export default {
       this.addData.section_id = null;
       if (query !== "") {
         setTimeout(() => {
-          this.sectionList = this.sectionSearchList.filter(item => {
+          this.sectionList = this.sectionSearchList.filter((item) => {
             return item.section_name.indexOf(query) > -1;
           });
         }, 200);
@@ -379,7 +381,7 @@ export default {
 
     // 新增产品
     addManager(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.submitManager();
         } else {
@@ -391,7 +393,7 @@ export default {
     submitManager() {
       this.$messageBox
         .confirm("请确认无误后再提交！", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           this.isEdit ? this.updateSection() : this.createSection();
@@ -407,11 +409,11 @@ export default {
       this.submitLoading = true;
       this.$api
         .createProdutSection(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.isSearch = false;
             this.page = 1;
@@ -419,13 +421,13 @@ export default {
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
           this.submitLoading = false;
           console.log(err);
@@ -437,29 +439,29 @@ export default {
       let params = {
         product_section_id: this.addData.id,
         product_id: this.addData.product_id,
-        section_id: this.addData.section_id
+        section_id: this.addData.section_id,
       };
       this.submitLoading = true;
       this.$api
         .productSectionEdit(params)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             this.$message({
               message: res.message,
-              type: "success"
+              type: "success",
             });
             this.isSearch = false;
             this.getListData();
           } else {
             this.$message({
               message: res.message,
-              type: "error"
+              type: "error",
             });
           }
           this.addVisble = false;
           this.submitLoading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.addVisble = false;
           this.submitLoading = false;
           console.log(err);
@@ -469,9 +471,9 @@ export default {
     clearForm() {
       this.addData = {
         product_id: null,
-        section_id: null
+        section_id: null,
       };
-    }
-  }
+    },
+  },
 };
 </script>

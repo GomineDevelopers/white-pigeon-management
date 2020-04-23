@@ -176,12 +176,12 @@ export default {
       productOptions: [
         {
           label: "有效产品",
-          options: []
+          options: [],
         },
         {
           label: "已注销产品",
-          options: []
-        }
+          options: [],
+        },
       ],
       page: 1,
       row: 10,
@@ -204,7 +204,7 @@ export default {
         // }
       ],
       detailVisble: false, //详情弹窗
-      singleData: {} //单条数据详情
+      singleData: {}, //单条数据详情
     };
   },
   mounted() {
@@ -218,27 +218,29 @@ export default {
     productList() {
       this.$api
         .productList()
-        .then(res => {
+        .then((res) => {
           // console.log(res);
           if (res.code == 200) {
-            res.product_list.forEach(item => {
+            res.product_list.forEach((item) => {
               if (item.status == 1) {
                 this.productOptions[0].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
+                  status: item.status,
                 });
               } else {
                 this.productOptions[1].options.push({
                   id: item.id,
-                  product_name: item.product_name + "-" + item.package,
-                  status: item.status
+                  product_name:
+                    item.product_name + "-" + item.package + "(" + item.province_name + ")",
+                  status: item.status,
                 });
               }
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -259,11 +261,11 @@ export default {
         user_name: this.representative,
         product_id: this.product,
         page: this.page,
-        row: this.row
+        row: this.row,
       };
       this.$api
         .meetingList(parmas)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.code == 200) {
             this.total = res.meeting_count;
@@ -275,7 +277,7 @@ export default {
             this.$message.error("数据请求失败，请重试！");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.listLoading = false;
           console.log(error);
         });
@@ -293,14 +295,14 @@ export default {
       let params = { meeting_id: row.id };
       this.$api
         .meetingDetail(params)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           if (res.code == 200) {
             this.singleData = res.meeting_detail;
             this.detailVisble = true;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -325,23 +327,23 @@ export default {
     handleDelete(index, row) {
       this.$messageBox
         .confirm("确认删除该条记录吗?", "提示", {
-          type: "warning"
+          type: "warning",
         })
         .then(() => {
           // console.log(row.id);
           let params = { meeting_id: row.id };
           this.$api
             .meetingDel(params)
-            .then(res => {
+            .then((res) => {
               if (res.code == 200) {
                 this.$message({
                   message: "操作成功!",
-                  type: "success"
+                  type: "success",
                 });
                 this.getListData(); //重新获取审核列表
               }
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
         })
@@ -363,25 +365,25 @@ export default {
       this.$messageBox
         .confirm(message, {
           type: messageType,
-          closeOnClickModal: false
+          closeOnClickModal: false,
         })
         .then(() => {
           let params = { meeting_id: this.singleData.id, is_pass: type };
           this.$api
             .meetingoOperate(params)
-            .then(res => {
+            .then((res) => {
               if (res.code == 200) {
                 this.detailVisble = false;
                 this.$message({
                   message: "操作成功!",
-                  type: "success"
+                  type: "success",
                 });
                 this.getListData(); //重新获取审核列表
               } else {
                 this.$message.error("操作失败，请重试！");
               }
             })
-            .catch(error => {
+            .catch((error) => {
               this.$message.error("操作失败，请重试！");
               console.log(error);
             });
@@ -389,8 +391,8 @@ export default {
         .catch(() => {
           console.log("取消");
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
