@@ -128,6 +128,10 @@
         <el-menu-item-group>
           <el-menu-item index="/register">注册服务者</el-menu-item>
           <el-menu-item index="/postdemand">需求发布</el-menu-item>
+          <el-menu-item index="/registeredserviceinfo">注册服务者列表</el-menu-item>
+          <el-menu-item index="/server">上传报名服务者</el-menu-item>
+          <el-menu-item index="/pay">跳转支付列表</el-menu-item>
+          <el-menu-item index="/order">服务者订单列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="/dataCenter">

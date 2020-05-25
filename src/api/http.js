@@ -6,7 +6,8 @@ import { Message } from "element-ui";
 // console.log(store.state);
 
 if (process.env.NODE_ENV == "production") {
-  axios.defaults.baseURL = "http://back.zidata.cn/admin";
+  // axios.defaults.baseURL = "http://back.zidata.cn/admin";
+  axios.defaults.baseURL = "http://xbg.zhuque.tech/admin";
 }
 
 axios.defaults.timeout = 10000; //设置请求超时
@@ -14,21 +15,21 @@ axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded
 
 // 请求拦截
 axios.interceptors.request.use(
-  config => {
+  (config) => {
     const token = store.state.token;
     if (token) {
       config.headers.Authorization = "Bearer " + token;
     }
     return config;
   },
-  error => {
+  (error) => {
     return Promise.error(error);
   }
 );
 
 // // 响应拦截器
 axios.interceptors.response.use(
-  response => {
+  (response) => {
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
     // console.log(response);
@@ -40,8 +41,8 @@ axios.interceptors.response.use(
         router.replace({
           path: "/login",
           query: {
-            redirect: router.currentRoute.fullPath
-          }
+            redirect: router.currentRoute.fullPath,
+          },
         });
       }, 1500);
     } else {
@@ -49,41 +50,41 @@ axios.interceptors.response.use(
     }
   },
   // 根据返回的状态码进行相关操作，例如登录过期提示，错误提示等等
-  error => {
+  (error) => {
     if (error.response.status) {
       switch (error.response.status) {
         case 401:
           Message({
             message: "token账号过期，请重新登录!",
-            type: "warning"
+            type: "warning",
           });
           setTimeout(() => {
             router.replace({
               path: "/login",
               query: {
-                redirect: router.currentRoute.fullPath
-              }
+                redirect: router.currentRoute.fullPath,
+              },
             });
           }, 2000);
           break;
         case 402:
           Message({
             message: "token有误，请重新登录",
-            type: "warning"
+            type: "warning",
           });
           setTimeout(() => {
             router.replace({
               path: "/login",
               query: {
-                redirect: router.currentRoute.fullPath
-              }
+                redirect: router.currentRoute.fullPath,
+              },
             });
           }, 2000);
           break;
         case 403:
           Message({
             message: "未授权，无法访问",
-            type: "warning"
+            type: "warning",
           });
           // 跳转上一个页面
           setTimeout(() => {
@@ -93,27 +94,27 @@ axios.interceptors.response.use(
         case 500:
           Message({
             message: "错误，请重试！",
-            type: "warning"
+            type: "warning",
           });
           break;
         // 404请求不存在
         case 404:
           Message({
             message: "请求资源不存在",
-            type: "warning"
+            type: "warning",
           });
           break;
         // 其他错误，直接抛出错误提示
         case 101:
           Message({
             message: "用户不存在",
-            type: "warning"
+            type: "warning",
           });
           break;
         case 9000:
           Message({
             message: "网络错误，请重试",
-            type: "warning"
+            type: "warning",
           });
           break;
         default:
@@ -133,12 +134,12 @@ export function get(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .get(url, {
-        params: params
+        params: params,
       })
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err.data);
       });
   });
@@ -153,10 +154,10 @@ export function post(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .post(url, QS.stringify(params))
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err.data);
       });
   });
@@ -167,10 +168,10 @@ export function postUpload(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .post(url, params)
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err.data);
       });
   });
@@ -185,12 +186,12 @@ export function del(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .delete(url, {
-        params: params
+        params: params,
       })
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err.data);
       });
   });
@@ -205,10 +206,10 @@ export function put(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .put(url, QS.stringify(params))
-      .then(res => {
+      .then((res) => {
         resolve(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         reject(err.data);
       });
   });
@@ -223,9 +224,9 @@ export function downFile(url, params) {
   axios
     .get(url, {
       params: params,
-      responseType: "blob"
+      responseType: "blob",
     })
-    .then(res => {
+    .then((res) => {
       const blob = res.data;
       let date = new Date();
       let time =

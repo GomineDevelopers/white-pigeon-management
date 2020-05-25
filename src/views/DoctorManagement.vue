@@ -43,11 +43,12 @@
         element-loading-background="rgba(255, 255, 255, 0.8)"
         style="width: 100%"
       >
-        <el-table-column label="序号" type="index" width="80">
+        <el-table-column label="序号" type="index" width="90">
           <template slot-scope="scope">
             <span>{{ (page - 1) * row + scope.$index + 1 }}</span>
           </template>
         </el-table-column>
+        <el-table-column prop="id" label="医生ID" min-width="90"></el-table-column>
         <el-table-column prop="doctor_name" label="医生名" min-width="100"></el-table-column>
         <el-table-column
           prop="sex"
@@ -89,7 +90,7 @@
       <div class="pagination">
         <el-pagination
           background
-          layout="prev, pager, next, sizes, jumper"
+          layout="total, pager, next, sizes, jumper"
           @current-change="currentChange"
           @size-change="sizeChange"
           :total="total"

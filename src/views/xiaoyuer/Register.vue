@@ -125,7 +125,6 @@ export default {
         .getSignUser(params)
         .then((res) => {
           if (res.code == 200) {
-            console.log(res);
             this.list = res.user_list;
             this.total = res.user_list_count;
           } else {
@@ -173,7 +172,6 @@ export default {
     },
     //注册
     register(row) {
-      console.log(row.is_operate_register);
       //获取小鱼儿口令
       let params = {
         xyeAct: "15921638245",
@@ -183,7 +181,6 @@ export default {
       this.$api
         .getKey(params)
         .then((res) => {
-          console.log(JSON.parse(res));
           let resData = JSON.parse(res);
           let registerType = row.is_operate_register == 2 ? 0 : 1;
           if (resData.code == "00000") {
@@ -202,8 +199,6 @@ export default {
               signature: row.sign_image,
               type: registerType,
             };
-            console.log(signParams);
-            // return false;
             this.$api
               .registerServer(signParams)
               .then((res) => {

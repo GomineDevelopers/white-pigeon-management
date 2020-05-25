@@ -235,6 +235,9 @@
           <span v-if="singleData.refuse_reason == 1">当日拜访医生重复</span>
           <span v-if="singleData.refuse_reason == 2">医生反馈不合格</span>
           <span v-if="singleData.refuse_reason == 3">拜访时间交叉重合</span>
+          <span v-if="singleData.refuse_reason == 4">拜访位置不准确</span>
+          <span v-if="singleData.refuse_reason == 5">拜访照片不合格</span>
+          <span v-if="singleData.refuse_reason == 6">当日拜访数量超过上限</span>
         </li>
         <li class="img_list">
           <label>拜访照片：</label>
@@ -409,6 +412,18 @@ export default {
         {
           value: 3,
           label: "拜访时间交叉重合",
+        },
+        {
+          value: 4,
+          label: "拜访位置不准确",
+        },
+        {
+          value: 5,
+          label: "拜访照片不合格",
+        },
+        {
+          value: 6,
+          label: "当日拜访数量超过上限",
         },
       ],
       refuseValue: "",

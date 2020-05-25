@@ -95,5 +95,13 @@ let api = {
   //对接小鱼儿接口
   getKey: (params) => get("/accessManager/getTokenByXY", params), //获取口令
   registerServer: (params) => post("/accessManager/registerServer", params), //注册服务者
+  postDemand: (params) => post("/accessManager/postDemand", params), //小鱼儿发布需求
+  postDemandList: (params) => get("/accessManager/postDemandList", params), //小鱼儿服务者信息列表
+  registerList: (params) => get("/accessManager/registerList", params), //小鱼儿服务者信息
+  uploadManager: (params) => post("/accessManager/uploadManager", params), //小鱼儿上传报名服务者信息
+  saveLink: (params) => post("/accessManager/saveLink", params), //小鱼儿上传报名服务者信息返回连接
+  linkList: (params) => get("/accessManager/linkList", params), //小鱼儿支付链接列表
+  getOrderData: (params) => post("/accessManager/getOrderData", params), //小鱼儿生成订单列表
+  orderList: (params) => get("/accessManager/orderList", params), //小鱼儿订单列表
 };
 export default api;

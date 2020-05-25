@@ -12,12 +12,12 @@ module.exports = {
   devServer: {
     proxy: {
       "/": {
-        target: "http://back.zidata.cn/admin", //目标地址
+        target: "http://xbg.zhuque.tech/admin", //目标地址
         changeOrigin: true,
         pathRewrite: {
-          "^/": "/"
-        }
-      }
-    }
-  }
+          "^/": "/",
+        },
+      },
+    },
+  },
 };
